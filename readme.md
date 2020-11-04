@@ -2,6 +2,8 @@
 
 This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with a cover and clickable table of contents. 
 
+Here's a sample PDF eBook generated with Ibis: [click me](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip)
+
 ## Installation
 
 Make sure you have PHP7.3 or above installed on your system.
