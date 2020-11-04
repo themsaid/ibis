@@ -7,7 +7,7 @@ use Ibis\Commands\SampleCommand;
 use Ibis\Commands\SortContentCommand;
 use Symfony\Component\Console\Application;
 
-require __DIR__.'/vendor/autoload.php';
+require file_exists(__DIR__.'/vendor/autoload.php') ?  __DIR__.'/vendor/autoload.php' : __DIR__.'/../../autoload.php';
 
 /**
  * Start the console application.
