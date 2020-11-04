@@ -15,10 +15,7 @@ return [
     /**
      * The list of fonts to be used in the different themes.
      */
-    'fonts' => [
-        'calibri' => 'Calibri-Regular.ttf',
-        'times' => 'times-regular.ttf',
-    ],
+    'fonts' => [],
 
     /**
      * Page ranges to be used with the sample command.
