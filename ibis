@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+use Ibis\Commands\BuildCommand;
+use Ibis\Commands\InitCommand;
+use Ibis\Commands\SampleCommand;
+use Ibis\Commands\SortContentCommand;
+use Symfony\Component\Console\Application;
+
+require __DIR__.'/vendor/autoload.php';
+
+/**
+ * Start the console application.
+ */
+$app = new Application('Ibis', 'beta');
+
+// Authentication...
+$app->add(new InitCommand());
+$app->add(new BuildCommand);
+$app->add(new SampleCommand);
+$app->add(new SortContentCommand());
+
+$app->run();
