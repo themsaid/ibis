@@ -1,6 +1,11 @@
 # Ibis Book Maker
 
-This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with a cover and clickable table of contents. 
+This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with:
+ 
+1. A cover photo.
+2. Clickable auto-generated table of contents.
+3. Code syntax highlighting.
+4. Available in 2 themes. Light and dark.
 
 Here's a sample PDF eBook generated with Ibis: [click me](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip)
 
