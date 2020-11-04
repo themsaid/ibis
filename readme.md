@@ -1,5 +1,7 @@
 # Ibis Book Maker
 
+This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with a cover and clickable table of contents. 
+
 ## Installation
 
 Make sure you have PHP7.3 or above installed on your system.
@@ -45,6 +47,10 @@ Inside the content directory, you can write multiple `.md` files. Ibis uses the 
 
 <h3> tags define different titles inside a chapter.
 ``` 
+
+## Using Fonts
+
+Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
 
 ## Generating PDF eBook
 
