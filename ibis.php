@@ -32,11 +32,6 @@ return [
         'dimensions' => 'width: 210mm; height: 297mm; margin: 0;',
     ],
 
-    'blockquote_labels' => [
-        'notice' => 'Notice',
-        'warning' => 'Warning',
-    ],
-
     /**
      * Page ranges to be used with the sample command.
      */
