@@ -6,7 +6,6 @@ return [
      */
     'title' => 'The Ocean at the End of the Lane',
 
-
     /**
      * The author name.
      */
@@ -16,8 +15,8 @@ return [
      * The list of fonts to be used in the different themes.
      */
     'fonts' => [
-//        'calibri' => 'Calibri-Regular.ttf',
-//        'times' => 'times-regular.ttf',
+        //        'calibri' => 'Calibri-Regular.ttf',
+        //        'times' => 'times-regular.ttf',
     ],
 
     /**

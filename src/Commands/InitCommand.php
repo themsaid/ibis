@@ -66,19 +66,23 @@ class InitCommand extends Command
             $currentPath.'/content'
         );
 
-        $this->disk->put($currentPath.'/ibis.php',
+        $this->disk->put(
+            $currentPath.'/ibis.php',
             $this->disk->get(__DIR__.'/../../stubs/ibis.php')
         );
 
-        $this->disk->put($currentPath.'/assets/cover.jpg',
+        $this->disk->put(
+            $currentPath.'/assets/cover.jpg',
             $this->disk->get(__DIR__.'/../../stubs/assets/cover.jpg')
         );
 
-        $this->disk->put($currentPath.'/assets/theme-dark.html',
+        $this->disk->put(
+            $currentPath.'/assets/theme-dark.html',
             $this->disk->get(__DIR__.'/../../stubs/assets/theme-dark.html')
         );
 
-        $this->disk->put($currentPath.'/assets/theme-light.html',
+        $this->disk->put(
+            $currentPath.'/assets/theme-light.html',
             $this->disk->get(__DIR__.'/../../stubs/assets/theme-light.html')
         );
 

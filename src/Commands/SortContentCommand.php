@@ -2,17 +2,8 @@
 
 namespace Ibis\Commands;
 
-use Ibis\Ibis;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use League\CommonMark\Block\Element\FencedCode;
-use League\CommonMark\Environment;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Mpdf\Config\ConfigVariables;
-use Mpdf\Config\FontVariables;
-use Mpdf\Mpdf;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
-use SplFileInfo;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

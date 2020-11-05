@@ -3,19 +3,19 @@
 namespace Ibis\Commands;
 
 use Ibis\Ibis;
-use Illuminate\Filesystem\Filesystem;
-use League\CommonMark\Block\Element\FencedCode;
-use League\CommonMark\Environment;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Mpdf\Config\ConfigVariables;
-use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use SplFileInfo;
+use Mpdf\Config\FontVariables;
+use Mpdf\Config\ConfigVariables;
+use League\CommonMark\Environment;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
+use League\CommonMark\Block\Element\FencedCode;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Symfony\Component\Console\Output\OutputInterface;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class BuildCommand extends Command
 {
@@ -92,7 +92,9 @@ class BuildCommand extends Command
 
         if (! $this->disk->isDirectory($currentPath.'/export')) {
             $this->disk->makeDirectory(
-                $currentPath.'/export', 0755, true
+                $currentPath.'/export',
+                0755,
+                true
             );
         }
     }
@@ -181,7 +183,6 @@ class BuildCommand extends Command
             'margin_top' => 14,
             'fontDir' => array_merge($fontDirs, [getcwd().'/assets/fonts']),
             'fontdata' => $this->fonts($config, $fontData),
-
         ]);
 
         $pdf->SetTitle(Ibis::title());
@@ -206,7 +207,8 @@ class BuildCommand extends Command
         } else {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
-            $pdf->WriteHTML(<<<HTML
+            $pdf->WriteHTML(
+                <<<HTML
 <div style="position: absolute; left:0; right: 0; top: -.2; bottom: 0;">
     <img src="assets/cover.jpg" style="width: 210mm; height: 297mm; margin: 0;"/>
 </div>
@@ -252,11 +254,11 @@ HTML
     protected function fonts($config, $fontData)
     {
         return $fontData + collect($config['fonts'])->mapWithKeys(function ($file, $name) {
-                return [
-                    $name => [
-                        'R' => $file
-                    ]
-                ];
-            })->toArray();
+            return [
+                $name => [
+                    'R' => $file
+                ]
+            ];
+        })->toArray();
     }
 }

@@ -37,6 +37,11 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
+    "scripts": {
+        "csfix": [
+            "php-cs-fixer fix src stubs --config=.php_cs"
+        ]
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
