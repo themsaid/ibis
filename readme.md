@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/themsaid/ibis/master/art/banner.png" alt="Ibis logo" width="480">
+    <img src="https://raw.githubusercontent.com/themsaid/ibis/master/art/cover.png" alt="Ibis logo" width="480">
     
 Artwork by <a href="https://twitter.com/ericlbarnes">Eric L. Barnes</a> and <a href="https://twitter.com/Caneco">Caneco</a> from <a href="https://laravel-news.com/ibis-book-maker">Laravel News</a> ❤️.
 </p>
