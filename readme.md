@@ -13,7 +13,7 @@ This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook 
 3. Code syntax highlighting.
 4. Available in 2 themes. Light and dark.
 
-Here's a sample PDF eBook generated with Ibis: [click me](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip)
+Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook I published in August. [Click me](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip) for the sample.
 
 ## Installation
 
@@ -45,7 +45,7 @@ You may configure your book by editing the `/ibis.php` configuration file.
 
 ## Writing Your eBook
 
-The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. 
+The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com). 
 
 Inside the content directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
