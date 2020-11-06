@@ -45,6 +45,8 @@ You may configure your book by editing the `/ibis.php` configuration file.
 
 ## Writing Your eBook
 
+The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. 
+
 Inside the content directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
 ```
