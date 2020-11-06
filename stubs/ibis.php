@@ -4,12 +4,12 @@ return [
     /**
      * The book title.
      */
-    'title' => 'The Ocean at the End of the Lane',
+    'title' => 'Laravel Queues in Action',
 
     /**
      * The author name.
      */
-    'author' => 'Neil Gaiman',
+    'author' => 'Mohamed Said',
 
     /**
      * The list of fonts to be used in the different themes.
@@ -31,6 +31,6 @@ return [
     /**
      * A notice printed at the final page of a generated sample.
      */
-    'sample_notice' => 'This is a sample from "The Ocean at the End of the Lane" by Neil Gaiman. <br> 
-                        For more information, <a href="https://www.neilgaiman.com/">Click here</a>.',
+    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
+                        For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
 ];

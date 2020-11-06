@@ -34,8 +34,8 @@ class InitCommand extends Command
     /**
      * Execute the command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
@@ -63,6 +63,11 @@ class InitCommand extends Command
         );
 
         $this->disk->makeDirectory(
+            $currentPath.'/content'
+        );
+
+        $this->disk->copyDirectory(
+            __DIR__.'/../../stubs/content',
             $currentPath.'/content'
         );
 
