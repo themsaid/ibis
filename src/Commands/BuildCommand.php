@@ -200,7 +200,7 @@ class BuildCommand extends Command
         $pdf->h2toc = $tocLevels;
         $pdf->h2bookmarks = $tocLevels;
 
-//        $pdf->SetMargins(400, 100, 12);
+        $pdf->SetMargins(400, 100, 12);
 
         if (! $this->disk->isFile($currentPath.'/assets/cover.jpg')) {
             $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
