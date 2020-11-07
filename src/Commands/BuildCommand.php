@@ -176,11 +176,11 @@ class BuildCommand extends Command
 
         $pdf = new Mpdf([
             'mode' => 'utf-8',
-            'format' => [210, 297],
-            'margin_left' => 27,
-            'margin_right' => 27,
-            'margin_bottom' => 14,
-            'margin_top' => 14,
+            'format' => $config['document']['format'],
+            'margin_left' => $config['document']['margin_left'],
+            'margin_right' => $config['document']['margin_right'],
+            'margin_bottom' => $config['document']['margin_bottom'],
+            'margin_top' => $config['document']['margin_top'],
             'fontDir' => array_merge($fontDirs, [getcwd().'/assets/fonts']),
             'fontdata' => $this->fonts($config, $fontData),
         ]);
@@ -209,8 +209,8 @@ class BuildCommand extends Command
 
             $pdf->WriteHTML(
                 <<<HTML
-<div style="position: absolute; left:0; right: 0; top: -.2; bottom: 0;">
-    <img src="assets/cover.jpg" style="width: 210mm; height: 297mm; margin: 0;"/>
+<div style="{$config['cover']['position']}">
+    <img src="assets/cover.jpg" style="{$config['cover']['dimensions']}"/>
 </div>
 HTML
             );
