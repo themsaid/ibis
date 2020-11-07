@@ -19,6 +19,9 @@ return [
         //        'times' => 'times-regular.ttf',
     ],
 
+    /**
+     *
+     */
     'document' => [
         'format' => [210, 297],
         'margin_left' => 27,

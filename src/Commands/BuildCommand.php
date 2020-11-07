@@ -176,11 +176,11 @@ class BuildCommand extends Command
 
         $pdf = new Mpdf([
             'mode' => 'utf-8',
-            'format' => $config['document']['format'],
-            'margin_left' => $config['document']['margin_left'],
-            'margin_right' => $config['document']['margin_right'],
-            'margin_bottom' => $config['document']['margin_bottom'],
-            'margin_top' => $config['document']['margin_top'],
+            'format' => $config['document']['format'] ?? [210, 297],
+            'margin_left' => $config['document']['margin_left'] ?? 27,
+            'margin_right' => $config['document']['margin_right'] ?? 27,
+            'margin_bottom' => $config['document']['margin_bottom'] ?? 14,
+            'margin_top' => $config['document']['margin_top'] ?? 14,
             'fontDir' => array_merge($fontDirs, [getcwd().'/assets/fonts']),
             'fontdata' => $this->fonts($config, $fontData),
         ]);
@@ -200,17 +200,20 @@ class BuildCommand extends Command
         $pdf->h2toc = $tocLevels;
         $pdf->h2bookmarks = $tocLevels;
 
-        $pdf->SetMargins(400, 100, 12);
+//        $pdf->SetMargins(400, 100, 12);
 
         if (! $this->disk->isFile($currentPath.'/assets/cover.jpg')) {
             $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
         } else {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
+            $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
+            $coverDimensions = $config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
+
             $pdf->WriteHTML(
                 <<<HTML
-<div style="{$config['cover']['position']}">
-    <img src="assets/cover.jpg" style="{$config['cover']['dimensions']}"/>
+<div style="{$coverPosition}">
+    <img src="assets/cover.jpg" style="{$coverDimensions}"/>
 </div>
 HTML
             );
