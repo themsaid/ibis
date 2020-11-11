@@ -1,13 +1,13 @@
 <p align="center">
     <img src="https://raw.githubusercontent.com/themsaid/ibis/master/art/cover.png" alt="Ibis logo" width="480">
-    
+
 Artwork by <a href="https://twitter.com/ericlbarnes">Eric L. Barnes</a> and <a href="https://twitter.com/Caneco">Caneco</a> from <a href="https://laravel-news.com/ibis-book-maker">Laravel News</a> ❤️.
 </p>
 
 ---
 
 This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with:
- 
+
 1. A cover photo.
 2. Clickable auto-generated table of contents.
 3. Code syntax highlighting.
@@ -45,7 +45,7 @@ You may configure your book by editing the `/ibis.php` configuration file.
 
 ## Writing Your eBook
 
-The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com). 
+The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com).
 
 Inside the content directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
@@ -61,7 +61,7 @@ Inside the content directory, you can write multiple `.md` files. Ibis uses the 
 ### Starting with Ibis
 
 <h3> tags define different titles inside a chapter.
-``` 
+```
 
 ## Using Fonts
 
@@ -90,6 +90,30 @@ ibis sample dark
 ```
 
 This command will use the generated files from the `ibis build` command to generate samples from your PDF eBook. You can configure which pages to include in the sample by updating the `/ibis.php` file.
+
+
+## Extending Ibis
+
+### Build lifecycle hooks
+
+You can customize your Ibis build process by defining lifecycle hook function(s) in your `ibis.php` config;
+
+```php
+return [
+
+    'prehtml' => function($markdown) {
+        // preprocesses markdown content before converting to HTML
+        return $markdown;
+    },
+
+    'prepdf' => function($html) {
+        // preprocesses converted markdown HTML content before writing to PDF
+        return $html;
+    },
+
+    // .. rest of ibis.php config
+];
+```
 
 ## Credits
 
