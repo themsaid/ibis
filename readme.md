@@ -17,7 +17,7 @@ Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.
 
 ## Installation
 
-Make sure you have PHP7.3 or above installed on your system.
+Make sure you have PHP7.3 or above installed on your system and that your gd extension is enabled in your php.ini file.
 
 First, install the composer package globally:
 
