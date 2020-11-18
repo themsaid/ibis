@@ -24,6 +24,7 @@ class BuildCommand extends Command
      * @var string|string[]|null
      */
     public $themeName;
+
     /**
      * @var OutputInterface
      */
@@ -33,6 +34,27 @@ class BuildCommand extends Command
      * @var Filesystem
      */
     private $disk;
+
+    /**
+     * @var string
+     */
+    private $currentPath;
+
+    /**
+     * User ibis.php config settings
+     * @var array
+     */
+    private $config;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->currentPath = getcwd();
+        $this->config = require $this->currentPath.'/ibis.php';
+    }
+
 
     /**
      * Configure the command.
@@ -46,6 +68,7 @@ class BuildCommand extends Command
             ->addArgument('theme', InputArgument::OPTIONAL, 'The name of the theme', 'light')
             ->setDescription('Generate the book.');
     }
+
 
     /**
      * Execute the command.
@@ -62,19 +85,13 @@ class BuildCommand extends Command
         $this->output = $output;
         $this->themeName = $input->getArgument('theme');
 
-        $currentPath = getcwd();
-        $config = require $currentPath.'/ibis.php';
 
-        $this->ensureExportDirectoryExists(
-            $currentPath = getcwd()
-        );
+        $this->ensureExportDirectoryExists();
 
-        $theme = $this->getTheme($currentPath, $this->themeName);
+        $theme = $this->getTheme($this->themeName);
 
         $this->buildPdf(
-            $this->buildHtml($currentPath.'/content'),
-            $config,
-            $currentPath,
+            $this->buildHtml($this->currentPath.'/content'),
             $theme
         );
 
@@ -84,21 +101,23 @@ class BuildCommand extends Command
         return 0;
     }
 
+
     /**
-     * @param  string  $currentPath
+     *
      */
-    protected function ensureExportDirectoryExists(string $currentPath): void
+    protected function ensureExportDirectoryExists(): void
     {
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
-        if (! $this->disk->isDirectory($currentPath.'/export')) {
+        if (! $this->disk->isDirectory($this->currentPath.'/export')) {
             $this->disk->makeDirectory(
-                $currentPath.'/export',
+                $this->currentPath.'/export',
                 0755,
                 true
             );
         }
     }
+
 
     /**
      * @param  string  $path
@@ -107,6 +126,10 @@ class BuildCommand extends Command
     protected function buildHtml(string $path)
     {
         $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
+
+        if (is_callable($this->config['prehtml'] ?? null)) {
+            $this->output->writeln('<fg=yellow>==></> Pre-processing Markdown ...');
+        }
 
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new TableExtension());
@@ -127,6 +150,12 @@ class BuildCommand extends Command
                     $file->getPathname()
                 );
 
+
+                if (is_callable($this->config['prehtml'] ?? null)) {
+                    $markdown = $this->config['prehtml']($markdown);
+                }
+
+
                 return $this->prepareForPdf(
                     $converter->convertToHtml($markdown),
                     $i + 1
@@ -134,6 +163,7 @@ class BuildCommand extends Command
             })
             ->implode(' ');
     }
+
 
     /**
      * @param  string  $html
@@ -160,15 +190,14 @@ class BuildCommand extends Command
         return $html;
     }
 
+
     /**
      * @param  string  $html
-     * @param  array  $config
-     * @param  string  $currentPath
      * @param  string  $theme
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    protected function buildPdf(string $html, array $config, string $currentPath, string $theme)
+    protected function buildPdf(string $html, string $theme)
     {
         $defaultConfig = (new ConfigVariables())->getDefaults();
         $fontDirs = $defaultConfig['fontDir'];
@@ -178,13 +207,13 @@ class BuildCommand extends Command
 
         $pdf = new Mpdf([
             'mode' => 'utf-8',
-            'format' => $config['document']['format'] ?? [210, 297],
-            'margin_left' => $config['document']['margin_left'] ?? 27,
-            'margin_right' => $config['document']['margin_right'] ?? 27,
-            'margin_bottom' => $config['document']['margin_bottom'] ?? 14,
-            'margin_top' => $config['document']['margin_top'] ?? 14,
+            'format' => $this->config['document']['format'] ?? [210, 297],
+            'margin_left' => $this->config['document']['margin_left'] ?? 27,
+            'margin_right' => $this->config['document']['margin_right'] ?? 27,
+            'margin_bottom' => $this->config['document']['margin_bottom'] ?? 14,
+            'margin_top' => $this->config['document']['margin_top'] ?? 14,
             'fontDir' => array_merge($fontDirs, [getcwd().'/assets/fonts']),
-            'fontdata' => $this->fonts($config, $fontData),
+            'fontdata' => $this->fonts($fontData),
         ]);
 
         $pdf->SetTitle(Ibis::title());
@@ -204,13 +233,13 @@ class BuildCommand extends Command
 
         $pdf->SetMargins(400, 100, 12);
 
-        if (! $this->disk->isFile($currentPath.'/assets/cover.jpg')) {
+        if (! $this->disk->isFile($this->currentPath.'/assets/cover.jpg')) {
             $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
         } else {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
-            $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
-            $coverDimensions = $config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
+            $coverPosition = $this->config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
+            $coverDimensions = $this->config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
 
             $pdf->WriteHTML(
                 <<<HTML
@@ -225,6 +254,12 @@ HTML
 
         $pdf->SetHTMLFooter('<div id="footer" style="text-align: center">{PAGENO}</div>');
 
+
+        if (is_callable($this->config['prepdf'] ?? null)) {
+            $this->output->writeln('<fg=yellow>==></> Pre-processing PDF ...');
+            $html = $this->config['prepdf']($html);
+        }
+
         $this->output->writeln('<fg=yellow>==></> Building PDF ...');
 
         $pdf->WriteHTML(
@@ -237,28 +272,29 @@ HTML
         $this->output->writeln('✨✨ '.$pdf->page.' PDF pages ✨✨');
 
         $pdf->Output(
-            $currentPath.'/export/'.Ibis::outputFileName().'-'.$this->themeName.'.pdf'
+            $this->currentPath.'/export/'.Ibis::outputFileName().'-'.$this->themeName.'.pdf'
         );
     }
 
+
     /**
-     * @param $currentPath
      * @param $themeName
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getTheme($currentPath, $themeName)
+    private function getTheme($themeName)
     {
-        return $this->disk->get($currentPath."/assets/theme-$themeName.html");
+        return $this->disk->get($this->currentPath."/assets/theme-$themeName.html");
     }
+
 
     /**
      * @param $fontData
      * @return array
      */
-    protected function fonts($config, $fontData)
+    protected function fonts($fontData)
     {
-        return $fontData + collect($config['fonts'])->mapWithKeys(function ($file, $name) {
+        return $fontData + collect($this->config['fonts'])->mapWithKeys(function ($file, $name) {
             return [
                 $name => [
                     'R' => $file

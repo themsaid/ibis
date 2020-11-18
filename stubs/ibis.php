@@ -56,6 +56,20 @@ return [
     /**
      * A notice printed at the final page of a generated sample.
      */
-    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
+    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
                         For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
+
+
+    // 'prehtml' => function($markdown) {
+    //     // preprocesses markdown content before converting to HTML
+    //     return $markdown;
+    // },
+
+
+    // 'prepdf' => function($html) {
+    //     // preprocesses converted markdown HTML content before writing to PDF
+    //     return $html;
+    // },
+
+
 ];
