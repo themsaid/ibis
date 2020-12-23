@@ -24,6 +24,7 @@ class BuildCommand extends Command
      * @var string|string[]|null
      */
     public $themeName;
+
     /**
      * @var OutputInterface
      */
@@ -204,9 +205,7 @@ class BuildCommand extends Command
 
         $pdf->SetMargins(400, 100, 12);
 
-        if (! $this->disk->isFile($currentPath.'/assets/cover.jpg')) {
-            $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
-        } else {
+        if ($this->disk->isFile($currentPath . '/assets/cover.jpg')) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
@@ -221,6 +220,16 @@ HTML
             );
 
             $pdf->AddPage();
+        } elseif ($this->disk->isFile($currentPath . '/assets/cover.html')) {
+            $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
+
+            $cover = $this->disk->get($currentPath . '/assets/cover.html');
+            
+            $pdf->WriteHTML($cover);
+
+            $pdf->AddPage();
+        } else {
+            $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
         }
 
         $pdf->SetHTMLFooter('<div id="footer" style="text-align: center">{PAGENO}</div>');
