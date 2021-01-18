@@ -63,6 +63,14 @@ Inside the content directory, you can write multiple `.md` files. Ibis uses the 
 <h3> tags define different titles inside a chapter.
 ``` 
 
+### Using images
+
+Images can be stored in the content folder and then brought in like this:
+
+```
+![Screenshot 1](content/screenshot-1.png)
+```
+
 ## Using Fonts
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
