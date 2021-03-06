@@ -33,6 +33,14 @@ return [
         'margin_top' => 14,
     ],
 
+    /**
+     * Table of Contents Levels
+     */
+    'toc_levels' => [
+        'H1' => 0,
+        'H2' => 1,
+    ],
+
 
     /**
      * Cover photo position and dimensions
@@ -49,13 +57,13 @@ return [
     'sample' => [
         [1, 3],
         [80, 85],
-        [100, 103]
+        [100, 103],
     ],
 
 
     /**
      * A notice printed at the final page of a generated sample.
      */
-    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
+    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
                         For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
 ];

@@ -196,9 +196,7 @@ class BuildCommand extends Command
 
         $pdf->setAutoBottomMargin = 'pad';
 
-        $tocLevels = [
-            'H1' => 0, 'H2' => 1
-        ];
+        $tocLevels = $config['toc_levels'];
 
         $pdf->h2toc = $tocLevels;
         $pdf->h2bookmarks = $tocLevels;
@@ -224,7 +222,7 @@ HTML
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
             $cover = $this->disk->get($currentPath . '/assets/cover.html');
-            
+
             $pdf->WriteHTML($cover);
 
             $pdf->AddPage();
