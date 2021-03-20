@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
+        "roave/security-advisories": "dev-latest",
         "symfony/var-dumper": "^5.0"
     },
     "autoload": {
