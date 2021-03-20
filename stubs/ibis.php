@@ -6,12 +6,10 @@ return [
      */
     'title' => 'Laravel Queues in Action',
 
-
     /**
      * The author name.
      */
     'author' => 'Mohamed Said',
-
 
     /**
      * The list of fonts to be used in the different themes.
@@ -20,7 +18,6 @@ return [
         //        'calibri' => 'Calibri-Regular.ttf',
         //        'times' => 'times-regular.ttf',
     ],
-
 
     /**
      * Document Dimensions.
@@ -33,7 +30,6 @@ return [
         'margin_top' => 14,
     ],
 
-
     /**
      * Cover photo position and dimensions
      */
@@ -41,7 +37,6 @@ return [
         'position' => 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;',
         'dimensions' => 'width: 210mm; height: 297mm; margin: 0;',
     ],
-
 
     /**
      * Page ranges to be used with the sample command.
@@ -51,7 +46,6 @@ return [
         [80, 85],
         [100, 103]
     ],
-
 
     /**
      * A notice printed at the final page of a generated sample.
