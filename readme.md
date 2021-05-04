@@ -13,7 +13,7 @@ This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook 
 3. Code syntax highlighting.
 4. Available in 2 themes. Light and dark.
 
-Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook I published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip) for the sample.
+Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook I published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action.zip) for the sample.
 
 ## Installation
 
