@@ -13,7 +13,7 @@ This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook 
 3. Code syntax highlighting.
 4. Available in 2 themes. Light and dark.
 
-Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook I published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action/laravel-queues-in-action.zip) for the sample.
+Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook I published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action.zip) for the sample.
 
 ## Installation
 
@@ -71,6 +71,10 @@ Images can be stored in the content folder and then brought in like this:
 ![Screenshot 1](content/screenshot-1.png)
 ```
 
+### Adding a cover image
+To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer a HTML-based cover page). If you don't want a cover image, just moit these files.
+
+
 ## Using Fonts
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
@@ -98,6 +102,18 @@ ibis sample dark
 ```
 
 This command will use the generated files from the `ibis build` command to generate samples from your PDF eBook. You can configure which pages to include in the sample by updating the `/ibis.php` file.
+
+## Development
+
+This project uses PHP CS Fixer with a code standard defined in `.php_cs`.  
+
+To review code out of style, you can run the fix command as a dry run.  Run the composer script like this:
+
+`composer run csfix-review`
+
+To fix the source code, run the following composer script:
+
+`composer run csfix`
 
 ## Credits
 
