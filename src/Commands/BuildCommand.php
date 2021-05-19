@@ -221,7 +221,7 @@ HTML
         } elseif ($this->disk->isFile($currentPath.'/assets/cover.html')) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
-            $cover = $this->disk->get($currentPath . '/assets/cover.html');
+            $cover = $this->disk->get($currentPath.'/assets/cover.html');
 
             $pdf->WriteHTML($cover);
 
