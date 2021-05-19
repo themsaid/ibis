@@ -71,6 +71,10 @@ Images can be stored in the content folder and then brought in like this:
 ![Screenshot 1](content/screenshot-1.png)
 ```
 
+### Adding a cover image
+To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer a HTML-based cover page). If you don't want a cover image, just moit these files.
+
+
 ## Using Fonts
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
