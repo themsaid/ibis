@@ -1,35 +1,35 @@
 <?php
 
 return PhpCsFixer\Config::create()
-    ->setRules(array(
+    ->setRules([
         '@PSR2' => true,
         'array_indentation' => true,
-        'array_syntax' => array('syntax' => 'short'),
+        'array_syntax' => ['syntax' => 'short'],
         'combine_consecutive_unsets' => true,
         'method_separation' => true,
         'no_multiline_whitespace_before_semicolons' => true,
         'single_quote' => true,
-        'binary_operator_spaces' => array(
+        'binary_operator_spaces' => [
             'default' => 'single_space',
-        ),
+        ],
         'blank_line_after_opening_tag' => true,
-        'braces' => array(
+        'braces' => [
             'allow_single_line_closure' => true,
-        ),
-        'concat_space' => array('spacing' => 'none'),
+        ],
+        'concat_space' => ['spacing' => 'none'],
         'declare_equal_normalize' => true,
         'function_typehint_space' => true,
         'hash_to_slash_comment' => true,
         'include' => true,
         'lowercase_cast' => true,
-        'no_extra_consecutive_blank_lines' => array(
+        'no_extra_consecutive_blank_lines' => [
             'curly_brace_block',
             'extra',
             'parenthesis_brace_block',
             'square_brace_block',
             'throw',
             'use',
-        ),
+        ],
         'ordered_imports' => [
             'sort_algorithm' => 'length'
         ],
@@ -45,7 +45,5 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => true,
         'whitespace_after_comma_in_array' => true,
         'not_operator_with_successor_space' => true,
-    ))
-    //->setIndent("\t")
-    ->setLineEnding("\n")
-;
+    ])
+    ->setLineEnding("\n");

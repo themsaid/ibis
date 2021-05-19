@@ -103,6 +103,18 @@ ibis sample dark
 
 This command will use the generated files from the `ibis build` command to generate samples from your PDF eBook. You can configure which pages to include in the sample by updating the `/ibis.php` file.
 
+## Development
+
+This project uses PHP CS Fixer with a code standard defined in `.php_cs`.  
+
+To review code out of style, you can run the fix command as a dry run.  Run the composer script like this:
+
+`composer run csfix-review`
+
+To fix the source code, run the following composer script:
+
+`composer run csfix`
+
 ## Credits
 
 - [Mohamed Said](https://github.com/themsaid)

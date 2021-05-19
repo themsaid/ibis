@@ -1,0 +1,34 @@
+name: CI for Ibis
+
+on: [push, pull_request]
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-20.04
+
+    steps:
+      # This is required as this package does not support PHP 8 (yet)
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Use Composer Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Composer Install
+        run: "composer install --no-ansi --no-interaction --no-scripts --prefer-dist"
+
+      - name: Execute PHP CS Fixer review
+        run: composer run csfix-review

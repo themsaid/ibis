@@ -26,6 +26,7 @@
         "spatie/commonmark-highlighter": "^2.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.18",
         "symfony/var-dumper": "^5.0"
     },
     "autoload": {
@@ -40,7 +41,14 @@
     "scripts": {
         "csfix": [
             "php-cs-fixer fix src stubs --config=.php_cs"
+        ],
+        "csfix-review": [
+            "php-cs-fixer fix src stubs --config=.php_cs --dry-run -v"
         ]
+    },
+    "scripts-descriptions": {
+        "csfix": "Runs PHP CS Fixer to fix project files.",
+        "csfix-review": "Runs PHP CS Fixer to show the details of which files are out of code standard."
     },
     "minimum-stability": "dev",
     "prefer-stable": true
