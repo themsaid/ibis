@@ -72,7 +72,7 @@ Images can be stored in the content folder and then brought in like this:
 ```
 
 ### Adding a cover image
-To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer a HTML-based cover page). If you don't want a cover image, just moit these files.
+To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer a HTML-based cover page). If you don't want a cover image, delete these files.
 
 
 ## Using Fonts
