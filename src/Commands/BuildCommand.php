@@ -73,7 +73,7 @@ class BuildCommand extends Command
         $theme = $this->getTheme($currentPath, $this->themeName);
 
         $this->buildPdf(
-            $this->buildHtml($currentPath.'/content'),
+            $this->buildHtml($currentPath.'/content', $config),
             $config,
             $currentPath,
             $theme
@@ -103,9 +103,10 @@ class BuildCommand extends Command
 
     /**
      * @param  string  $path
+     * @param  array $config
      * @return string
      */
-    protected function buildHtml(string $path)
+    protected function buildHtml(string $path, array $config)
     {
         $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
 
@@ -115,6 +116,10 @@ class BuildCommand extends Command
         $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'
         ]));
+
+        if (is_callable($config['configure_commonmark'])) {
+            call_user_func($config['configure_commonmark'], $environment);
+        }
 
         $converter = new GithubFlavoredMarkdownConverter([], $environment);
 
