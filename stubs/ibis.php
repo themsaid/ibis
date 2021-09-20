@@ -44,6 +44,7 @@ return [
     'cover' => [
         'position' => 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;',
         'dimensions' => 'width: 210mm; height: 297mm; margin: 0;',
+        'image' => 'cover.jpg',
     ],
 
     /**
