@@ -1,5 +1,5 @@
 {
-    "name": "themsaid/ibis",
+    "name": "level39/ibis",
     "description": "Markdown to PDF book builder",
     "keywords": [
         "markdown",
@@ -7,12 +7,12 @@
         "pdf",
         "php"
     ],
-    "homepage": "https://github.com/themsaid/ibis",
+    "homepage": "https://github.com/level39/ibis",
     "license": "MIT",
     "authors": [
         {
-            "name": "Mohamed Said",
-            "email": "themsaid@gmail.com"
+            "name": "Hassan Tariq",
+            "email": "devflix@outlook.com"
         }
     ],
     "bin": [
