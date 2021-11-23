@@ -23,7 +23,7 @@
         "illuminate/support": "^7.0|^8.0",
         "symfony/console": "^4.2|^5.0",
         "mpdf/mpdf": "^8.0",
-        "spatie/commonmark-highlighter": "^2.1"
+        "spatie/commonmark-highlighter": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
