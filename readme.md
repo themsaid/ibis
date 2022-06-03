@@ -63,6 +63,18 @@ Inside the content directory, you can write multiple `.md` files. Ibis uses the 
 <h3> tags define different titles inside a chapter.
 ``` 
 
+### Adding different quotes
+
+Three different types of quotes can be added: `quote`, `warning`, and `notice`.
+
+```md
+>{quote} This is a quote.
+
+>{warning} This is a warning.
+
+>{notice} This is a notice.
+```
+
 ### Using images
 
 Images can be stored in the content folder and then brought in like this:
