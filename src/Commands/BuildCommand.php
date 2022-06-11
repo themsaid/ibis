@@ -207,8 +207,11 @@ class BuildCommand extends Command
         $pdf->h2bookmarks = $tocLevels;
 
         $pdf->SetMargins(400, 100, 12);
-
-        if ($this->disk->isFile($currentPath.'/assets/cover.jpg')) {
+        $coverImage="cover.jpg";
+        if (key_exists("image", $config['cover'])) {
+            $coverImage = $config['cover']['image'];
+        }
+        if ($this->disk->isFile($currentPath.'/assets/' . $coverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
@@ -217,7 +220,7 @@ class BuildCommand extends Command
             $pdf->WriteHTML(
                 <<<HTML
 <div style="{$coverPosition}">
-    <img src="assets/cover.jpg" style="{$coverDimensions}"/>
+    <img src="assets/{$coverImage}" style="{$coverDimensions}"/>
 </div>
 HTML
             );
@@ -232,7 +235,7 @@ HTML
 
             $pdf->AddPage();
         } else {
-            $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
+            $this->output->writeln('<fg=red>==></> No assets/' . $coverImage . ' File Found. Skipping ...');
         }
 
         $pdf->SetHTMLFooter('<div id="footer" style="text-align: center">{PAGENO}</div>');
