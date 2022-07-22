@@ -60,6 +60,7 @@ return [
      */
     'configure_commonmark' => [
     ],
+
     /**
      * A notice printed at the final page of a generated sample.
      */
