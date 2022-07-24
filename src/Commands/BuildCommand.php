@@ -156,6 +156,8 @@ class BuildCommand extends Command
             $html = str_replace('<h1>', '[break]<h1>', $html);
         }
 
+        $html = preg_replace('/<h1>(.*)&gt;&gt;(.*)<\/h1>/im', '<div class="chapter_title">${1}</div><h1>${2}</h1>', $html);
+
 //        $html = str_replace('<h2>', '[break]<h2>', $html);
         $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
