@@ -55,7 +55,12 @@ return [
         [80, 85],
         [100, 103],
     ],
-
+	
+    /**
+     * default commonmark
+     */
+    'configure_commonmark' => [
+    ],
     /**
      * A notice printed at the final page of a generated sample.
      */
