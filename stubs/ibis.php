@@ -55,7 +55,7 @@ return [
         [80, 85],
         [100, 103],
     ],
-	
+
     /**
      * default commonmark
      */

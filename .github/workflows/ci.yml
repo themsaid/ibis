@@ -4,14 +4,14 @@ on: [push, pull_request]
 
 jobs:
   php-cs-fixer:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       # This is required as this package does not support PHP 8 (yet)
-      - name: Setup PHP 7.4
+      - name: Setup PHP 8.1
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
 
       - name: Checkout Code
         uses: actions/checkout@v2
