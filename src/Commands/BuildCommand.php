@@ -7,7 +7,8 @@ use Mpdf\Mpdf;
 use SplFileInfo;
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
-use League\CommonMark\Environment;
+use League\CommonMark\Environment\Environment;
+
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use League\CommonMark\Block\Element\FencedCode;
@@ -64,8 +65,13 @@ class BuildCommand extends Command
         $this->themeName = $input->getArgument('theme');
 
         $currentPath = getcwd();
-        $config = require $currentPath.'/ibis.php';
+        $configIbisFile = $currentPath . '/ibis.php';
+        if (!$this->disk->isFile($configIbisFile)) {
+            $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
+            exit - 1;
+        }
 
+        $config = require $configIbisFile;
         $this->ensureExportDirectoryExists(
             $currentPath = getcwd()
         );
@@ -113,7 +119,7 @@ class BuildCommand extends Command
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new TableExtension());
 
-        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer([
+        $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'
         ]));
 
