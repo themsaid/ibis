@@ -36,3 +36,7 @@ jobs:
 
       - name: Execute PHP CS Fixer review
         run: composer run csfix-review
+      - name: test Ibis execution
+        run: |
+          - ./ibis init
+          - ./ibis sample
