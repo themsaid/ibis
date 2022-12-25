@@ -5,13 +5,17 @@ on: [push, pull_request]
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: [ '8.2','8.1' ]
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
     steps:
       # This is required as this package does not support PHP 8 (yet)
-      - name: Setup PHP 8.1
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php-versions }}
 
       - name: Checkout Code
         uses: actions/checkout@v2
