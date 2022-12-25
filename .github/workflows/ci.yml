@@ -38,5 +38,5 @@ jobs:
         run: composer run csfix-review
       - name: test Ibis execution
         run: |
-          - ./ibis init
-          - ./ibis sample
+          - php ibis init
+          - php ibis sample
