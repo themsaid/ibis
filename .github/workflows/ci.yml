@@ -70,5 +70,6 @@ jobs:
 
       - name: test Ibis execution
         run: |
+          mkdir export
           ./ibis init
           ./ibis sample
