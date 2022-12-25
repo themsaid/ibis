@@ -66,7 +66,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - name: Composer Install
-        run: "composer install --no-ansi --no-interaction --no-scripts --prefer-dist"
+        run: "composer update"
 
       - name: test Ibis execution
         run: |
