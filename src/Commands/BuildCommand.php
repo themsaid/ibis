@@ -7,7 +7,8 @@ use Mpdf\Mpdf;
 use SplFileInfo;
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
-use League\CommonMark\Environment;
+use League\CommonMark\Environment\Environment;
+
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use League\CommonMark\Block\Element\FencedCode;
@@ -64,8 +65,13 @@ class BuildCommand extends Command
         $this->themeName = $input->getArgument('theme');
 
         $currentPath = getcwd();
-        $config = require $currentPath.'/ibis.php';
+        $configIbisFile = $currentPath . '/ibis.php';
+        if (!$this->disk->isFile($configIbisFile)) {
+            $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
+            exit - 1;
+        }
 
+        $config = require $configIbisFile;
         $this->ensureExportDirectoryExists(
             $currentPath = getcwd()
         );
@@ -113,7 +119,7 @@ class BuildCommand extends Command
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new TableExtension());
 
-        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer([
+        $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'
         ]));
 
@@ -207,8 +213,11 @@ class BuildCommand extends Command
         $pdf->h2bookmarks = $tocLevels;
 
         $pdf->SetMargins(400, 100, 12);
-
-        if ($this->disk->isFile($currentPath.'/assets/cover.jpg')) {
+        $coverImage="cover.jpg";
+        if (key_exists("image", $config['cover'])) {
+            $coverImage = $config['cover']['image'];
+        }
+        if ($this->disk->isFile($currentPath.'/assets/' . $coverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
@@ -217,7 +226,7 @@ class BuildCommand extends Command
             $pdf->WriteHTML(
                 <<<HTML
 <div style="{$coverPosition}">
-    <img src="assets/cover.jpg" style="{$coverDimensions}"/>
+    <img src="assets/{$coverImage}" style="{$coverDimensions}"/>
 </div>
 HTML
             );
@@ -232,7 +241,7 @@ HTML
 
             $pdf->AddPage();
         } else {
-            $this->output->writeln('<fg=red>==></> No assets/cover.jpg File Found. Skipping ...');
+            $this->output->writeln('<fg=red>==></> No assets/' . $coverImage . ' File Found. Skipping ...');
         }
 
         $pdf->SetHTMLFooter('<div id="footer" style="text-align: center">{PAGENO}</div>');
