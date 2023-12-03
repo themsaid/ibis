@@ -43,7 +43,7 @@ class SampleCommand extends Command
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->disk = new Filesystem();
 
