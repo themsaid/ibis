@@ -68,7 +68,7 @@ class BuildCommand extends Command
         $configIbisFile = $currentPath . '/ibis.php';
         if (!$this->disk->isFile($configIbisFile)) {
             $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
-            exit - 1;
+            exit -1;
         }
 
         $config = require $configIbisFile;
@@ -98,7 +98,7 @@ class BuildCommand extends Command
     {
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
-        if (! $this->disk->isDirectory($currentPath.'/export')) {
+        if (!$this->disk->isDirectory($currentPath.'/export')) {
             $this->disk->makeDirectory(
                 $currentPath.'/export',
                 0755,
@@ -213,7 +213,7 @@ class BuildCommand extends Command
         $pdf->h2bookmarks = $tocLevels;
 
         $pdf->SetMargins(400, 100, 12);
-        $coverImage="cover.jpg";
+        $coverImage = "cover.jpg";
         if (key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
