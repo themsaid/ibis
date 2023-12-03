@@ -3,3 +3,9 @@ vendor/
 .php_cs.cache
 .DS_Store
 /.idea
+
+# Files/Dirs created by ibis init
+assets/
+content/
+export/
+ibis.php
