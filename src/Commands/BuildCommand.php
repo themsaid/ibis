@@ -10,14 +10,20 @@ use Mpdf\Config\ConfigVariables;
 use League\CommonMark\Environment\Environment;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
 use League\CommonMark\Block\Element\FencedCode;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
+use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use League\CommonMark\Extension\Table\TableExtension;
 use Symfony\Component\Console\Output\OutputInterface;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
+use League\CommonMark\MarkdownConverter;
 
 class BuildCommand extends Command
 {
@@ -110,14 +116,18 @@ class BuildCommand extends Command
     /**
      * @param  string  $path
      * @param  array $config
-     * @return string
+     * @return Collection
      */
     protected function buildHtml(string $path, array $config)
     {
         $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
 
-        $environment = Environment::createCommonMarkEnvironment();
+
+        $environment = new Environment([]);
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addExtension(new TableExtension());
+        $environment->addExtension(new FrontMatterExtension());
 
         $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'
@@ -127,7 +137,7 @@ class BuildCommand extends Command
             call_user_func($config['configure_commonmark'], $environment);
         }
 
-        $converter = new GithubFlavoredMarkdownConverter([], $environment);
+        $converter = new MarkdownConverter($environment);
 
         return collect($this->disk->files($path))
             ->map(function (SplFileInfo $file, $i) use ($converter) {
@@ -139,12 +149,23 @@ class BuildCommand extends Command
                     $file->getPathname()
                 );
 
-                return $this->prepareForPdf(
-                    $converter->convertToHtml($markdown),
+
+                $chapter = collect([]);
+                $convertedMarkdown = $converter->convert($markdown);
+                $chapter["mdfile"] = $file->getFilename();
+                $chapter["frontmatter"] = false;
+                if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
+                    $chapter["frontmatter"] = $convertedMarkdown->getFrontMatter();
+                }
+                $chapter["html"] = $this->prepareForPdf(
+                    $convertedMarkdown->getContent(),
                     $i + 1
                 );
-            })
-            ->implode(' ');
+
+
+                return $chapter;
+            });
+        //->implode(' ');
     }
 
     /**
@@ -173,14 +194,14 @@ class BuildCommand extends Command
     }
 
     /**
-     * @param  string  $html
+     * @param  Collection  $chapters
      * @param  array  $config
      * @param  string  $currentPath
      * @param  string  $theme
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    protected function buildPdf(string $html, array $config, string $currentPath, string $theme)
+    protected function buildPdf(Collection $chapters, array $config, string $currentPath, string $theme)
     {
         $defaultConfig = (new ConfigVariables())->getDefaults();
         $fontDirs = $defaultConfig['fontDir'];
@@ -249,8 +270,23 @@ HTML
         $this->output->writeln('<fg=yellow>==></> Building PDF ...');
 
         $pdf->WriteHTML(
-            $theme.$html
+            $theme
         );
+
+        foreach ($chapters as $key => $chapter) {
+            $this->output->writeln('<fg=yellow>==></> ❇️ '.$chapter["mdfile"].' ...');
+            if (array_key_exists('header', $config)) {
+                $pdf->SetHTMLHeader(
+                    '
+                    <div style="' . $config['header'] . '">
+                        ' . Arr::get($chapter, "frontmatter.title", $config["title"]) . '
+                    </div>'
+                );
+            }
+            $pdf->WriteHTML(
+                $chapter["html"]
+            );
+        }
 
         $this->output->writeln('<fg=yellow>==></> Writing PDF To Disk ...');
 

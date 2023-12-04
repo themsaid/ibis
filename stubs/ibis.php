@@ -66,4 +66,10 @@ return [
      */
     'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
                         For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
+
+    /**
+     * CSS inline style for the page header.
+     * If you want to skip header, comment the line
+     */
+    'header' => 'font-style: italic; text-align: right; border-bottom: solid 1px #808080;',
 ];
