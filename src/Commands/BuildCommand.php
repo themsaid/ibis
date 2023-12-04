@@ -275,11 +275,14 @@ HTML
 
         foreach ($chapters as $key => $chapter) {
             $this->output->writeln('<fg=yellow>==></> ❇️ '.$chapter["mdfile"].' ...');
-
-            $pdf->SetHTMLHeader('
-            <div style="text-align: right">
-                '. Arr::get($chapter, "frontmatter.title", $config["title"]).'
-            </div>');
+            if (array_key_exists('header', $config)) {
+                $pdf->SetHTMLHeader(
+                    '
+                    <div style="' . $config['header'] . '">
+                        ' . Arr::get($chapter, "frontmatter.title", $config["title"]) . '
+                    </div>'
+                );
+            }
             $pdf->WriteHTML(
                 $chapter["html"]
             );
