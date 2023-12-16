@@ -47,7 +47,7 @@ class SortContentCommand extends Command
 
         $currentPath = getcwd();
 
-        collect($this->disk->files($currentPath.'/content'))->each(function ($file, $index) use ($currentPath) {
+        collect($this->disk->files($currentPath . '/content'))->each(function ($file, $index) use ($currentPath) {
             $markdown = $this->disk->get(
                 $file->getPathname()
             );
@@ -60,7 +60,7 @@ class SortContentCommand extends Command
 
             $this->disk->move(
                 $file->getPathName(),
-                $currentPath.'/content/'.Str::slug($newName).'.md'
+                $currentPath . '/content/' . Str::slug($newName) . '.md'
             );
         });
 

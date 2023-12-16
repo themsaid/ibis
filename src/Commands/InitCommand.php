@@ -47,7 +47,7 @@ class InitCommand extends Command
 
         $currentPath = getcwd();
 
-        if ($this->disk->isDirectory($currentPath.'/assets')) {
+        if ($this->disk->isDirectory($currentPath . '/assets')) {
             $this->output->writeln('');
             $this->output->writeln('<info>Project already initialised!</info>');
 
@@ -55,40 +55,40 @@ class InitCommand extends Command
         }
 
         $this->disk->makeDirectory(
-            $currentPath.'/assets'
+            $currentPath . '/assets'
         );
 
         $this->disk->makeDirectory(
-            $currentPath.'/assets/fonts'
+            $currentPath . '/assets/fonts'
         );
 
         $this->disk->makeDirectory(
-            $currentPath.'/content'
+            $currentPath . '/content'
         );
 
         $this->disk->copyDirectory(
-            __DIR__.'/../../stubs/content',
-            $currentPath.'/content'
+            __DIR__ . '/../../stubs/content',
+            $currentPath . '/content'
         );
 
         $this->disk->put(
-            $currentPath.'/ibis.php',
-            $this->disk->get(__DIR__.'/../../stubs/ibis.php')
+            $currentPath . '/ibis.php',
+            $this->disk->get(__DIR__ . '/../../stubs/ibis.php')
         );
 
         $this->disk->put(
-            $currentPath.'/assets/cover.jpg',
-            $this->disk->get(__DIR__.'/../../stubs/assets/cover.jpg')
+            $currentPath . '/assets/cover.jpg',
+            $this->disk->get(__DIR__ . '/../../stubs/assets/cover.jpg')
         );
 
         $this->disk->put(
-            $currentPath.'/assets/theme-dark.html',
-            $this->disk->get(__DIR__.'/../../stubs/assets/theme-dark.html')
+            $currentPath . '/assets/theme-dark.html',
+            $this->disk->get(__DIR__ . '/../../stubs/assets/theme-dark.html')
         );
 
         $this->disk->put(
-            $currentPath.'/assets/theme-light.html',
-            $this->disk->get(__DIR__.'/../../stubs/assets/theme-light.html')
+            $currentPath . '/assets/theme-light.html',
+            $this->disk->get(__DIR__ . '/../../stubs/assets/theme-light.html')
         );
 
         $this->output->writeln('');

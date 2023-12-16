@@ -85,7 +85,7 @@ class BuildCommand extends Command
         $theme = $this->getTheme($currentPath, $this->themeName);
 
         $this->buildPdf(
-            $this->buildHtml($currentPath.'/content', $config),
+            $this->buildHtml($currentPath . '/content', $config),
             $config,
             $currentPath,
             $theme
@@ -104,9 +104,9 @@ class BuildCommand extends Command
     {
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
-        if (!$this->disk->isDirectory($currentPath.'/export')) {
+        if (!$this->disk->isDirectory($currentPath . '/export')) {
             $this->disk->makeDirectory(
-                $currentPath.'/export',
+                $currentPath . '/export',
                 0755,
                 true
             );
@@ -216,7 +216,7 @@ class BuildCommand extends Command
             'margin_right' => $config['document']['margin_right'] ?? 27,
             'margin_bottom' => $config['document']['margin_bottom'] ?? 14,
             'margin_top' => $config['document']['margin_top'] ?? 14,
-            'fontDir' => array_merge($fontDirs, [getcwd().'/assets/fonts']),
+            'fontDir' => array_merge($fontDirs, [getcwd() . '/assets/fonts']),
             'fontdata' => $this->fonts($config, $fontData),
         ]);
 
@@ -238,7 +238,7 @@ class BuildCommand extends Command
         if (key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
-        if ($this->disk->isFile($currentPath.'/assets/' . $coverImage)) {
+        if ($this->disk->isFile($currentPath . '/assets/' . $coverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
@@ -253,10 +253,10 @@ HTML
             );
 
             $pdf->AddPage();
-        } elseif ($this->disk->isFile($currentPath.'/assets/cover.html')) {
+        } elseif ($this->disk->isFile($currentPath . '/assets/cover.html')) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
-            $cover = $this->disk->get($currentPath.'/assets/cover.html');
+            $cover = $this->disk->get($currentPath . '/assets/cover.html');
 
             $pdf->WriteHTML($cover);
 
@@ -274,7 +274,7 @@ HTML
         );
 
         foreach ($chapters as $key => $chapter) {
-            $this->output->writeln('<fg=yellow>==></> ❇️ '.$chapter["mdfile"].' ...');
+            $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
             if (array_key_exists('header', $config)) {
                 $pdf->SetHTMLHeader(
                     '
@@ -291,10 +291,10 @@ HTML
         $this->output->writeln('<fg=yellow>==></> Writing PDF To Disk ...');
 
         $this->output->writeln('');
-        $this->output->writeln('✨✨ '.$pdf->page.' PDF pages ✨✨');
+        $this->output->writeln('✨✨ ' . $pdf->page . ' PDF pages ✨✨');
 
         $pdf->Output(
-            $currentPath.'/export/'.Ibis::outputFileName().'-'.$this->themeName.'.pdf'
+            $currentPath . '/export/' . Ibis::outputFileName() . '-' . $this->themeName . '.pdf'
         );
     }
 
@@ -306,7 +306,7 @@ HTML
      */
     private function getTheme($currentPath, $themeName)
     {
-        return $this->disk->get($currentPath."/assets/theme-$themeName.html");
+        return $this->disk->get($currentPath . "/assets/theme-$themeName.html");
     }
 
     /**

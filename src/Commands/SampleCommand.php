@@ -49,13 +49,13 @@ class SampleCommand extends Command
 
         $currentPath = getcwd();
 
-        $config = require $currentPath.'/ibis.php';
+        $config = require $currentPath . '/ibis.php';
 
         $mpdf = new \Mpdf\Mpdf();
 
-        $fileName = Ibis::outputFileName().'-'.$input->getArgument('theme');
+        $fileName = Ibis::outputFileName() . '-' . $input->getArgument('theme');
 
-        $mpdf->setSourceFile($currentPath.'/export/'.$fileName.'.pdf');
+        $mpdf->setSourceFile($currentPath . '/export/' . $fileName . '.pdf');
 
         foreach ($config['sample'] as $range) {
             foreach (range($range[0], $range[1]) as $page) {
@@ -66,10 +66,10 @@ class SampleCommand extends Command
             }
         }
 
-        $mpdf->WriteHTML('<p style="text-align: center; font-size: 16px; line-height: 40px;">'.$config['sample_notice'].'</p>');
+        $mpdf->WriteHTML('<p style="text-align: center; font-size: 16px; line-height: 40px;">' . $config['sample_notice'] . '</p>');
 
         $mpdf->Output(
-            $currentPath.'/export/sample-.'.$fileName.'.pdf'
+            $currentPath . '/export/sample-.' . $fileName . '.pdf'
         );
 
         return 0;

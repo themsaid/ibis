@@ -52,8 +52,8 @@
         ]
     },
     "scripts-descriptions": {
-        "csfix": "Runs Pint to fix project files.",
-        "csfix-review": "Runs Pint to show the details of which files are out of code standard."
+        "csfix": "Runs Pint to fix code style.",
+        "csfix-review": "Runs Pint to show the code style review."
     },
     "minimum-stability": "dev",
     "prefer-stable": true

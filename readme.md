@@ -131,7 +131,9 @@ This command will use the generated files from the `ibis-next build` command to 
 
 ## Development
 
-This project uses PHP CS Fixer with a code standard defined in `.php_cs`.
+This project uses Laravel Pint to fix the code style according to `per` preset.
+The `pint.json` file defines the Laravel Pint configuration.
+Laravel Pint is built on top of the great tool PHP-CS-Fixer.
 
 To review code out of style, you can run the fix command as a dry run.  Run the composer script like this:
 

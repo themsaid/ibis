@@ -44,7 +44,7 @@ class Ibis
             return static::$config;
         }
 
-        static::$config = require getcwd().'/ibis.php';
+        static::$config = require getcwd() . '/ibis.php';
 
         return static::$config;
     }
