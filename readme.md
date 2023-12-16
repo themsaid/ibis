@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/cover.png" alt="Ibis Next cover" width="480">
+    <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/ibis-next-cover.png" alt="Ibis Next cover" width="480">
 
 Artwork generated with Cover Wizard.
 </p>
