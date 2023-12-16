@@ -6,7 +6,7 @@ Artwork generated with Cover Wizard.
 
 ---
 
-This PHP tool helps you write eBooks in markdown. Run `ibis build` and an eBook will be generated with:
+This PHP tool helps you write eBooks in markdown. Run `ibis-next build` and an eBook will be generated with:
 
 1. A cover photo.
 2. Clickable auto-generated table of contents.
@@ -30,7 +30,7 @@ First, install the composer package globally:
 composer global require hi-folks/ibis-next
 ```
 
-Then, run this command inside an empty directory:
+Then, run this command inside an **empty directory**:
 
 ```
 ibis-next init
@@ -46,13 +46,14 @@ This will create the following files and directories:
 - /content
 - /ibis.php
 
-You may configure your book by editing the `/ibis.php` configuration file.
+You may configure your book by editing the `ibis.php` configuration file.
 
 ## Writing Your eBook
 
-The `init` command will create sample .md files inside the content folder. You can explore those files to see how you can write your book. This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com) by Mohamed Said.
+The `init` command will create sample .md files inside the `content` folder. You can explore those files to see how you can write your book.
+This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com) by Mohamed Said.
 
-Inside the content directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
+Inside the `content` directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
 ```
 # Part 1
@@ -100,7 +101,6 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
     ],
 ```
 
-
 ## Using Fonts
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
@@ -111,9 +111,9 @@ Edit your `/ibis.php` configuration files to define the font files to be loaded 
 ibis-next build
 ```
 
-Ibis will parse the files in alphabetical order and store the PDF file in `/export`.
+Ibis will parse the files in alphabetical order and store the PDF file in the `export` directory.
 
-The default is to generate the PDF using the light theme, and to generate a PDF using the dark theme:
+By default, for generating the PDF file, the light theme is used. To generate a PDF using the dark theme:
 
 ```
 ibis-next build dark
