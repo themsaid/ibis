@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: [ '8.2' ]
+        operating-system: ['ubuntu-latest']
+        php-versions: [ '8.3' ]
     name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
     steps:
       # This is required as this package does not support PHP 8 (yet)
@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: [ '8.3', '8.2','8.1', '8.0' ]
+        operating-system: ['ubuntu-latest', 'windows-latest']
+        php-versions: [ '8.3', '8.2','8.1' ]
     name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
     steps:
       # This is required as this package does not support PHP 8 (yet)
@@ -71,5 +71,5 @@ jobs:
       - name: test Ibis execution
         run: |
           mkdir export
-          ./ibis init
-          ./ibis build
+          ./ibis-next init
+          ./ibis-next build

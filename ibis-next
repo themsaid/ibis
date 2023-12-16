@@ -16,7 +16,9 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
 /**
  * Start the console application.
  */
-$app = new Application('Ibis', 'beta');
+$app = new Application('Ibis Next', '1.0-dev');
+$app->setDefaultCommand("build");
+
 
 // Authentication...
 $app->add(new InitCommand());
