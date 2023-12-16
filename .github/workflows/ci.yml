@@ -68,7 +68,7 @@ jobs:
       - name: Composer Install
         run: "composer update"
 
-      - name: test Ibis execution
+      - name: test Ibis Next execution
         run: |
           mkdir export
           ./ibis-next init
