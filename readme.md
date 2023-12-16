@@ -101,6 +101,32 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
     ],
 ```
 
+### Setting headers
+
+You can set a header for the pages.
+To add the header you need to set the "header" parameter in the `ibis.php` configuration file.
+For example, in the `ibis.php` file, you can set:
+
+```php
+     /**
+      * CSS inline style for the page header.
+      * If you want to skip header, comment the line
+      */
+     'header' => 'font-style: italic; text-align: right; border-bottom: solid    1px #808080;',
+```
+If you want to customize the header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
+
+```markdown
+---
+title: My Title
+---
+
+## My Section Title
+This is an example.
+
+```
+
+
 ## Using Fonts
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
