@@ -129,10 +129,10 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
     ],
 ```
 
-### Setting headers
+### Setting the page headers
 
-You can set a header for the pages.
-To add the header you need to set the "header" parameter in the `ibis.php` configuration file.
+You can set a page header for the pages.
+To add the header you need to set the `header` parameter in the `ibis.php` configuration file.
 For example, in the `ibis.php` file, you can set:
 
 ```php
@@ -142,7 +142,8 @@ For example, in the `ibis.php` file, you can set:
       */
      'header' => 'font-style: italic; text-align: right; border-bottom: solid    1px #808080;',
 ```
-If you want to customize the header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
+
+If you want to customize the page header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
 
 ```markdown
 ---
@@ -154,6 +155,10 @@ This is an example.
 
 ```
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/ibis-next-setting-page-header.png" alt="Setting the Page Header" width="480">
+Setting the page header.
+</p>
 
 ## Using Fonts
 
