@@ -23,8 +23,36 @@ Then we want to try to support also EPUB format, not only PDF.
 ## Installation
 
 Make sure you have PHP8.1 or above installed on your system and that your gd extension is enabled in your php.ini file.
+You can decide if you want to install it locally for a specific project (eBook in this case) or to install it globally, making it available across all projects (eBooks).
 
-First, install the composer package globally:
+
+### Installing ibis-next locally
+
+If you want to start quickly to build your eBook you can:
+- create a new empty directory via the `mkdir` command, and then jump into the new directory via the `cd` command:
+```
+mkdir my-first-ebook
+cd my-first-ebook
+```
+Now you are in the new empty directory, you can install Ibis Next:
+
+```
+composer require hi-folks/ibis-next
+```
+
+Once the tool is installed, you will find the `vendor/` directory where you can find your new tool (`vendor/bin/ibis-next`).
+
+Now you can initialize properly the directory via the `init` command for automatically creating the configuration file, the assets folder, and the content folder (for creating your Markdown files).
+To launch the `init`` command:
+
+```
+./vendor/bin/ibis-next init
+```
+
+### Installing ibis-next globally
+
+
+Instead, if you prefer to install the composer package globally you can add the `global` option while you are running the `composer require` command:
 
 ```
 composer global require hi-folks/ibis-next
