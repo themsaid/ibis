@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "hi-folks/phpepub": "^1.0.0",
         "illuminate/filesystem": "^10.0",
         "illuminate/support": "^10.0",
         "mpdf/mpdf": "^8.0",

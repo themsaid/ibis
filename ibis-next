@@ -2,6 +2,7 @@
 <?php
 
 use Ibis\Commands\BuildCommand;
+use Ibis\Commands\EpubCommand;
 use Ibis\Commands\InitCommand;
 use Ibis\Commands\SampleCommand;
 use Ibis\Commands\SortContentCommand;
@@ -23,6 +24,7 @@ $app->setDefaultCommand("build");
 // Authentication...
 $app->add(new InitCommand());
 $app->add(new BuildCommand);
+$app->add(new EpubCommand());
 $app->add(new SampleCommand);
 $app->add(new SortContentCommand());
 
