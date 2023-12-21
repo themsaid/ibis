@@ -1,7 +1,10 @@
 # Changelog
 
-## 1.0.2 - WIP
-- WIP Setting the content directory
+## 1.0.2 - 21th December 2023
+- Setting the content directory
+- Refactoring common code EPUB and PDF build
+- Introducing RectorPHP
+
 
 ## 1.0.1 - 21th December 2023
 - Welcome to EPUB generation
