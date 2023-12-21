@@ -179,6 +179,21 @@ By default, for generating the PDF file, the light theme is used. To generate a 
 ibis-next pdf dark
 ```
 
+### Using content from a different directory
+
+If you have your markdown files (your content), in a different directory (by default the content directory is `./content/`) you can define the content directory with the `--content` option:
+
+~~~shell
+ibis-next pdf --content=./your-content-directory
+~~~
+
+or, in a shorter form, via the `-c` option:
+
+~~~shell
+ibis-next pdf -c ./your-content-directory
+~~~
+
+
 ## Generating EPUB eBook 🆕
 
 We are introducing a new feature: exporting your eBook in EPUB format.
