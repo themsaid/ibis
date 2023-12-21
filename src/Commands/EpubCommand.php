@@ -3,47 +3,19 @@
 namespace Ibis\Commands;
 
 use Ibis\Ibis;
-use SplFileInfo;
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
-use League\CommonMark\Environment\Environment;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
-use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
-use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
-use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
-use League\CommonMark\Extension\Table\TableExtension;
 use Symfony\Component\Console\Output\OutputInterface;
-use League\CommonMark\MarkdownConverter;
 use PHPePub\Core\EPub;
-use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
+use Symfony\Component\Console\Input\InputOption;
 
-class EpubCommand extends Command
+class EpubCommand extends BaseBuildCommand
 {
-    /**
-     * @var string|string[]|null
-     */
-    public $themeName;
-
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var Filesystem
-     */
-    private $disk;
-
     /**
      * Configure the command.
      *
@@ -53,7 +25,13 @@ class EpubCommand extends Command
     {
         $this
             ->setName('epub')
-            ->addArgument('theme', InputArgument::OPTIONAL, 'The name of the theme', 'light')
+            ->addOption(
+                'content',
+                'c',
+                InputOption::VALUE_OPTIONAL,
+                'The path of the content directory',
+                ''
+            )
             ->setDescription('Generate the book in Epub format.');
     }
 
@@ -74,29 +52,17 @@ class EpubCommand extends Command
         $this->output->writeln('<info>✨                Stay tuned!!                ✨</info>');
         $this->output->writeln('✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨');
         //return 0;
-        $this->disk = new Filesystem();
-        $this->output = $output;
-        $this->themeName = $input->getArgument('theme');
 
-        $currentPath = getcwd();
-        $configIbisFile = $currentPath . '/ibis.php';
-        if (!$this->disk->isFile($configIbisFile)) {
-            $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
-            exit -1;
-        }
+        $this->preExecute($input, $output);
 
-        $config = require $configIbisFile;
-        $this->ensureExportDirectoryExists(
-            $currentPath = getcwd()
-        );
 
-        $theme = $this->getTheme($currentPath, $this->themeName);
+
+
 
         $result = $this->buildEpub(
-            $this->buildHtml($currentPath . '/content', $config),
-            $config,
-            $currentPath,
-            $theme
+            $this->buildHtml($this->contentDirectory, $this->config),
+            $this->config,
+            $this->currentPath
         );
 
         $this->output->writeln('');
@@ -111,105 +77,7 @@ class EpubCommand extends Command
         return 0;
     }
 
-    /**
-     * @param  string  $currentPath
-     */
-    protected function ensureExportDirectoryExists(string $currentPath): void
-    {
-        $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
-        if (!$this->disk->isDirectory($currentPath . '/export')) {
-            $this->disk->makeDirectory(
-                $currentPath . '/export',
-                0755,
-                true
-            );
-        }
-    }
-
-    /**
-     * @param  string  $path
-     * @param  array $config
-     * @return Collection
-     */
-    protected function buildHtml(string $path, array $config)
-    {
-
-        $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
-
-
-        $environment = new Environment([]);
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->addExtension(new TableExtension());
-        $environment->addExtension(new FrontMatterExtension());
-
-        $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
-        ]));
-        $environment->addRenderer(IndentedCode::class, new IndentedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
-        ]));
-
-        if (is_callable($config['configure_commonmark'])) {
-            call_user_func($config['configure_commonmark'], $environment);
-        }
-
-        $converter = new MarkdownConverter($environment);
-
-        return collect($this->disk->files($path))
-            ->map(function (SplFileInfo $file, $i) use ($converter) {
-                if ($file->getExtension() != 'md') {
-                    return '';
-                }
-
-                $markdown = $this->disk->get(
-                    $file->getPathname()
-                );
-
-
-                $chapter = collect([]);
-                $convertedMarkdown = $converter->convert($markdown);
-                $chapter["mdfile"] = $file->getFilename();
-                $chapter["frontmatter"] = false;
-                if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
-                    $chapter["frontmatter"] = $convertedMarkdown->getFrontMatter();
-                }
-                $chapter["html"] = $this->prepareForPdf(
-                    $convertedMarkdown->getContent(),
-                    $i + 1
-                );
-
-
-                return $chapter;
-            });
-        //->implode(' ');
-    }
-
-    /**
-     * @param  string  $html
-     * @param $file
-     * @return string|string[]
-     */
-    private function prepareForPdf(string $html, $file)
-    {
-        $commands = [
-            '[break]' => '<div style="page-break-after: always;"></div>'
-        ];
-
-        if ($file > 1) {
-            $html = str_replace('<h1>', '[break]<h1>', $html);
-        }
-
-        $html = str_replace('<h2>', '[break]<h2>', $html);
-        $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
-        $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
-        $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);
-
-        $html = str_replace(array_keys($commands), array_values($commands), $html);
-
-        return $html;
-    }
 
     /**
      * @param  Collection  $chapters
@@ -219,7 +87,7 @@ class EpubCommand extends Command
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    protected function buildEpub(Collection $chapters, array $config, string $currentPath, string $theme)
+    protected function buildEpub(Collection $chapters, array $config, string $currentPath)
     {
         $defaultConfig = (new ConfigVariables())->getDefaults();
         $fontDirs = $defaultConfig['fontDir'];
@@ -254,13 +122,8 @@ class EpubCommand extends Command
         $book->setAuthor(Ibis::author(), Ibis::author());
         $book->setIdentifier(Ibis::title() . "&amp;stamp=" . time(), EPub::IDENTIFIER_URI);
         $book->setLanguage("en");
-        //$cssData = "body {\n  margin-left: .5em;\n  margin-right: .5em;\n  text-align: justify;\n}\n\np {\n  font-family: serif;\n  font-size: 10pt;\n  text-align: justify;\n  text-indent: 1em;\n  margin-top: 0px;\n  margin-bottom: 1ex;\n}\n\nh1, h2 {\n  font-family: sans-serif;\n  font-style: italic;\n  text-align: center;\n  background-color: #6b879c;\n  color: yellow;\n  width: 100%;\n}\n\nh1 {\n    margin-bottom: 2px;\n}\n\nh2 {\n    margin-top: -2px;\n    margin-bottom: 2px;\n}\n";
-        //$book->addCSSFile("styles.css", "css1", $cssData);
-        $cssData = file_get_contents("assets/style.css");
-        //dd($cssData);
-        $book->addCSSFile("style.css", "css1", $cssData);
+        $book->addCSSFile("style.css", "css1", $this->getStyle($this->currentPath, "style"));
         $cssData = file_get_contents("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.css");
-        //dd($cssData);
         $book->addCSSFile("github.css", "css2", $cssData);
         //$book->addChapter("Table of Contents", "TOC.xhtml", null, false, EPub::EXTERNAL_REF_IGNORE);
         $cover = $content_start . "<h1>" . Ibis::title() . "</h1>\n";
@@ -296,7 +159,7 @@ class EpubCommand extends Command
 
         $book->finalize();
 
-        $epubFilename = 'export/' . Ibis::outputFileName() . '-' . $this->themeName . '.epub';
+        $epubFilename = 'export/' . Ibis::outputFileName() . '.epub';
         $zipData = $book->saveBook($epubFilename);
 
 
@@ -314,23 +177,10 @@ class EpubCommand extends Command
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getTheme($currentPath, $themeName)
+    private function getStyle($currentPath, $themeName)
     {
-        return $this->disk->get($currentPath . "/assets/theme-$themeName.html");
+        return $this->disk->get($currentPath . "/assets/$themeName.css");
     }
 
-    /**
-     * @param $fontData
-     * @return array
-     */
-    protected function fonts($config, $fontData)
-    {
-        return $fontData + collect($config['fonts'])->mapWithKeys(function ($file, $name) {
-            return [
-                $name => [
-                    'R' => $file
-                ]
-            ];
-        })->toArray();
-    }
+
 }

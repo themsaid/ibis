@@ -4,46 +4,32 @@ namespace Ibis\Commands;
 
 use Ibis\Ibis;
 use Mpdf\Mpdf;
-use SplFileInfo;
+
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
-use League\CommonMark\Environment\Environment;
 
-use Illuminate\Filesystem\Filesystem;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
 
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
-use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
-use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
-use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
-use League\CommonMark\Extension\Table\TableExtension;
 use Symfony\Component\Console\Output\OutputInterface;
-use League\CommonMark\MarkdownConverter;
-use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
+use Symfony\Component\Console\Input\InputOption;
 
-class BuildCommand extends Command
+class BuildCommand extends BaseBuildCommand
 {
     /**
      * @var string|string[]|null
      */
     public $themeName;
 
-    /**
-     * @var OutputInterface
-     */
-    private $output;
 
-    /**
-     * @var Filesystem
-     */
-    private $disk;
+
+
+
 
     /**
      * Configure the command.
@@ -55,6 +41,13 @@ class BuildCommand extends Command
         $this
             ->setName('build')
             ->addArgument('theme', InputArgument::OPTIONAL, 'The name of the theme', 'light')
+            ->addOption(
+                'content',
+                'c',
+                InputOption::VALUE_OPTIONAL,
+                'The path of the content directory',
+                ''
+            )
             ->setDescription('Generate the book.');
     }
 
@@ -69,28 +62,18 @@ class BuildCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->disk = new Filesystem();
-        $this->output = $output;
+
+        $this->preExecute($input, $output);
         $this->themeName = $input->getArgument('theme');
 
-        $currentPath = getcwd();
-        $configIbisFile = $currentPath . '/ibis.php';
-        if (!$this->disk->isFile($configIbisFile)) {
-            $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
-            exit -1;
-        }
+        $this->ensureExportDirectoryExists($this->currentPath);
 
-        $config = require $configIbisFile;
-        $this->ensureExportDirectoryExists(
-            $currentPath = getcwd()
-        );
-
-        $theme = $this->getTheme($currentPath, $this->themeName);
+        $theme = $this->getTheme($this->currentPath, $this->themeName);
 
         $this->buildPdf(
-            $this->buildHtml($currentPath . '/content', $config),
-            $config,
-            $currentPath,
+            $this->buildHtml($this->contentDirectory, $this->config),
+            $this->config,
+            $this->currentPath,
             $theme
         );
 
@@ -100,104 +83,10 @@ class BuildCommand extends Command
         return 0;
     }
 
-    /**
-     * @param  string  $currentPath
-     */
-    protected function ensureExportDirectoryExists(string $currentPath): void
-    {
-        $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
-
-        if (!$this->disk->isDirectory($currentPath . '/export')) {
-            $this->disk->makeDirectory(
-                $currentPath . '/export',
-                0755,
-                true
-            );
-        }
-    }
-
-    /**
-     * @param  string  $path
-     * @param  array $config
-     * @return Collection
-     */
-    protected function buildHtml(string $path, array $config)
-    {
-        $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
 
 
-        $environment = new Environment([]);
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->addExtension(new TableExtension());
-        $environment->addExtension(new FrontMatterExtension());
-
-        $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
-        ]));
-        $environment->addRenderer(IndentedCode::class, new IndentedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
-        ]));
-
-        if (is_callable($config['configure_commonmark'])) {
-            call_user_func($config['configure_commonmark'], $environment);
-        }
-
-        $converter = new MarkdownConverter($environment);
-
-        return collect($this->disk->files($path))
-            ->map(function (SplFileInfo $file, $i) use ($converter) {
-                if ($file->getExtension() != 'md') {
-                    return '';
-                }
-
-                $markdown = $this->disk->get(
-                    $file->getPathname()
-                );
 
 
-                $chapter = collect([]);
-                $convertedMarkdown = $converter->convert($markdown);
-                $chapter["mdfile"] = $file->getFilename();
-                $chapter["frontmatter"] = false;
-                if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
-                    $chapter["frontmatter"] = $convertedMarkdown->getFrontMatter();
-                }
-                $chapter["html"] = $this->prepareForPdf(
-                    $convertedMarkdown->getContent(),
-                    $i + 1
-                );
-
-
-                return $chapter;
-            });
-        //->implode(' ');
-    }
-
-    /**
-     * @param  string  $html
-     * @param $file
-     * @return string|string[]
-     */
-    private function prepareForPdf(string $html, $file)
-    {
-        $commands = [
-            '[break]' => '<div style="page-break-after: always;"></div>'
-        ];
-
-        if ($file > 1) {
-            $html = str_replace('<h1>', '[break]<h1>', $html);
-        }
-
-        $html = str_replace('<h2>', '[break]<h2>', $html);
-        $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
-        $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
-        $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);
-
-        $html = str_replace(array_keys($commands), array_values($commands), $html);
-
-        return $html;
-    }
 
     /**
      * @param  Collection  $chapters
@@ -278,8 +167,9 @@ HTML
         $pdf->WriteHTML(
             $theme
         );
-
+        //dd($chapters);
         foreach ($chapters as $key => $chapter) {
+            //if ( is_string($chapter) ) { dd($key, $chapter);}
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
             if (array_key_exists('header', $config)) {
                 $pdf->SetHTMLHeader(
