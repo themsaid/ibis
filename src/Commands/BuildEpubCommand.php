@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPePub\Core\EPub;
+use PHPePub\Core\Structure\OPF\MetaValue;
 use Symfony\Component\Console\Input\InputOption;
 
 class BuildEpubCommand extends BaseBuildCommand
@@ -52,7 +53,7 @@ class BuildEpubCommand extends BaseBuildCommand
         $this->preExecute($input, $output);
 
 
-
+        $this->ensureExportDirectoryExists($this->currentPath);
 
 
         $this->config["breakLevel"] = 1;
@@ -99,13 +100,14 @@ class BuildEpubCommand extends BaseBuildCommand
         $book->setAuthor(Ibis::author(), Ibis::author());
         $book->setIdentifier(Ibis::title() . "&amp;stamp=" . time(), EPub::IDENTIFIER_URI);
         $book->setLanguage("en");
+
         $book->addCSSFile("style.css", "css1", $this->getStyle($this->currentPath, "style"));
         $cssData = file_get_contents("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.css");
         $book->addCSSFile("github.css", "css2", $cssData);
-        //$book->addChapter("Table of Contents", "TOC.xhtml", null, false, EPub::EXTERNAL_REF_IGNORE);
+        $book->addChapter("Table of Contents", "TOC.xhtml", null, false, EPub::EXTERNAL_REF_IGNORE);
         $cover = $content_start . "<h1>" . Ibis::title() . "</h1>\n";
         if (Ibis::author()) {
-            $cover .= "<h2>By: " . Ibis::author() . "e</h2>\n";
+            $cover .= "<h2>By: " . Ibis::author() . "</h2>\n";
         }
         $content_end = "</body></html>";
         $cover .= $content_end;
@@ -122,11 +124,24 @@ class BuildEpubCommand extends BaseBuildCommand
         }
 
         $book->addChapter("Notices", "Cover.html", $cover);
-        $book->buildTOC();
+        $book->buildTOC(null, "toc", "Table of Contents", true, true);
+        //$book->buildTOC();
+        /*
+        $book->addFileToMETAINF("com.apple.ibooks.display-options.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<display_options>\n    <platform name=\"*\">\n        <option name=\"fixed-layout\">true</option>\n        <option name=\"interactive\">true</option>\n        <option name=\"specified-fonts\">true</option>\n    </platform>\n</display_options>");
+        */
+        $book->addCustomNamespace("dc", "http://purl.org/dc/elements/1.1/"); // StaticData::$namespaces["dc"]);
+        // This is to show how to use meta data, normally you'd use the $book->setAuthor
+        $metaValue = new MetaValue("dc:creator", Ibis::author());
+        $metaValue->addOpfAttr("file-as", Ibis::author());
+        $metaValue->addOpfAttr("role", "aut");
+        $book->addCustomMetaValue($metaValue);
+
+
         foreach ($chapters as $key => $chapter) {
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
+
             $book->addChapter(
-                Arr::get($chapter, "frontmatter.title", "Chapter " . $key),
+                Arr::get($chapter, "frontmatter.title", "Chapter " . $key + 1),
                 "Chapter" . $key . " .html",
                 $content_start . $chapter["html"] . $content_end
             );

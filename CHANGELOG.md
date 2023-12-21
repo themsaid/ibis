@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3 - 21th December 2023
+- Creating the export directory if not exist for EPUB creation
+- Improving metadata for EPUB
+- Table of Contents or EPUB
+
 ## 1.0.2 - 21th December 2023
 - Setting the content directory
 - Refactoring common code EPUB and PDF build
@@ -7,13 +12,13 @@
 
 
 ## 1.0.1 - 21th December 2023
-- Welcome to EPUB generation
+- Welcome to the EPUB generation
 
 ## 1.0.0 - 17th December 2023
 
 - upgrade and check with PHP 8.2 and PHP 8.3
 - update support for Symfony 7 components
-- upgrade code using new renderer of CommonMark
+- upgrade code using the new renderer of CommonMark
 - upgrade GitHub Actions workflow
 - using Pint with PSR12
 - added configuration for cover image (instead of using hard-coded cover.jpg, you can specify a new file name and format, for example, my-cover.png)
