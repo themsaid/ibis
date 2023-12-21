@@ -5,7 +5,7 @@ vendor/
 /.idea
 
 # Files/Dirs created by ibis init
-assets/
-content/
-export/
-ibis.php
+/assets/
+/content/
+/export/
+/ibis.php

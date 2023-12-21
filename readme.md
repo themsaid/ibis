@@ -178,6 +178,20 @@ By default, for generating the PDF file, the light theme is used. To generate a 
 ibis-next build dark
 ```
 
+## Generating EPUB eBook 🆕
+
+We are introducing a new feature: exporting your eBook in EPUB format.
+This is an experimental feature, feel free to use and share your issues or feature requests according to the Contributing guidelines.
+
+
+```
+ibis-next epub
+```
+
+Ibis will parse the files in alphabetical order and store the EPUB file in the `export` directory.
+
+By default, for generating the EPUB file, the `assets/style.css` file is used.
+
 ## Generating A Sample
 
 ```

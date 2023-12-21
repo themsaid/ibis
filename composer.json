@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "hi-folks/phpepub": "^1.0.0",
         "illuminate/filesystem": "^10.0",
         "illuminate/support": "^10.0",
         "mpdf/mpdf": "^8.0",
@@ -49,11 +50,15 @@
         ],
         "csfix-review": [
             "pint --test"
+        ],
+        "all-check": [
+            "@csfix"
         ]
     },
     "scripts-descriptions": {
         "csfix": "Runs Pint to fix code style.",
-        "csfix-review": "Runs Pint to show the code style review."
+        "csfix-review": "Runs Pint to show the code style review.",
+        "all-check": "Runs all checks needed."
     },
     "minimum-stability": "stable",
     "prefer-stable": true
