@@ -91,6 +91,10 @@ class InitCommand extends Command
             $this->disk->get(__DIR__ . '/../../stubs/assets/theme-light.html')
         );
 
+        $this->disk->put(
+            $currentPath . '/assets/style.css',
+            $this->disk->get(__DIR__ . '/../../stubs/assets/style.css')
+        );
         $this->output->writeln('');
         $this->output->writeln('<info>Done!</info>');
 

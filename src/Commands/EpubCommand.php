@@ -3,7 +3,6 @@
 namespace Ibis\Commands;
 
 use Ibis\Ibis;
-use Mpdf\Mpdf;
 use SplFileInfo;
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
