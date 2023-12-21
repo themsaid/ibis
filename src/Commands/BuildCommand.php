@@ -54,9 +54,6 @@ class BuildCommand extends BaseBuildCommand
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
@@ -89,10 +86,6 @@ class BuildCommand extends BaseBuildCommand
 
 
     /**
-     * @param  Collection  $chapters
-     * @param  array  $config
-     * @param  string  $currentPath
-     * @param  string  $theme
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
@@ -130,7 +123,7 @@ class BuildCommand extends BaseBuildCommand
 
         $pdf->SetMargins(400, 100, 12);
         $coverImage = "cover.jpg";
-        if (key_exists("image", $config['cover'])) {
+        if (array_key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
         if ($this->disk->isFile($currentPath . '/assets/' . $coverImage)) {
@@ -168,7 +161,7 @@ HTML
             $theme
         );
         //dd($chapters);
-        foreach ($chapters as $key => $chapter) {
+        foreach ($chapters as $chapter) {
             //if ( is_string($chapter) ) { dd($key, $chapter);}
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
             if (array_key_exists('header', $config)) {
@@ -200,7 +193,7 @@ HTML
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getTheme($currentPath, $themeName)
+    private function getTheme(string $currentPath, $themeName)
     {
         return $this->disk->get($currentPath . "/assets/theme-$themeName.html");
     }
@@ -209,14 +202,12 @@ HTML
      * @param $fontData
      * @return array
      */
-    protected function fonts($config, $fontData)
+    protected function fonts(array $config, $fontData): float|int|array
     {
-        return $fontData + collect($config['fonts'])->mapWithKeys(function ($file, $name) {
-            return [
-                $name => [
-                    'R' => $file
-                ]
-            ];
-        })->toArray();
+        return $fontData + collect($config['fonts'])->mapWithKeys(fn($file, $name): array => [
+            $name => [
+                'R' => $file
+            ]
+        ])->toArray();
     }
 }

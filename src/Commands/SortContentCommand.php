@@ -10,15 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SortContentCommand extends Command
 {
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var Filesystem
-     */
-    private $disk;
+    private ?\Illuminate\Filesystem\Filesystem $disk = null;
 
     /**
      * Configure the command.
@@ -35,9 +27,6 @@ class SortContentCommand extends Command
     /**
      * Execute the command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
@@ -47,7 +36,7 @@ class SortContentCommand extends Command
 
         $currentPath = getcwd();
 
-        collect($this->disk->files($currentPath . '/content'))->each(function ($file, $index) use ($currentPath) {
+        collect($this->disk->files($currentPath . '/content'))->each(function ($file, $index) use ($currentPath): void {
             $markdown = $this->disk->get(
                 $file->getPathname()
             );

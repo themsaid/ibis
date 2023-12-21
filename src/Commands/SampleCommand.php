@@ -3,7 +3,6 @@
 namespace Ibis\Commands;
 
 use Ibis\Ibis;
-use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,16 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SampleCommand extends Command
 {
-    /**
-     * @var OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var Filesystem
-     */
-    private $disk;
-
     /**
      * Configure the command.
      *
@@ -37,16 +26,11 @@ class SampleCommand extends Command
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->disk = new Filesystem();
-
         $currentPath = getcwd();
 
         $config = require $currentPath . '/ibis.php';

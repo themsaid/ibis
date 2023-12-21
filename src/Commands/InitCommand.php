@@ -9,15 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InitCommand extends Command
 {
-    /**
-     * @var OutputInterface
-     */
-    private $output;
+    private ?\Symfony\Component\Console\Output\OutputInterface $output = null;
 
-    /**
-     * @var Filesystem
-     */
-    private $disk;
+    private ?\Illuminate\Filesystem\Filesystem $disk = null;
 
     /**
      * Configure the command.
@@ -34,9 +28,6 @@ class InitCommand extends Command
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
