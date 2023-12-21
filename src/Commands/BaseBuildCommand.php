@@ -5,6 +5,7 @@ namespace Ibis\Commands;
 use SplFileInfo;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,6 +18,7 @@ use League\CommonMark\Extension\Table\TableExtension;
 
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
+use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 use League\CommonMark\MarkdownConverter;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
@@ -87,7 +89,7 @@ class BaseBuildCommand extends Command
         $converter = new MarkdownConverter($environment);
 
         return collect($this->disk->allFiles($path))
-            ->map(function (SplFileInfo $file, $i) use ($converter) {
+            ->map(function (SplFileInfo $file, $i) use ($converter, $config) {
 
                 $chapter = collect([]);
                 if ($file->getExtension() != 'md') {
@@ -111,7 +113,8 @@ class BaseBuildCommand extends Command
                 }
                 $chapter["html"] = $this->prepareHtmlForEbook(
                     $convertedMarkdown->getContent(),
-                    $i + 1
+                    $i + 1,
+                    Arr::get($config, "breakLevel", 2)
                 );
 
 
@@ -125,17 +128,20 @@ class BaseBuildCommand extends Command
      * @param $file
      * @return string|string[]
      */
-    protected function prepareHtmlForEbook(string $html, $file): string
+    protected function prepareHtmlForEbook(string $html, $file, $breakLevel = 2): string
     {
         $commands = [
             '[break]' => '<div style="page-break-after: always;"></div>'
         ];
 
         if ($file > 1) {
-            $html = str_replace('<h1>', '[break]<h1>', $html);
+            if ($breakLevel >= 1) {
+                $html = str_replace('<h1>', '[break]<h1>', $html);
+            }
         }
-
-        $html = str_replace('<h2>', '[break]<h2>', $html);
+        if ($breakLevel >= 2) {
+            $html = str_replace('<h2>', '[break]<h2>', $html);
+        }
         $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);

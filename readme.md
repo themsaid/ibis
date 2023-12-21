@@ -71,6 +71,7 @@ This will create the following files and directories:
 - /assets/cover.jpg
 - /assets/theme-light.html
 - /assets/theme-dark.html
+- /assets/style.css
 - /content
 - /ibis.php
 
@@ -167,7 +168,7 @@ Edit your `/ibis.php` configuration files to define the font files to be loaded 
 ## Generating PDF eBook
 
 ```
-ibis-next build
+ibis-next pdf
 ```
 
 Ibis will parse the files in alphabetical order and store the PDF file in the `export` directory.
@@ -175,7 +176,7 @@ Ibis will parse the files in alphabetical order and store the PDF file in the `e
 By default, for generating the PDF file, the light theme is used. To generate a PDF using the dark theme:
 
 ```
-ibis-next build dark
+ibis-next pdf dark
 ```
 
 ## Generating EPUB eBook 🆕

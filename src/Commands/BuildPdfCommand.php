@@ -11,7 +11,6 @@ use Mpdf\Config\ConfigVariables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Symfony\Component\Console\Command\Command;
 
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class BuildCommand extends BaseBuildCommand
+class BuildPdfCommand extends BaseBuildCommand
 {
     /**
      * @var string|string[]|null
@@ -39,7 +38,8 @@ class BuildCommand extends BaseBuildCommand
     protected function configure()
     {
         $this
-            ->setName('build')
+            ->setName('pdf')
+            ->setAliases(["build"])
             ->addArgument('theme', InputArgument::OPTIONAL, 'The name of the theme', 'light')
             ->addOption(
                 'content',
@@ -48,7 +48,7 @@ class BuildCommand extends BaseBuildCommand
                 'The path of the content directory',
                 ''
             )
-            ->setDescription('Generate the book.');
+            ->setDescription('Generate the book in PDF format.');
     }
 
     /**

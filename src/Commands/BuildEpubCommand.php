@@ -6,13 +6,13 @@ use Ibis\Ibis;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Symfony\Component\Console\Command\Command;
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPePub\Core\EPub;
 use Symfony\Component\Console\Input\InputOption;
 
-class EpubCommand extends BaseBuildCommand
+class BuildEpubCommand extends BaseBuildCommand
 {
     /**
      * Configure the command.
@@ -23,6 +23,7 @@ class EpubCommand extends BaseBuildCommand
     {
         $this
             ->setName('epub')
+
             ->addOption(
                 'content',
                 'c',
@@ -30,7 +31,7 @@ class EpubCommand extends BaseBuildCommand
                 'The path of the content directory',
                 ''
             )
-            ->setDescription('Generate the book in Epub format.');
+            ->setDescription('Generate the book in EPUB format.');
     }
 
     /**
@@ -54,6 +55,7 @@ class EpubCommand extends BaseBuildCommand
 
 
 
+        $this->config["breakLevel"] = 1;
         $result = $this->buildEpub(
             $this->buildHtml($this->contentDirectory, $this->config),
             $this->config,

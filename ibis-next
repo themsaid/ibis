@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-use Ibis\Commands\BuildCommand;
-use Ibis\Commands\EpubCommand;
+use Ibis\Commands\BuildEpubCommand;
+use Ibis\Commands\BuildPdfCommand;
 use Ibis\Commands\InitCommand;
 use Ibis\Commands\SampleCommand;
 use Ibis\Commands\SortContentCommand;
@@ -17,14 +17,14 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
 /**
  * Start the console application.
  */
-$app = new Application('Ibis Next', '1.0-dev');
-$app->setDefaultCommand("build");
+$app = new Application('Ibis Next', '1.0.x');
+//$app->setDefaultCommand("build");
 
 
 // Authentication...
 $app->add(new InitCommand());
-$app->add(new BuildCommand);
-$app->add(new EpubCommand());
+$app->add(new BuildPdfCommand);
+$app->add(new BuildEpubCommand());
 $app->add(new SampleCommand);
 $app->add(new SortContentCommand());
 
