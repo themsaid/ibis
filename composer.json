@@ -50,11 +50,15 @@
         ],
         "csfix-review": [
             "pint --test"
+        ],
+        "all-check": [
+            "@csfix"
         ]
     },
     "scripts-descriptions": {
         "csfix": "Runs Pint to fix code style.",
-        "csfix-review": "Runs Pint to show the code style review."
+        "csfix-review": "Runs Pint to show the code style review.",
+        "all-check": "Runs all checks needed."
     },
     "minimum-stability": "stable",
     "prefer-stable": true
