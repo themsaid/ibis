@@ -47,14 +47,14 @@ class BaseBuildCommand extends Command
         }
         if (!$this->disk->isDirectory($this->contentDirectory)) {
             $this->output->writeln('<error>Error, check if ' . $this->contentDirectory . ' exists.</error>');
-            exit -1;
+            exit;
         }
         $this->output->writeln('<info>Loading content from: ' . $this->contentDirectory . '</info>');
 
         $configIbisFile = $this->currentPath . '/ibis.php';
         if (!$this->disk->isFile($configIbisFile)) {
             $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
-            exit -1;
+            exit;
         }
 
         $this->config = require $configIbisFile;
@@ -62,11 +62,6 @@ class BaseBuildCommand extends Command
     }
 
 
-    /**
-     * @param  string  $path
-     * @param  array $config
-     * @return Collection
-     */
     protected function buildHtml(string $path, array $config): Collection
     {
         $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
@@ -127,11 +122,10 @@ class BaseBuildCommand extends Command
 
 
     /**
-     * @param  string  $html
      * @param $file
      * @return string|string[]
      */
-    protected function prepareHtmlForEbook(string $html, $file)
+    protected function prepareHtmlForEbook(string $html, $file): string
     {
         $commands = [
             '[break]' => '<div style="page-break-after: always;"></div>'
@@ -146,16 +140,11 @@ class BaseBuildCommand extends Command
         $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);
 
-        $html = str_replace(array_keys($commands), array_values($commands), $html);
-
-        return $html;
+        return str_replace(array_keys($commands), array_values($commands), $html);
     }
 
 
 
-    /**
-     * @param  string  $currentPath
-     */
     protected function ensureExportDirectoryExists(string $currentPath): void
     {
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');

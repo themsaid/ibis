@@ -3,8 +3,6 @@
 namespace Ibis\Commands;
 
 use Ibis\Ibis;
-use Mpdf\Config\FontVariables;
-use Mpdf\Config\ConfigVariables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -38,9 +36,6 @@ class EpubCommand extends BaseBuildCommand
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return int
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
@@ -80,33 +75,13 @@ class EpubCommand extends BaseBuildCommand
 
 
     /**
-     * @param  Collection  $chapters
-     * @param  array  $config
-     * @param  string  $currentPath
      * @param  string  $theme
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    protected function buildEpub(Collection $chapters, array $config, string $currentPath)
+    protected function buildEpub(Collection $chapters, array $config, string $currentPath): bool
     {
-        $defaultConfig = (new ConfigVariables())->getDefaults();
-        $fontDirs = $defaultConfig['fontDir'];
 
-        $defaultFontConfig = (new FontVariables())->getDefaults();
-        $fontData = $defaultFontConfig['fontdata'];
-
-
-        $content_start =
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-            . "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"\n"
-            . "    \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
-            . "<head>"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
-            . "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" />\n"
-            . "<title>Test Book</title>\n"
-            . "</head>\n"
-            . "<body>\n";
         $content_start =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:epub=\"http://www.idpf.org/2007/ops\">\n"
@@ -133,7 +108,7 @@ class EpubCommand extends BaseBuildCommand
         $content_end = "</body></html>";
         $cover .= $content_end;
         $coverImage = "cover.jpg";
-        if (key_exists("image", $config['cover'])) {
+        if (array_key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
         if ($this->disk->isFile($currentPath . '/assets/' . $coverImage)) {
@@ -160,15 +135,11 @@ class EpubCommand extends BaseBuildCommand
         $book->finalize();
 
         $epubFilename = 'export/' . Ibis::outputFileName() . '.epub';
-        $zipData = $book->saveBook($epubFilename);
+        $book->saveBook($epubFilename);
 
 
         $this->output->writeln('<fg=green>==></> EPUB file ' . $epubFilename . ' created');
         return true;
-
-        $this->output->writeln('<fg=yellow>==></> Writing EPUB To Disk ...');
-
-        $this->output->writeln('');
     }
 
     /**
@@ -177,7 +148,7 @@ class EpubCommand extends BaseBuildCommand
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getStyle($currentPath, $themeName)
+    private function getStyle(string $currentPath, string $themeName)
     {
         return $this->disk->get($currentPath . "/assets/$themeName.css");
     }
