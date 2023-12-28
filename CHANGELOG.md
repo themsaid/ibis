@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.4 - WIP
+## 1.0.4 - 28th December 2023
 
 - Adding the option for customizing the working path (the directory with the assets folder)
 - Adding the option for customizing the content path (the directory where you have your Markdown files)
