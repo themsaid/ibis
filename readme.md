@@ -209,13 +209,13 @@ Ibis will parse the files in alphabetical order and store the EPUB file in the `
 
 By default, for generating the EPUB file, the `assets/style.css` file is used.
 
-If you are managing more than one book, you can use define the working directory. The working directory is the directory where your `assets` folder and `ibis.php` configuration file are located. You can define the path of the working directory via the `-w` option:
+If you are managing more than one book, you can use define the working directory. The working directory is the directory where your `assets` folder and `ibis.php` configuration file are located. You can define the path of the working directory via the `-d` option:
 
 ```
-ibis-next epub -c ../your-dir-with-markdown-files -w ../myibisbook
+ibis-next epub -c ../your-dir-with-markdown-files -d ../myibisbook
 ```
 
-You can combine the usage of the `-c` option for defining the content directory and the `-w` option for defining the working directory.
+You can combine the usage of the `-c` option for defining the content directory and the `-d` option for defining the working directory.
 
 > You can organize your Markdown files in your content directory in subfolders.
 
