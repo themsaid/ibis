@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.4 - WIP
+
+- Adding the option for customizing the working path (the directory with the assets folder)
+- Adding the option for customizing the content path (the directory where you have your Markdown files)
+- Now you can organize your markdown files in subfolders
+- Eliminating most of the warnings during the EPUB generation process (thanks to the `epubcheck` tool)
+- Refactoring the configuration class
+
+
 ## 1.0.3 - 21th December 2023
 - Creating the export directory if not exist for EPUB creation
 - Improving metadata for EPUB

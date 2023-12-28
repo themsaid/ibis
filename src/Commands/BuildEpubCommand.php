@@ -2,8 +2,6 @@
 
 namespace Ibis\Commands;
 
-use Ibis\Ibis;
-
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -11,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPePub\Core\EPub;
 use PHPePub\Core\Structure\OPF\MetaValue;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 class BuildEpubCommand extends BaseBuildCommand
@@ -32,6 +31,13 @@ class BuildEpubCommand extends BaseBuildCommand
                 'The path of the content directory',
                 ''
             )
+            ->addOption(
+                'workingdir',
+                'd',
+                InputOption::VALUE_OPTIONAL,
+                'The path of the working directory where `ibis.php` and `assets` directory are located',
+                ''
+            )
             ->setDescription('Generate the book in EPUB format.');
     }
 
@@ -50,17 +56,19 @@ class BuildEpubCommand extends BaseBuildCommand
         $this->output->writeln('✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨');
         //return 0;
 
-        $this->preExecute($input, $output);
+        if (!$this->preExecute($input, $output)) {
+            return Command::INVALID;
+        }
 
 
-        $this->ensureExportDirectoryExists($this->currentPath);
+        $this->ensureExportDirectoryExists($this->config->workingPath);
 
 
-        $this->config["breakLevel"] = 1;
+        $this->config->config["breakLevel"] = 1;
         $result = $this->buildEpub(
-            $this->buildHtml($this->contentDirectory, $this->config),
-            $this->config,
-            $this->currentPath
+            $this->buildHtml($this->config->contentPath, $this->config->config),
+            $this->config->config,
+            $this->config->workingPath
         );
 
         $this->output->writeln('');
@@ -72,7 +80,7 @@ class BuildEpubCommand extends BaseBuildCommand
         }
 
 
-        return 0;
+        return Command::SUCCESS;
     }
 
 
@@ -92,47 +100,54 @@ class BuildEpubCommand extends BaseBuildCommand
         . "<meta http-equiv=\"Default-Style\" content=\"text/html; charset=utf-8\" />\n"
         . "<link rel=\"stylesheet\" type=\"text/css\" href=\"github.css\" />\n"
         . "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n"
-        . "<title>" . Ibis::title() . "</title>\n"
+        . "<title>" . $this->config->title() . "</title>\n"
         . "</head>\n"
         . "<body>\n";
-        $book = new EPub();
-        $book->setTitle(Ibis::title());
-        $book->setAuthor(Ibis::author(), Ibis::author());
-        $book->setIdentifier(Ibis::title() . "&amp;stamp=" . time(), EPub::IDENTIFIER_URI);
-        $book->setLanguage("en");
+        $content_end = "</body></html>";
 
-        $book->addCSSFile("style.css", "css1", $this->getStyle($this->currentPath, "style"));
+        $book = new EPub(EPub::BOOK_VERSION_EPUB3, "en", EPub::DIRECTION_LEFT_TO_RIGHT);
+        $book->setIdentifier(md5($this->config->title() . " - " . $this->config->author()), EPub::IDENTIFIER_UUID);
+        $book->setLanguage("en");
+        $book->setDescription($this->config->title() . " - " . $this->config->author());
+        $book->setTitle($this->config->title());
+        //$book->setPublisher("John and Jane Doe Publications", "http://JohnJaneDoePublications.com/");
+        $book->setAuthor($this->config->author(), $this->config->author());
+        $book->setIdentifier($this->config->title() . "&amp;stamp=" . time(), EPub::IDENTIFIER_URI);
+        //$book->setLanguage("en");
+
+        $book->addCSSFile("style.css", "css1", $this->getStyle($this->config->workingPath, "style"));
         $cssData = file_get_contents("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.css");
         $book->addCSSFile("github.css", "css2", $cssData);
-        $book->addChapter("Table of Contents", "TOC.xhtml", null, false, EPub::EXTERNAL_REF_IGNORE);
-        $cover = $content_start . "<h1>" . Ibis::title() . "</h1>\n";
-        if (Ibis::author()) {
-            $cover .= "<h2>By: " . Ibis::author() . "</h2>\n";
+        //
+        $cover = $content_start . "<h1>" . $this->config->title() . "</h1>\n";
+        if ($this->config->author()) {
+            $cover .= "<h2>By: " . $this->config->author() . "</h2>\n";
         }
-        $content_end = "</body></html>";
+
         $cover .= $content_end;
         $coverImage = "cover.jpg";
         if (array_key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
-        if ($this->disk->isFile($currentPath . '/assets/' . $coverImage)) {
-            $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
+        $pathCoverImage = $currentPath . '/assets/' . $coverImage;
+        if ($this->disk->isFile($pathCoverImage)) {
+            $this->output->writeln('<fg=yellow>==></> Adding Book Cover ' . $pathCoverImage . ' ...');
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
             $coverDimensions = $config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
-            $book->setCoverImage("Cover.jpg", file_get_contents("assets/{$coverImage}"), "image/jpeg");
+            $book->setCoverImage($coverImage, file_get_contents($pathCoverImage), mime_content_type($pathCoverImage));
         }
-
-        $book->addChapter("Notices", "Cover.html", $cover);
         $book->buildTOC(null, "toc", "Table of Contents", true, true);
+        $book->addChapter("Notices", "Cover.html", $cover);
+        //$book->addChapter("Table of Contents", "TOC.html", null, false, EPub::EXTERNAL_REF_IGNORE);
         //$book->buildTOC();
         /*
         $book->addFileToMETAINF("com.apple.ibooks.display-options.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<display_options>\n    <platform name=\"*\">\n        <option name=\"fixed-layout\">true</option>\n        <option name=\"interactive\">true</option>\n        <option name=\"specified-fonts\">true</option>\n    </platform>\n</display_options>");
         */
-        $book->addCustomNamespace("dc", "http://purl.org/dc/elements/1.1/"); // StaticData::$namespaces["dc"]);
+        //$book->addCustomNamespace("dc", "http://purl.org/dc/elements/1.1/"); // StaticData::$namespaces["dc"]);
         // This is to show how to use meta data, normally you'd use the $book->setAuthor
-        $metaValue = new MetaValue("dc:creator", Ibis::author());
-        $metaValue->addOpfAttr("file-as", Ibis::author());
+        $metaValue = new MetaValue("dc:creator", $this->config->author());
+        $metaValue->addOpfAttr("file-as", $this->config->author());
         $metaValue->addOpfAttr("role", "aut");
         $book->addCustomMetaValue($metaValue);
 
@@ -142,7 +157,7 @@ class BuildEpubCommand extends BaseBuildCommand
 
             $book->addChapter(
                 Arr::get($chapter, "frontmatter.title", "Chapter " . $key + 1),
-                "Chapter" . $key . " .html",
+                "Chapter" . $key . ".html",
                 $content_start . $chapter["html"] . $content_end
             );
             //file_put_contents('export/' . "Chapter" . $key . " .html", $content_start . $chapter["html"] . $content_end);
@@ -151,7 +166,8 @@ class BuildEpubCommand extends BaseBuildCommand
 
         $book->finalize();
 
-        $epubFilename = 'export/' . Ibis::outputFileName() . '.epub';
+
+        $epubFilename = $currentPath . '/export/' . $this->config->outputFileName() . '.epub';
         $book->saveBook($epubFilename);
 
 

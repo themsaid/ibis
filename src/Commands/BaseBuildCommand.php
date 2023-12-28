@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Ibis\Config;
 use SplFileInfo;
 
 use Illuminate\Filesystem\Filesystem;
@@ -33,34 +34,28 @@ class BaseBuildCommand extends Command
 
     protected string $currentPath;
 
-    protected array $config;
+    protected Config $config;
 
 
-    protected function preExecute(InputInterface $input, OutputInterface $output)
+    protected function preExecute(InputInterface $input, OutputInterface $output): bool
     {
         $this->disk = new Filesystem();
         $this->output = $output;
 
-        $this->currentPath = getcwd();
-
-        $this->contentDirectory = $input->getOption('content');
-        if ($this->contentDirectory === "") {
-            $this->contentDirectory = getcwd() . DIRECTORY_SEPARATOR . "content";
+        $this->config = Config::load($input->getOption('workingdir'));
+        $this->output->writeln('<info>Loading config/assets from: ' . $this->config->workingPath . '</info>');
+        $this->output->writeln('<info>Loading config file from: ' . $this->config->ibisConfigPath . '</info>');
+        if ($this->config->setContentPath($input->getOption('content')) === false) {
+            $this->output->writeln('<error>Error, check if ' . $this->config->contentPath . ' exists.</error>');
+            return false;
         }
-        if (!$this->disk->isDirectory($this->contentDirectory)) {
-            $this->output->writeln('<error>Error, check if ' . $this->contentDirectory . ' exists.</error>');
-            exit;
+        $this->output->writeln('<info>Loading content from: ' . $this->config->contentPath . '</info>');
+
+        if (!$this->disk->isFile($this->config->ibisConfigPath)) {
+            $this->output->writeln('<error>Error, check if ' . $this->config->ibisConfigPath . ' exists.</error>');
+            return false;
         }
-        $this->output->writeln('<info>Loading content from: ' . $this->contentDirectory . '</info>');
-
-        $configIbisFile = $this->currentPath . '/ibis.php';
-        if (!$this->disk->isFile($configIbisFile)) {
-            $this->output->writeln('<error>Error, check if ' . $configIbisFile . ' exists.</error>');
-            exit;
-        }
-
-        $this->config = require $configIbisFile;
-
+        return true;
     }
 
 
@@ -134,10 +129,8 @@ class BaseBuildCommand extends Command
             '[break]' => '<div style="page-break-after: always;"></div>'
         ];
 
-        if ($file > 1) {
-            if ($breakLevel >= 1) {
-                $html = str_replace('<h1>', '[break]<h1>', $html);
-            }
+        if ($file > 1 && $breakLevel >= 1) {
+            $html = str_replace('<h1>', '[break]<h1>', $html);
         }
         if ($breakLevel >= 2) {
             $html = str_replace('<h2>', '[break]<h2>', $html);
