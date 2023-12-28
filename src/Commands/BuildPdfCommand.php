@@ -2,7 +2,6 @@
 
 namespace Ibis\Commands;
 
-use Ibis\Ibis;
 use Mpdf\Mpdf;
 
 use Mpdf\Config\FontVariables;
@@ -11,8 +10,7 @@ use Mpdf\Config\ConfigVariables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-
-
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -48,6 +46,13 @@ class BuildPdfCommand extends BaseBuildCommand
                 'The path of the content directory',
                 ''
             )
+            ->addOption(
+                'workingdir',
+                'd',
+                InputOption::VALUE_OPTIONAL,
+                'The path of the working directory where `ibis.php` and `assets` directory are located',
+                ''
+            )
             ->setDescription('Generate the book in PDF format.');
     }
 
@@ -60,24 +65,28 @@ class BuildPdfCommand extends BaseBuildCommand
     public function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        $this->preExecute($input, $output);
+
+        if (!$this->preExecute($input, $output)) {
+            return Command::INVALID;
+        }
+
         $this->themeName = $input->getArgument('theme');
 
-        $this->ensureExportDirectoryExists($this->currentPath);
+        $this->ensureExportDirectoryExists($this->config->workingPath);
 
-        $theme = $this->getTheme($this->currentPath, $this->themeName);
+        $theme = $this->getTheme($this->config->workingPath, $this->themeName);
 
         $this->buildPdf(
-            $this->buildHtml($this->contentDirectory, $this->config),
-            $this->config,
-            $this->currentPath,
+            $this->buildHtml($this->config->contentPath, $this->config->config),
+            $this->config->config,
+            $this->config->workingPath,
             $theme
         );
 
         $this->output->writeln('');
         $this->output->writeln('<info>Book Built Successfully!</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
 
@@ -89,7 +98,7 @@ class BuildPdfCommand extends BaseBuildCommand
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    protected function buildPdf(Collection $chapters, array $config, string $currentPath, string $theme)
+    protected function buildPdf(Collection $chapters, array $config, string $currentPath, string $theme): bool
     {
         $defaultConfig = (new ConfigVariables())->getDefaults();
         $fontDirs = $defaultConfig['fontDir'];
@@ -108,9 +117,9 @@ class BuildPdfCommand extends BaseBuildCommand
             'fontdata' => $this->fonts($config, $fontData),
         ]);
 
-        $pdf->SetTitle(Ibis::title());
-        $pdf->SetAuthor(Ibis::author());
-        $pdf->SetCreator(Ibis::author());
+        $pdf->SetTitle($this->config->title());
+        $pdf->SetAuthor($this->config->author());
+        $pdf->SetCreator($this->config->author());
 
         $pdf->setAutoTopMargin = 'pad';
 
@@ -135,7 +144,7 @@ class BuildPdfCommand extends BaseBuildCommand
             $pdf->WriteHTML(
                 <<<HTML
 <div style="{$coverPosition}">
-    <img src="assets/{$coverImage}" style="{$coverDimensions}"/>
+    <img src="{$currentPath}/assets/{$coverImage}" style="{$coverDimensions}"/>
 </div>
 HTML
             );
@@ -182,9 +191,17 @@ HTML
         $this->output->writeln('');
         $this->output->writeln('✨✨ ' . $pdf->page . ' PDF pages ✨✨');
 
+        $pdfFilename = $currentPath . '/export/' . $this->config->outputFileName() . '-' . $this->themeName . '.pdf';
+
+
+
+
         $pdf->Output(
-            $currentPath . '/export/' . Ibis::outputFileName() . '-' . $this->themeName . '.pdf'
+            $pdfFilename
         );
+
+        $this->output->writeln('<fg=green>==></> PDF file ' . $pdfFilename . ' created');
+        return true;
     }
 
     /**

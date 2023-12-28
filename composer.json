@@ -52,14 +52,23 @@
         "csfix-review": [
             "pint --test"
         ],
+        "refactor": [
+            "rector process src"
+        ],
+        "refactor-review": [
+            "rector process src --dry-run"
+        ],
         "all-check": [
+            "@refactor-review",
             "@csfix"
         ]
     },
     "scripts-descriptions": {
         "csfix": "Runs Pint to fix code style.",
         "csfix-review": "Runs Pint to show the code style review.",
-        "all-check": "Runs all checks needed."
+        "all-check": "Runs all checks needed.",
+        "refactor-review": "Runs Rector to show the code refactor review.",
+        "refactor": "Runs Rector and applies the refactor."
     },
     "minimum-stability": "stable",
     "prefer-stable": true

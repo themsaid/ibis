@@ -40,9 +40,9 @@ class InitCommand extends Command
 
         if ($this->disk->isDirectory($currentPath . '/assets')) {
             $this->output->writeln('');
-            $this->output->writeln('<info>Project already initialised!</info>');
+            $this->output->writeln('<comment>Project already initialised!</comment>');
 
-            return 0;
+            return Command::INVALID;
         }
 
         $this->disk->makeDirectory(
@@ -90,6 +90,6 @@ class InitCommand extends Command
         $this->output->writeln('');
         $this->output->writeln('<info>Done!</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

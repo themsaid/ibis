@@ -30,7 +30,21 @@ Before proposing or submitting new features, consider whether they are genuinely
 - Examine the codebase to prevent duplication of your proposed feature.
 - Check the pull requests to verify that another contributor hasn't already submitted the same feature or fix.
 
-## Opening a Pull Request
+### Follow the PER code style guide
+
+This project uses Laravel Pint to fix the code style according to `per` preset.
+The `pint.json` file defines the Laravel Pint configuration.
+Laravel Pint is built on top of the great tool PHP-CS-Fixer.
+
+To review code out of style, you can run the fix command as a dry run.  Run the composer script like this:
+
+`composer run csfix-review`
+
+To fix the source code, run the following composer script:
+
+`composer run csfix`
+
+### Opening a Pull Request
 
 To maintain coding consistency, we adhere to the PER coding standard and use PHPStan for static code analysis (WIP). You can utilize the following command:
 
@@ -40,7 +54,8 @@ composer all-check
 This command encompasses:
 
 - PER Coding Standard checks employing Laravel Pint.
-- (WIP) PHPStan analysis at level 8.
+- Executing some RectoryPHP checks, like the usage of PHP updated syntax (at least 8.1), the type declaration, early return,  and dead code. For more info check the `rector.php` file in the root of the project.
+- (WIP) PHPStan analysis.
 - (WIP) Execution of all tests from the `./tests/*` directory using PestPHP.
 
 We recommend running `composer all-check` before committing and creating a pull request.
