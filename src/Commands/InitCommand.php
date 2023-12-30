@@ -40,7 +40,7 @@ class InitCommand extends Command
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->disk = new Filesystem();
         $this->output = $output;
@@ -51,6 +51,7 @@ class InitCommand extends Command
         } elseif (!is_dir($workingPath)) {
             $workingPath = "./";
         }
+
         $ibisConfigPath = $workingPath . '/ibis.php';
         $contentPath = $workingPath . '/content/';
         $assetsPath = $workingPath . '/assets';

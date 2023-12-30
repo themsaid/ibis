@@ -62,7 +62,7 @@ class BuildPdfCommand extends BaseBuildCommand
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
 
@@ -135,6 +135,7 @@ class BuildPdfCommand extends BaseBuildCommand
         if (array_key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
+
         if ($this->disk->isFile($currentPath . '/assets/' . $coverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ...');
 
@@ -181,6 +182,7 @@ HTML
                     </div>'
                 );
             }
+
             $pdf->WriteHTML(
                 $chapter["html"]
             );
@@ -212,7 +214,7 @@ HTML
      */
     private function getTheme(string $currentPath, $themeName)
     {
-        return $this->disk->get($currentPath . "/assets/theme-$themeName.html");
+        return $this->disk->get($currentPath . sprintf('/assets/theme-%s.html', $themeName));
     }
 
     /**
@@ -221,7 +223,7 @@ HTML
      */
     protected function fonts(array $config, $fontData): float|int|array
     {
-        return $fontData + collect($config['fonts'])->mapWithKeys(fn($file, $name): array => [
+        return $fontData + collect($config['fonts'])->mapWithKeys(static fn($file, $name): array => [
             $name => [
                 'R' => $file
             ]

@@ -46,7 +46,7 @@ class BuildEpubCommand extends BaseBuildCommand
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Mpdf\MpdfException
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $this->output->writeln('✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨');
@@ -130,6 +130,7 @@ class BuildEpubCommand extends BaseBuildCommand
         if (array_key_exists("image", $config['cover'])) {
             $coverImage = $config['cover']['image'];
         }
+
         $pathCoverImage = $currentPath . '/assets/' . $coverImage;
         if ($this->disk->isFile($pathCoverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ' . $pathCoverImage . ' ...');
@@ -185,7 +186,7 @@ class BuildEpubCommand extends BaseBuildCommand
      */
     private function getStyle(string $currentPath, string $themeName)
     {
-        return $this->disk->get($currentPath . "/assets/$themeName.css");
+        return $this->disk->get($currentPath . sprintf('/assets/%s.css', $themeName));
     }
 
 

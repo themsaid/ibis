@@ -49,12 +49,14 @@ class BaseBuildCommand extends Command
             $this->output->writeln('<error>Error, check if ' . $this->config->contentPath . ' exists.</error>');
             return false;
         }
+
         $this->output->writeln('<info>Loading content from: ' . $this->config->contentPath . '</info>');
 
         if (!$this->disk->isFile($this->config->ibisConfigPath)) {
             $this->output->writeln('<error>Error, check if ' . $this->config->ibisConfigPath . ' exists.</error>');
             return false;
         }
+
         return true;
     }
 
@@ -106,6 +108,7 @@ class BaseBuildCommand extends Command
                 if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
                     $chapter["frontmatter"] = $convertedMarkdown->getFrontMatter();
                 }
+
                 $chapter["html"] = $this->prepareHtmlForEbook(
                     $convertedMarkdown->getContent(),
                     $i + 1,
@@ -132,9 +135,11 @@ class BaseBuildCommand extends Command
         if ($file > 1 && $breakLevel >= 1) {
             $html = str_replace('<h1>', '[break]<h1>', $html);
         }
+
         if ($breakLevel >= 2) {
             $html = str_replace('<h2>', '[break]<h2>', $html);
         }
+
         $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);

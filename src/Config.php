@@ -15,6 +15,7 @@ class Config
      * @var string
      */
     public $ibisConfigPath;
+
     public $contentPath;
 
     public function __construct(public $workingPath = "")
@@ -24,6 +25,7 @@ class Config
         } elseif (!is_dir($workingPath)) {
             $this->workingPath = "./";
         }
+
         $this->ibisConfigPath = $this->workingPath . '/ibis.php';
         $this->config = require $this->ibisConfigPath;
     }
@@ -39,6 +41,7 @@ class Config
         if ($this->contentPath === "") {
             $this->contentPath = $this->workingPath . DIRECTORY_SEPARATOR . "content";
         }
+
         return is_dir($this->contentPath);
 
     }
