@@ -1,3 +1,7 @@
+---
+title: Introduction
+---
+
 # Ibis Next
 
 ## Create eBooks with Markdown
