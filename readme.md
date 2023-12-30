@@ -43,11 +43,10 @@ composer require hi-folks/ibis-next
 
 Once the tool is installed, you will find the `vendor/` directory where you can find your new tool (`vendor/bin/ibis-next`).
 
-Now you can initialize properly the directory via the `init` command for automatically creating the configuration file, the assets folder, and the content folder (for creating your Markdown files).
-To launch the `init`` command:
+If you install Ibis Next locally, in a specific directory, to launch and run Ibis Next you need to define the path like this:
 
 ~~~shell
-./vendor/bin/ibis-next init
+./vendor/bin/ibis-next list
 ~~~
 
 ### Installing ibis-next globally
@@ -57,6 +56,22 @@ Instead, if you prefer to install the composer package globally you can add the 
 
 ~~~shell
 composer global require hi-folks/ibis-next
+~~~
+
+If you install Ibis Next globally, to launch and run Ibis Next you can use the `ibis-next` like this:
+
+~~~shell
+ibis-next list
+~~~
+
+## Initializing the ebook
+
+
+Now you can initialize properly the directory via the `init` command for automatically creating the configuration file, the assets folder, and the content folder (for creating your Markdown files).
+To launch the `init` command:
+
+~~~shell
+./vendor/bin/ibis-next init
 ~~~
 
 Then, run this command inside an **empty directory**:
@@ -78,6 +93,16 @@ This will create the following files and directories:
 
 You may configure your book by editing the `ibis.php` configuration file.
 
+### Setting a specific directory
+
+If you want to initialize a specific empty directory (not the current one), you can use the `-d` option while you are running the `init` command, for example:
+
+~~~shell
+ibis-next init -d ../some-other-directory
+~~~
+
+This is helpful for example if you want to install Ibis Next once and you want to create and manage multiple books.
+
 ## Writing Your eBook
 
 The `init` command will create sample .md files inside the `content` folder. You can explore those files to see how you can write your book.
@@ -88,15 +113,15 @@ Inside the `content` directory, you can write multiple `.md` files. Ibis uses th
 ~~~markdown
 # Part 1
 
-<h1> tags define the start of a part. A separate PDF page will be generated to print the part title and any content below.
+`<h1>` tags define the start of a part. A separate PDF page will be generated to print the part title and any content below.
 
 ## Chapter 1
 
-<h2> tags define the start of a chapter. A chapter starts on a new page always.
+`<h2>` tags define the start of a chapter. A chapter starts on a new page always.
 
 ### Starting with Ibis
 
-<h3> tags define different titles inside a chapter.
+`<h3>` tags define different titles inside a chapter.
 ~~~
 
 ### Adding different quotes

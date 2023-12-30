@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - WIP
+
+- Adding the option `-d` for the `init` command to initialize the ebook in a different directory
+
 ## 1.0.4 - 28th December 2023
 
 - Adding the option for customizing the working path (the directory with the assets folder)

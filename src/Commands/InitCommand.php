@@ -5,6 +5,7 @@ namespace Ibis\Commands;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InitCommand extends Command
@@ -12,6 +13,7 @@ class InitCommand extends Command
     private ?\Symfony\Component\Console\Output\OutputInterface $output = null;
 
     private ?\Illuminate\Filesystem\Filesystem $disk = null;
+
 
     /**
      * Configure the command.
@@ -22,7 +24,14 @@ class InitCommand extends Command
     {
         $this
             ->setName('init')
-            ->setDescription('Initialize a new project in the current directory.');
+            ->addOption(
+                'workingdir',
+                'd',
+                InputOption::VALUE_OPTIONAL,
+                'The path of the working directory where `ibis.php` and `assets` directory will be created',
+                ''
+            )
+            ->setDescription('Initialize a new project in the working directory (current dir by default).');
     }
 
     /**
@@ -36,7 +45,23 @@ class InitCommand extends Command
         $this->disk = new Filesystem();
         $this->output = $output;
 
-        $currentPath = getcwd();
+        $workingPath = $input->getOption('workingdir');
+        if ($workingPath === "") {
+            $workingPath = "./";
+        } elseif (!is_dir($workingPath)) {
+            $workingPath = "./";
+        }
+        $ibisConfigPath = $workingPath . '/ibis.php';
+        $contentPath = $workingPath . '/content/';
+
+        $this->output->writeln('<info>Creating config/assets directory as: ' . $workingPath . '</info>');
+        $this->output->writeln('<info>Creating config file as: ' . $ibisConfigPath . '</info>');
+        $this->output->writeln('<info>Creating content directory as: ' . $contentPath . '</info>');
+
+
+
+
+        $currentPath = $workingPath;
 
         if ($this->disk->isDirectory($currentPath . '/assets')) {
             $this->output->writeln('');
