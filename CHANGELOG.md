@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.5 - WIP
+## 1.0.5 - 30th December 2023
 
 - Adding the option `-d` for the `init` command to initialize the ebook in a different directory
 
