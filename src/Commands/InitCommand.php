@@ -53,17 +53,12 @@ class InitCommand extends Command
         }
         $ibisConfigPath = $workingPath . '/ibis.php';
         $contentPath = $workingPath . '/content/';
+        $assetsPath = $workingPath . '/assets';
 
-        $this->output->writeln('<info>Creating config/assets directory as: ' . $workingPath . '</info>');
-        $this->output->writeln('<info>Creating config file as: ' . $ibisConfigPath . '</info>');
-        $this->output->writeln('<info>Creating content directory as: ' . $contentPath . '</info>');
+        $this->output->writeln('<info>Creating directory/files for:</info>');
+        $this->output->writeln('<info>✨ config/assets directory as: ' . $assetsPath . '</info>');
 
-
-
-
-        $currentPath = $workingPath;
-
-        if ($this->disk->isDirectory($currentPath . '/assets')) {
+        if ($this->disk->isDirectory($assetsPath)) {
             $this->output->writeln('');
             $this->output->writeln('<comment>Project already initialised!</comment>');
 
@@ -71,49 +66,50 @@ class InitCommand extends Command
         }
 
         $this->disk->makeDirectory(
-            $currentPath . '/assets'
+            $assetsPath
         );
 
         $this->disk->makeDirectory(
-            $currentPath . '/assets/fonts'
+            $assetsPath . '/fonts'
         );
 
+        $assetsToCopy = [
+            'cover.jpg',
+            'cover-ibis.webp',
+            'theme-dark.html',
+            'theme-light.html',
+            'style.css'
+        ];
+
+        foreach ($assetsToCopy as $assetToCopy) {
+            $this->disk->put(
+                $assetsPath . '/' . $assetToCopy,
+                $this->disk->get(__DIR__ . '/../../stubs/assets/' . $assetToCopy)
+            );
+        }
+
+
+        $this->output->writeln('<info>✨ content directory as: ' . $contentPath . '</info>');
+
         $this->disk->makeDirectory(
-            $currentPath . '/content'
+            $contentPath
         );
 
         $this->disk->copyDirectory(
             __DIR__ . '/../../stubs/content',
-            $currentPath . '/content'
+            $contentPath
         );
 
+        $this->output->writeln('<info>✨ config file as: ' . $ibisConfigPath . '</info>');
+
         $this->disk->put(
-            $currentPath . '/ibis.php',
+            $ibisConfigPath,
             $this->disk->get(__DIR__ . '/../../stubs/ibis.php')
         );
 
-        $this->disk->put(
-            $currentPath . '/assets/cover.jpg',
-            $this->disk->get(__DIR__ . '/../../stubs/assets/cover.jpg')
-        );
-
-        $this->disk->put(
-            $currentPath . '/assets/theme-dark.html',
-            $this->disk->get(__DIR__ . '/../../stubs/assets/theme-dark.html')
-        );
-
-        $this->disk->put(
-            $currentPath . '/assets/theme-light.html',
-            $this->disk->get(__DIR__ . '/../../stubs/assets/theme-light.html')
-        );
-
-        $this->disk->put(
-            $currentPath . '/assets/style.css',
-            $this->disk->get(__DIR__ . '/../../stubs/assets/style.css')
-        );
 
         $this->output->writeln('');
-        $this->output->writeln('<info>Done!</info>');
+        $this->output->writeln('<info>✅ Done!</info>');
 
         return Command::SUCCESS;
     }

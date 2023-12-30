@@ -4,12 +4,12 @@ return [
     /**
      * The book title.
      */
-    'title' => 'Laravel Queues in Action',
+    'title' => 'Ibis Next: create your eBooks from Markdown',
 
     /**
      * The author name.
      */
-    'author' => 'Mohamed Said',
+    'author' => 'Roberto B.',
 
     /**
      * The list of fonts to be used in the different themes.
@@ -35,7 +35,8 @@ return [
      */
     'toc_levels' => [
         'H1' => 0,
-        'H2' => 1,
+        'H2' => 0,
+        'H3' => 1,
     ],
 
     /**
@@ -44,7 +45,7 @@ return [
     'cover' => [
         'position' => 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;',
         'dimensions' => 'width: 210mm; height: 297mm; margin: 0;',
-        'image' => 'cover.jpg',
+        'image' => 'cover-ibis.webp',
     ],
 
     /**
@@ -64,8 +65,8 @@ return [
     /**
      * A notice printed at the final page of a generated sample.
      */
-    'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
-                        For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
+    'sample_notice' => 'This is a sample from "Ibis Next: create your eBooks with Markdown" by Roberto Butti. <br>
+                        For more information, <a href="https://github.com/Hi-Folks/ibis-next">Click here</a>.',
 
     /**
      * CSS inline style for the page header.
