@@ -1,3 +1,7 @@
+---
+title: Conclusion and Your Feedback
+---
+
 ## Conclusion and Your Feedback
 
 Congratulations on exploring the powerful capabilities of Ibis Next for seamless eBook creation!

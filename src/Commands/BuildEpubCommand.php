@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPePub\Core\EPub;
-use PHPePub\Core\Structure\OPF\MetaValue;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -116,7 +115,9 @@ class BuildEpubCommand extends BaseBuildCommand
         //$book->setLanguage("en");
 
         $book->addCSSFile("style.css", "css1", $this->getStyle($this->config->workingPath, "style"));
-        $cssData = file_get_contents("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.css");
+        //$cssData = file_get_contents("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.css");
+        $cssData = file_get_contents("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/github-gist.min.css");
+
         $book->addCSSFile("github.css", "css2", $cssData);
         //
         $cover = $content_start . "<h1>" . $this->config->title() . "</h1>\n";
@@ -137,32 +138,33 @@ class BuildEpubCommand extends BaseBuildCommand
             $coverDimensions = $config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
             $book->setCoverImage($coverImage, file_get_contents($pathCoverImage), mime_content_type($pathCoverImage));
         }
-        $book->buildTOC(null, "toc", "Table of Contents", true, true);
-        $book->addChapter("Notices", "Cover.html", $cover);
-        //$book->addChapter("Table of Contents", "TOC.html", null, false, EPub::EXTERNAL_REF_IGNORE);
-        //$book->buildTOC();
+
+        $book->addChapter("Cover", "Cover.html", $cover);
+        $book->addChapter("Table of Contents", "TOC.xhtml", null, false, EPub::EXTERNAL_REF_IGNORE);
+
         /*
         $book->addFileToMETAINF("com.apple.ibooks.display-options.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<display_options>\n    <platform name=\"*\">\n        <option name=\"fixed-layout\">true</option>\n        <option name=\"interactive\">true</option>\n        <option name=\"specified-fonts\">true</option>\n    </platform>\n</display_options>");
         */
-        //$book->addCustomNamespace("dc", "http://purl.org/dc/elements/1.1/"); // StaticData::$namespaces["dc"]);
-        // This is to show how to use meta data, normally you'd use the $book->setAuthor
-        $metaValue = new MetaValue("dc:creator", $this->config->author());
-        $metaValue->addOpfAttr("file-as", $this->config->author());
-        $metaValue->addOpfAttr("role", "aut");
-        $book->addCustomMetaValue($metaValue);
+        $book->addCustomNamespace("dc", "http://purl.org/dc/elements/1.1/"); // StaticData::$namespaces["dc"]);
 
 
         foreach ($chapters as $key => $chapter) {
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
 
             $book->addChapter(
-                Arr::get($chapter, "frontmatter.title", "Chapter " . $key + 1),
-                "Chapter" . $key . ".html",
-                $content_start . $chapter["html"] . $content_end
+                chapterName: Arr::get($chapter, "frontmatter.title", "Chapter " . $key + 1),
+                fileName: "Chapter" . $key . ".html",
+                chapterData: $content_start . $chapter["html"] . $content_end,
+                externalReferences: EPub::EXTERNAL_REF_ADD
             );
             //file_put_contents('export/' . "Chapter" . $key . " .html", $content_start . $chapter["html"] . $content_end);
         }
-        //$book->buildTOC();
+
+        $book->buildTOC(
+            title: "Index",
+            addReferences: false,
+            addToIndex: false
+        );
 
         $book->finalize();
 

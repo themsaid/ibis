@@ -448,16 +448,16 @@
         },
         {
             "name": "hi-folks/phpepub",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hi-Folks/PHPePub.git",
-                "reference": "4bf45bbf3288c9b2f7ffab5a9028415bc2a0f0af"
+                "reference": "8866fc65018f47afb4665e6bfa6250b6ec9ba5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hi-Folks/PHPePub/zipball/4bf45bbf3288c9b2f7ffab5a9028415bc2a0f0af",
-                "reference": "4bf45bbf3288c9b2f7ffab5a9028415bc2a0f0af",
+                "url": "https://api.github.com/repos/Hi-Folks/PHPePub/zipball/8866fc65018f47afb4665e6bfa6250b6ec9ba5ab",
+                "reference": "8866fc65018f47afb4665e6bfa6250b6ec9ba5ab",
                 "shasum": ""
             },
             "require": {
@@ -520,9 +520,9 @@
                 "epub"
             ],
             "support": {
-                "source": "https://github.com/Hi-Folks/PHPePub/tree/v1.0.1"
+                "source": "https://github.com/Hi-Folks/PHPePub/tree/v1.0.3"
             },
-            "time": "2023-12-20T21:22:40+00:00"
+            "time": "2023-12-30T22:47:56+00:00"
         },
         {
             "name": "illuminate/collections",

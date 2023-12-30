@@ -10,6 +10,7 @@ This sample content is taken from [Ibis Next: create your eBooks with Markdown](
 Inside the `content` directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
 ~~~markdown
+
 # Part 1
 
 `<h1>` tags define the start of a part. A separate PDF page will be generated to print the part title and any content below.
