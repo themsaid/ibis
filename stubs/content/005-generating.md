@@ -37,11 +37,24 @@ ibis-next pdf -c ./your-content-directory
 
 ### Generating EPUB eBook
 
-If you want to automatically generate an EPUB file from your Markdown content you can use the `epub` command:
+To automatically generate an EPUB file from your Markdown content, use the `epub` command:
 
 ~~~shell
 ibis-next epub
 ~~~
 
-Ibis will parse the files in alphabetical order and store the EPUB file in the `export` directory.
-You can upload or send your EPUB file on your Mobile devices, table or Kindle devices.
+Ibis Next will parse files in alphabetical order and store the EPUB file in the `export` directory. You can easily upload or transfer the EPUB file to your mobile devices, tablets, or Kindle devices.
+
+By default, for generating the EPUB file, the `assets/style.css` file is used.
+
+### Using a different assets/config directory for generating an eBook
+
+If you are managing multiple books, you can specify the working directory, the location where your `assets` folder and `ibis.php` configuration file reside. Define the path of the working directory using the `-d` option:
+
+```
+ibis-next epub -c ../your-dir-with-markdown-files -d ../myibisbook
+```
+
+You can combine the usage of the `-c` option for defining the content directory and the `-d` option for defining the working directory.
+
+>{notice} You can organize your Markdown files in your content directory in subfolders.

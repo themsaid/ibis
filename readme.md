@@ -4,13 +4,30 @@
 
 ---
 
-This PHP tool helps you write eBooks in markdown. You can automatically generate a PDF or an EPUB file.
-Run `ibis-next build` or `ibis-next epub` and an eBook will be generated with:
+## Create eBooks with Markdown
 
-1. A cover photo.
-2. Clickable auto-generated table of contents.
-3. Code syntax highlighting.
-4. Available in 2 themes. Light and dark (the theme features is supported only for PDF).
+Are you a content creator looking to streamline your eBook creation process?
+Look no further.
+Ibis Next is your all-in-one solution, meticulously crafted to empower you in transforming your ideas into polished eBooks with unparalleled ease.
+
+### What is Ibis Next?
+
+Ibis Next is a PHP-based tool specifically designed to simplify the entire eBook creation journey. Leveraging the power of Markdown, it empowers users to focus on content creation while automating the complexities of generating professional-quality eBooks. Whether you're a seasoned author, a technical writer, or someone venturing into the world of eBook creation for the first time, Ibis Next is here to make the process seamless and efficient.
+
+### Key features
+
+- **Markdown Magic**: Write your content using the simplicity and versatility of Markdown.
+- **Automatic Generation**: Effortlessly create PDF or EPUB files with a single command using the `ibis-next pdf` command or `ibis-next epub`.
+- **Aesthetic Appeal**: Elevate your eBooks with a professionally designed cover photo, a clickable auto-generated table of contents, and code syntax highlighting.
+- **Theme Options**: Choose between two visually appealing themes - Light and Dark (theme support available for PDFs).
+
+### Why Choose Ibis Next?
+
+Ibis Next eliminates the complexities of manual formatting, allowing you to concentrate on what matters most - your content. With Ibis Next, the once-daunting process of eBook creation becomes a smooth and enjoyable experience.
+
+This documentation serves as your guide to unlocking the full potential of Ibis Next. Whether you are a seasoned developer integrating Ibis Next into your workflow or a content creator exploring the possibilities, each section will provide insights, instructions, and best practices to ensure a seamless experience.
+
+Get ready to revolutionize your eBook creation process with Ibis Next!
 
 The Ibis project was created by Mohamed Said. The sources of the Ibis project are https://github.com/themsaid/ibis.
 We want to say thank you to Mohamed for creating this tool.
@@ -21,29 +38,31 @@ With *Ibis Next* we added also the **support for generating the EPUB format**. S
 
 ## Installation
 
-Make sure you have PHP8.1 or above installed on your system and that your gd extension is enabled in your php.ini file.
-You can decide if you want to install it locally for a specific project (eBook in this case) or to install it globally, making it available across all projects (eBooks).
+Before you begin, ensure that you have PHP 8.1 or above installed on your system, and make sure that the gd extension is enabled in your `php.ini` file.
 
 
 ### Installing ibis-next locally
 
+To quickly get started with building your eBook locally, follow these steps:
+
 If you want to start quickly to build your eBook you can:
-- create a new empty directory via the `mkdir` command, and then jump into the new directory via the `cd` command:
+
+1. Create a new empty directory via the `mkdir` command and navigate into it:
 
 ~~~shell
 mkdir my-first-ebook
 cd my-first-ebook
 ~~~
 
-Now you are in the new empty directory, you can install Ibis Next:
+2. Install Ibis Next using Composer:
 
 ~~~shell
 composer require hi-folks/ibis-next
 ~~~
 
-Once the tool is installed, you will find the `vendor/` directory where you can find your new tool (`vendor/bin/ibis-next`).
+3. Once the tool is installed, you'll find the `vendor/` directory containing your new tool (`vendor/bin/ibis-next`).
 
-If you install Ibis Next locally, in a specific directory, to launch and run Ibis Next you need to define the path like this:
+4. When launching Ibis Next locally in a specific directory, use the following command:
 
 ~~~shell
 ./vendor/bin/ibis-next list
@@ -52,61 +71,65 @@ If you install Ibis Next locally, in a specific directory, to launch and run Ibi
 ### Installing ibis-next globally
 
 
-Instead, if you prefer to install the composer package globally you can add the `global` option while you are running the `composer require` command:
+If you prefer to install the composer package globally, use the `global` option with the `composer require` command:
 
 ~~~shell
 composer global require hi-folks/ibis-next
 ~~~
 
-If you install Ibis Next globally, to launch and run Ibis Next you can use the `ibis-next` like this:
+When Ibis Next is installed globally, you can launch and run it using the `ibis-next` command:
 
 ~~~shell
 ibis-next list
 ~~~
 
-## Initializing the ebook
+## Initializing the eBook
 
+To get started, initialize your project directory using the `init` command. This command automatically creates the necessary configuration file, assets folder, and content folder for your Markdown files.
 
-Now you can initialize properly the directory via the `init` command for automatically creating the configuration file, the assets folder, and the content folder (for creating your Markdown files).
-If you installed Ibis Next locally, to launch the `init` command:
+### Locally Installed Ibis Next
+
+If you installed Ibis Next locally, launch the `init` command from your project directory:
 
 ~~~shell
 ./vendor/bin/ibis-next init
 ~~~
 
-If you installed Ibis Next globally, you can run the `init` command inside an empty directory:
+### Globally Installed Ibis Next
+If you installed Ibis Next globally, run the `init` command inside an empty directory where you want to create your eBook:
 
 ~~~shell
 ibis-next init
 ~~~
 
-This will create the following files and directories:
+This will generate the following files and directories:
 
-- /assets
-- /assets/fonts
-- /assets/cover.jpg
-- /assets/theme-light.html
-- /assets/theme-dark.html
-- /assets/style.css
-- /content
-- /ibis.php
+- `/assets`
+- `/assets/fonts`
+- `/assets/cover.jpg`
+- `/assets/cover-ibis.webp`
+- `/assets/theme-light.html`
+- `/assets/theme-dark.html`
+- `/assets/style.css`
+- `/content`
+- `/ibis.php`
 
-You may configure your book by editing the `ibis.php` configuration file.
+Configure your eBook by editing the `ibis.php` configuration file.
 
 ### Setting a specific directory
 
-If you want to initialize a specific empty directory (not the current one), you can use the `-d` option while you are running the `init` command, for example:
+If you prefer to initialize a different empty directory (not the current one), use the `-d` option with the `init` command. For example:
 
 ~~~shell
 ibis-next init -d ../some-other-directory
 ~~~
 
-This is helpful for example if you want to install Ibis Next once and you want to create and manage multiple books.
+This is especially useful if you want to install Ibis Next once and manage multiple books in separate directories.
 
 ## Writing Your eBook
 
 The `init` command will create sample .md files inside the `content` folder. You can explore those files to see how you can write your book.
-This sample content is taken from [Laravel Queues in Action](https://learn-laravel-queues.com) by Mohamed Said.
+This sample content is taken from [Ibis Next: create your eBooks with Markdown](https://github.com/Hi-Folks/ibis-next) by Roberto Butti.
 
 Inside the `content` directory, you can write multiple `.md` files. Ibis uses the headings to divide the book into parts and chapters:
 
@@ -158,9 +181,8 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
 
 ### Setting the page headers
 
-You can set a page header for the pages.
-To add the header you need to set the `header` parameter in the `ibis.php` configuration file.
-For example, in the `ibis.php` file, you can set:
+In Ibis Next, you have the flexibility to set a customized header for your pages. To do this, navigate to the `ibis.php` configuration file and locate the `header` parameter.
+Within the `ibis.php` file, you can specify your desired header like this:
 
 ~~~php
      /**
@@ -170,7 +192,10 @@ For example, in the `ibis.php` file, you can set:
      'header' => 'font-style: italic; text-align: right; border-bottom: solid    1px #808080;',
 ~~~
 
-If you want to customize the page header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
+This allows you to personalize the header content according to your preferences. Feel free to modify the value within the single quotes to suit your specific requirements. The value of the `header` parameter is the CSS inline style you want to apply to your page header.
+If you don't need or don't want the page header in your eBook you can eliminate the `header` parameter.
+
+If you want to customize the text of the page header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
 
 ~~~markdown
 ---
@@ -182,24 +207,26 @@ This is an example.
 
 ~~~
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/ibis-next-setting-page-header.png" alt="Setting the Page Header" width="480">
-Setting the page header.
-</p>
+![Setting the page header](https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/ibis-next-setting-page-header.png)
 
-## Using Fonts
+### Using Fonts
 
-Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
+Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that, you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
 
-## Generating PDF eBook
+
+## Generating eBook
+
+### Generating PDF eBook
+
+To generate a PDF eBook using Ibis Next, run the following command:
 
 ~~~shell
 ibis-next pdf
 ~~~
 
-Ibis will parse the files in alphabetical order and store the PDF file in the `export` directory.
+By default, Ibis Next parses files in alphabetical order and stores the PDF file in the `export` directory.
 
-By default, for generating the PDF file, the light theme is used. To generate a PDF using the dark theme:
+If you prefer using the dark theme for the PDF, use the following command:
 
 ~~~shell
 ibis-next pdf dark
@@ -207,34 +234,35 @@ ibis-next pdf dark
 
 ### Using content from a different directory
 
-If you have your markdown files (your content), in a different directory (by default the content directory is `./content/`) you can define the content directory with the `--content` option:
+If your Markdown files (content) are stored in a directory other than the default `./content/`, specify the content directory using the `--content` option:
 
 ~~~shell
 ibis-next pdf --content=./your-content-directory
 ~~~
 
-or, in a shorter form, via the `-c` option:
+or, using the shorter form with the `-c` option:
 
 ~~~shell
 ibis-next pdf -c ./your-content-directory
 ~~~
 
 
-## Generating EPUB eBook 🆕
+### Generating EPUB eBook
 
-We are introducing a new feature: exporting your eBook in EPUB format.
-This is an experimental feature, feel free to use and share your issues or feature requests according to the Contributing guidelines.
+To automatically generate an EPUB file from your Markdown content, use the `epub` command:
 
-
-```
+~~~shell
 ibis-next epub
-```
+~~~
 
-Ibis will parse the files in alphabetical order and store the EPUB file in the `export` directory.
+Ibis Next will parse files in alphabetical order and store the EPUB file in the `export` directory. You can easily upload or transfer the EPUB file to your mobile devices, tablets, or Kindle devices.
 
 By default, for generating the EPUB file, the `assets/style.css` file is used.
 
-If you are managing more than one book, you can use define the working directory. The working directory is the directory where your `assets` folder and `ibis.php` configuration file are located. You can define the path of the working directory via the `-d` option:
+
+### Using a different assets/config directory for generating eBook
+
+If you are managing multiple books, you can specify the working directory, the location where your `assets` folder and `ibis.php` configuration file reside. Define the path of the working directory using the `-d` option:
 
 ```
 ibis-next epub -c ../your-dir-with-markdown-files -d ../myibisbook
