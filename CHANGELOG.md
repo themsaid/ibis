@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.6 - WIP
+## 1.0.6 - 30th December 2023
 - Updating the Sample book
 - Using WebP for the cover image
 - Updating Highlightjs CSS
