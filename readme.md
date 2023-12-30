@@ -68,13 +68,13 @@ ibis-next list
 
 
 Now you can initialize properly the directory via the `init` command for automatically creating the configuration file, the assets folder, and the content folder (for creating your Markdown files).
-To launch the `init` command:
+If you installed Ibis Next locally, to launch the `init` command:
 
 ~~~shell
 ./vendor/bin/ibis-next init
 ~~~
 
-Then, run this command inside an **empty directory**:
+If you installed Ibis Next globally, you can run the `init` command inside an empty directory:
 
 ~~~shell
 ibis-next init
