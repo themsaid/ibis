@@ -179,6 +179,8 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
     ],
 ~~~
 
+>{notice} You can use WebP, PNG, or JPG formats for the cover image.
+
 ### Setting the page headers
 
 In Ibis Next, you have the flexibility to set a customized header for your pages. To do this, navigate to the `ibis.php` configuration file and locate the `header` parameter.
