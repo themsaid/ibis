@@ -179,7 +179,7 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
     ],
 ~~~
 
->{notice} You can use WebP, PNG, or JPG formats for the cover image.
+> You can use WebP, PNG, or JPG formats for the cover image.
 
 ### Setting the page headers
 
