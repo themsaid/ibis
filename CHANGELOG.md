@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.7 - 30th December 2023
+## 1.0.7 - 31th December 2023
 - Fixing Table of Content
 - SetList::CODING_STYLE
 
