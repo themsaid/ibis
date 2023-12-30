@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6 - WIP
+- Updating the Sample book
+- Using WebP for the cover image
+- Updating Highlightjs CSS
+
 ## 1.0.5 - 30th December 2023
 
 - Adding the option `-d` for the `init` command to initialize the ebook in a different directory
