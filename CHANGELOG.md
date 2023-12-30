@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7 - 30th December 2023
+- Fixing Table of Content
+- SetList::CODING_STYLE
+
 ## 1.0.6 - 30th December 2023
 - Updating the Sample book
 - Using WebP for the cover image
