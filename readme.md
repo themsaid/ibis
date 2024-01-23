@@ -6,12 +6,12 @@
 
 ## Create eBooks with Markdown
 
-Ibis Next is an open source tool developed for ebook creators who want to focus on content creation.
-Ibis Next supports writing in Markdown format and offers the capability to generate ebooks in PDF or EPUB format. The tool aims to simplify the ebook creation process, allowing the writers to concentrate on their content while providing functionality for converting it into polished ebooks efficiently.
+Ibis Next is an open-source tool developed for ebook creators who want to focus on content creation.
+Ibis Next supports writing in Markdown format and can generate ebooks in PDF or EPUB format. The tool aims to simplify the ebook creation process, allowing the writers to concentrate on their content while providing functionality for converting it into polished ebooks efficiently.
 
 ### What is Ibis Next?
 
-Ibis Next is a PHP-based tool specifically designed to simplify the entire eBook creation journey. Leveraging the power of Markdown, it empowers users to focus on content creation while automating the complexities of generating professional-quality eBooks. Whether you're a seasoned author, a technical writer, or someone venturing into the world of eBook creation for the first time, Ibis Next is here to make the process seamless and efficient.
+Ibis Next is a PHP-based tool that simplifies the entire eBook creation process. Leveraging the power of Markdown, it empowers users to focus on content creation while automating the complexities of generating professional-quality eBooks. Whether you're a seasoned author, a technical writer, or someone venturing into the world of eBook creation for the first time, Ibis Next is here to make the process seamless and efficient.
 
 ### Key features
 
@@ -24,27 +24,27 @@ Ibis Next is a PHP-based tool specifically designed to simplify the entire eBook
 
 Ibis Next is a powerful tool for effortlessly creating digital books (e-books) in EPUB and PDF formats. With Ibis Next, writers can concentrate on crafting content without worrying about formatting. The content is authored in Markdown format, allowing for simplicity and flexibility.
 
-Ibis Next seamlessly handles the conversion process, ensuring a hassle-free transition from Markdown to the correct EPUB and PDF formats. Embracing markdown streamlines the writing process and enhances collaboration and ease of editing, making it an ideal choice for authors seeking efficiency and a focus on content creation.
+Ibis Next seamlessly handles the conversion process, ensuring a hassle-free transition from Markdown to the correct EPUB and PDF formats. Embracing markdown streamlines the writing process and enhances collaboration and ease of editing, making it an ideal choice for authors seeking efficiency and focusing on content creation.
 
 Get ready to revolutionize your eBook creation process with Ibis Next!
 
-The Ibis project was created by Mohamed Said. The sources of the Ibis project are https://github.com/themsaid/ibis.
-We want to say thank you to Mohamed for creating this tool.
+Mohamed Said created the Ibis project. The sources of the Ibis project are https://github.com/themsaid/ibis.
+Thank you to Mohamed for creating this tool.
 Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook Mohamed published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action.zip) for the sample.
 
-Why we forked the repository: to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 10**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
-With *Ibis Next* we added also the **support for generating the EPUB format**. So with *Ibis Next* you can create your markdown files and then export them into PDF and EPUB for better compatibility with your devices and software.
+We forked the repository to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 10**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
+With Ibis Next, we also added the **support for generating the EPUB format**. So, with Ibis Next, you can create Markdown files and export them into PDF and EPUB for better compatibility with your devices and software.
 
 ## Installation
 
-Before you begin, ensure that you have PHP 8.1 or above installed on your system, and make sure that the gd extension is enabled in your `php.ini` file.
+Before you begin, ensure that you have PHP 8.1 or above installed on your system, and ensure the gd extension is enabled in your `php.ini` file.
 
 
 ### Installing ibis-next locally
 
 To quickly get started with building your eBook locally, follow these steps:
 
-If you want to start quickly to build your eBook you can:
+If you want to start quickly to build your eBook, you can:
 
 1. Create a new empty directory via the `mkdir` command and navigate into it:
 
@@ -84,7 +84,7 @@ ibis-next list
 
 ## Initializing the eBook
 
-To get started, initialize your project directory using the `init` command. This command automatically creates the necessary configuration file, assets folder, and content folder for your Markdown files.
+To get started, initialize your project directory using the `init` command. This command automatically creates the necessary configuration file, the assets folder, and the content folder for your Markdown files.
 
 ### Locally Installed Ibis Next
 
@@ -147,9 +147,9 @@ Inside the `content` directory, you can write multiple `.md` files. Ibis uses th
 ~~~
 
 ### Adding Aside
-Inspired by the great Astro Starlight tool for creating technical documentation we support aside block.
+Inspired by the great Astro Starlight tool for creating technical documentation, we support aside block.
 Taking the definition from Astro Starlight documentation:
-Asides (also known as “admonitions” or “callouts”) are useful for displaying secondary information alongside a page’s main content.
+Asides (also known as “admonitions” or “callouts”) help display secondary information alongside a page’s main content.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/aside-examples.png" alt="Aside block examples" width="480">
@@ -158,7 +158,7 @@ Asides (also known as “admonitions” or “callouts”) are useful for displa
 
 Ibis Next offers a tailored Markdown syntax designed for presenting asides. To demarcate aside blocks, use a set of triple colons `:::` to enclose your content, specifying the type as `note`, `tip`, `caution`, or `danger`.
 
-While you have the flexibility to nest various other Markdown content types within an aside, it is recommended to use asides for brief and succinct portions of content.
+While you can nest various other Markdown content types within an aside, using asides for brief and succinct portions of the content is recommended.
 
 ~~~markdown
 :::note
@@ -178,19 +178,19 @@ While you have the flexibility to nest various other Markdown content types with
 :::
 ~~~
 
-You can also customize the title od the aside block using the square brackets `[your title]` in this way:
+You can also customize the title of the aside block using the square brackets `[your title]` in this way:
 
 ~~~markdown
 :::tip[My two cents]
-I want to give you a piece of advice: use **Ibis Next** to create your e-books.
+I want to give you some advice: use **Ibis Next** to create your e-books.
 :::
 ~~~
 
-In the example above, the aside type "tip" was used (`:::tip`), with a custom title "My two cents" (`[My two cents]`) and the content of the block can contain text formatted with classic Markdown markers.
+In the example above, the aside type "tip" was used (`:::tip`), with a custom title "My two cents" (`[My two cents]`), and the content of the block can contain text formatted with classic Markdown markers.
 
 ### Adding different quotes
-For historical reason Ibis Next supports also another syntax for the quoutes. The suggestion is to use the Aside instead of these (deprecated) quotes.
-Three different types of quotes can be added: `quote`, `warning`, and `notice`.
+For historical reasons, Ibis Next also supports another syntax for the quotes. I suggest using the Aside block instead of these (deprecated) quotes.
+Three quotes can be added: `quote`, `warning`, and `notice`.
 
 ~~~markdown
 >{quote} This is a quote.
@@ -209,8 +209,8 @@ Images can be stored in the content folder and then brought in like this:
 ~~~
 
 ### Adding a cover image
-To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer a HTML-based cover page). If you don't want a cover image, delete these files.
-If your cover is in a PNG format you can store the file in the `assets/` directory and then in the `ibis.php` file you can adjust the `cover` configuration where you can set the cover file name, for example:
+To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer an HTML-based cover page). If you don't want a cover image, delete these files.
+If your cover is in a PNG format, you can store the file in the `assets/` directory, and then in the `ibis.php` file, you can adjust the `cover` configuration where you can set the cover file name, for example:
 
 ~~~php
     'cover' => [
@@ -224,7 +224,7 @@ If your cover is in a PNG format you can store the file in the `assets/` directo
 
 ### Setting the page headers
 
-In Ibis Next, you have the flexibility to set a customized header for your pages. To do this, navigate to the `ibis.php` configuration file and locate the `header` parameter.
+In Ibis Next, you can set a customized header for your pages. To do this, navigate to the `ibis.php` configuration file and locate the `header` parameter.
 Within the `ibis.php` file, you can specify your desired header like this:
 
 ~~~php
@@ -236,7 +236,7 @@ Within the `ibis.php` file, you can specify your desired header like this:
 ~~~
 
 This allows you to personalize the header content according to your preferences. Feel free to modify the value within the single quotes to suit your specific requirements. The value of the `header` parameter is the CSS inline style you want to apply to your page header.
-If you don't need or don't want the page header in your eBook you can eliminate the `header` parameter.
+You can eliminate the `header` parameter if you don't need or don't want the page header in your eBook.
 
 If you want to customize the text of the page header for each section, in the markdown file, you can add in the frontmatter section the `title` parameter:
 
@@ -254,7 +254,7 @@ This is an example.
 
 ### Using Fonts
 
-Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. After that, you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
+Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. Afterward, you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
 
 
 ## Generating eBook
@@ -267,7 +267,7 @@ To generate a PDF eBook using Ibis Next, run the following command:
 ibis-next pdf
 ~~~
 
-By default, Ibis Next parses files in alphabetical order and stores the PDF file in the `export` directory.
+Ibis Next parses files alphabetically by default and stores the PDF file in the `export` directory.
 
 If you prefer using the dark theme for the PDF, use the following command:
 
@@ -298,14 +298,14 @@ To automatically generate an EPUB file from your Markdown content, use the `epub
 ibis-next epub
 ~~~
 
-Ibis Next will parse files in alphabetical order and store the EPUB file in the `export` directory. You can easily upload or transfer the EPUB file to your mobile devices, tablets, or Kindle devices.
+Ibis Next will parse files alphabetically and store the EPUB file in the `export` directory. You can easily upload or transfer the EPUB file to your mobile, tablet, or Kindle devices.
 
-By default, for generating the EPUB file, the `assets/style.css` file is used.
+By default, the `assets/style.css` file is used to generate the EPUB file.
 
 
-### Using a different assets/config directory for generating eBook
+### Using a different assets/config directory for generating an eBook
 
-If you are managing multiple books, you can specify the working directory, the location where your `assets` folder and `ibis.php` configuration file reside. Define the path of the working directory using the `-d` option:
+If you manage multiple books, you can specify the working directory, the location of your assets folder, and the `ibis.php` configuration file. Define the path of the working directory using the `-d` option:
 
 ```
 ibis-next epub -c ../your-dir-with-markdown-files -d ../myibisbook
@@ -327,7 +327,7 @@ This command will use the generated files from the `ibis-next build` command to 
 
 ## Development
 
-If you want to contribute to the development of this open-source project you can read the CONTRIBUTING.md file, at the root of the project.
+If you want to contribute to developing this open-source project, you can read the CONTRIBUTING.md file at the project's root.
 
 ## Credits
 
