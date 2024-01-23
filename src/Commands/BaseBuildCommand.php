@@ -3,6 +3,7 @@
 namespace Ibis\Commands;
 
 use Ibis\Config;
+use Ibis\Markdown\Extensions\AsideExtension;
 use SplFileInfo;
 
 use Illuminate\Filesystem\Filesystem;
@@ -71,6 +72,7 @@ class BaseBuildCommand extends Command
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new FrontMatterExtension());
+        $environment->addExtension(new AsideExtension());
 
         $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'

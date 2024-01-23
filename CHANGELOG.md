@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9 - 23th January 2024
+- Adding Aside block rendering
+- Updating rector 0.19
+
 ## 1.0.8 - 2nd January 2024
 - Fixing and updating the Sample PDF generation
 
