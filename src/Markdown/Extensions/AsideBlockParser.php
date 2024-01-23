@@ -11,9 +11,9 @@ class AsideBlockParser implements BlockContinueParserInterface
 {
     private readonly Aside $aside;
 
-    public function __construct()
+    public function __construct($type = Aside::TYPE_NOTE, $title = "")
     {
-        $this->aside = new Aside();
+        $this->aside = new Aside($type, $title);
     }
 
     public function getBlock(): AbstractBlock

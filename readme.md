@@ -6,9 +6,8 @@
 
 ## Create eBooks with Markdown
 
-Are you a content creator looking to streamline your eBook creation process?
-Look no further.
-Ibis Next is your all-in-one solution, meticulously crafted to empower you in transforming your ideas into polished eBooks with unparalleled ease.
+Ibis Next is an open source tool developed for ebook creators who want to focus on content creation.
+Ibis Next supports writing in Markdown format and offers the capability to generate ebooks in PDF or EPUB format. The tool aims to simplify the ebook creation process, allowing the writers to concentrate on their content while providing functionality for converting it into polished ebooks efficiently.
 
 ### What is Ibis Next?
 
@@ -16,16 +15,16 @@ Ibis Next is a PHP-based tool specifically designed to simplify the entire eBook
 
 ### Key features
 
-- **Markdown Magic**: Write your content using the simplicity and versatility of Markdown.
+- **Markdown**: Write your content using the simplicity and versatility of Markdown.
 - **Automatic Generation**: Effortlessly create PDF or EPUB files with a single command using the `ibis-next pdf` command or `ibis-next epub`.
-- **Aesthetic Appeal**: Elevate your eBooks with a professionally designed cover photo, a clickable auto-generated table of contents, and code syntax highlighting.
+- **Aesthetic Appeal**: create your eBooks with a custom cover photo, a clickable auto-generated table of contents, and code syntax highlighting.
 - **Theme Options**: Choose between two visually appealing themes - Light and Dark (theme support available for PDFs).
 
 ### Why Choose Ibis Next?
 
-Ibis Next eliminates the complexities of manual formatting, allowing you to concentrate on what matters most - your content. With Ibis Next, the once-daunting process of eBook creation becomes a smooth and enjoyable experience.
+Ibis Next is a powerful tool for effortlessly creating digital books (e-books) in EPUB and PDF formats. With Ibis Next, writers can concentrate on crafting content without worrying about formatting. The content is authored in Markdown format, allowing for simplicity and flexibility.
 
-This documentation serves as your guide to unlocking the full potential of Ibis Next. Whether you are a seasoned developer integrating Ibis Next into your workflow or a content creator exploring the possibilities, each section will provide insights, instructions, and best practices to ensure a seamless experience.
+Ibis Next seamlessly handles the conversion process, ensuring a hassle-free transition from Markdown to the correct EPUB and PDF formats. Embracing markdown streamlines the writing process and enhances collaboration and ease of editing, making it an ideal choice for authors seeking efficiency and a focus on content creation.
 
 Get ready to revolutionize your eBook creation process with Ibis Next!
 
@@ -147,8 +146,50 @@ Inside the `content` directory, you can write multiple `.md` files. Ibis uses th
 `<h3>` tags define different titles inside a chapter.
 ~~~
 
-### Adding different quotes
+### Adding Aside
+Inspired by the great Astro Starlight tool for creating technical documentation we support aside block.
+Taking the definition from Astro Starlight documentation:
+Asides (also known as “admonitions” or “callouts”) are useful for displaying secondary information alongside a page’s main content.
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/aside-examples.png" alt="Aside block examples" width="480">
+</p>
+
+
+Ibis Next offers a tailored Markdown syntax designed for presenting asides. To demarcate aside blocks, use a set of triple colons `:::` to enclose your content, specifying the type as `note`, `tip`, `caution`, or `danger`.
+
+While you have the flexibility to nest various other Markdown content types within an aside, it is recommended to use asides for brief and succinct portions of content.
+
+~~~markdown
+:::note
+**Ibis Next** is an open-source tool, and you can contribute to the project by joining the [Ibis Next GitHub repository](https://github.com/Hi-Folks/ibis-next).
+:::
+
+:::warning
+**Ibis Next** is an open-source tool, and you can contribute to the project by joining the [Ibis Next GitHub repository](https://github.com/Hi-Folks/ibis-next).
+:::
+
+:::tip
+**Ibis Next** is an open-source tool, and you can contribute to the project by joining the [Ibis Next GitHub repository](https://github.com/Hi-Folks/ibis-next).
+:::
+
+:::danger
+**Ibis Next** is an open-source tool, and you can contribute to the project by joining the [Ibis Next GitHub repository](https://github.com/Hi-Folks/ibis-next).
+:::
+~~~
+
+You can also customize the title od the aside block using the square brackets `[your title]` in this way:
+
+~~~markdown
+:::tip[My two cents]
+I want to give you a piece of advice: use **Ibis Next** to create your e-books.
+:::
+~~~
+
+In the example above, the aside type "tip" was used (`:::tip`), with a custom title "My two cents" (`[My two cents]`) and the content of the block can contain text formatted with classic Markdown markers.
+
+### Adding different quotes
+For historical reason Ibis Next supports also another syntax for the quoutes. The suggestion is to use the Aside instead of these (deprecated) quotes.
 Three different types of quotes can be added: `quote`, `warning`, and `notice`.
 
 ~~~markdown

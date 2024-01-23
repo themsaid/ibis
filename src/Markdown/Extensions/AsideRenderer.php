@@ -15,11 +15,16 @@ class AsideRenderer implements NodeRendererInterface
 
         $attrs = $node->data->getData('attributes');
         $contents = $childRenderer->renderNodes($node->children());
+        $blockQuoteContent = new HtmlElement('div', $attrs->export(), $contents);
+        $blockQuoteTitle = "";
+        if ($node->getTitle() !== "") {
+            $blockQuoteTitle = new HtmlElement('div', ["class" => "title"], $node->getTitle());
+        }
 
         return new HtmlElement(
             'blockquote',
-            ['class' => 'notice'],
-            new HtmlElement('div', $attrs->export(), $contents)
+            ['class' => $node->getType()],
+            $blockQuoteTitle . $blockQuoteContent
         );
     }
 }
