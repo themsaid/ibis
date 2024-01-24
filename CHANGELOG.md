@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.11 - WIP
+- Adding PHPstan for static code analysis
+
 ## 1.0.10 - 24th January 2024
 - Fixing and updating styles for Aside blok
 

@@ -14,6 +14,7 @@ class AsideRenderer implements NodeRendererInterface
         Aside::assertInstanceOf($node);
 
         $attrs = $node->data->getData('attributes');
+        //dd($node);
         $contents = $childRenderer->renderNodes($node->children());
         $blockQuoteContent = new HtmlElement('div', $attrs->export(), $contents);
         $blockQuoteTitle = "";

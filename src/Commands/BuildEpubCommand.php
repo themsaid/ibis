@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -83,11 +84,8 @@ class BuildEpubCommand extends BaseBuildCommand
     }
 
 
-
     /**
-     * @param  string  $theme
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \Mpdf\MpdfException
+     * @throws FileNotFoundException
      */
     protected function buildEpub(Collection $chapters, array $config, string $currentPath): bool
     {
@@ -153,7 +151,7 @@ class BuildEpubCommand extends BaseBuildCommand
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
 
             $book->addChapter(
-                chapterName: Arr::get($chapter, "frontmatter.title", "Chapter " . $key + 1),
+                chapterName: Arr::get($chapter, "frontmatter.title", "Chapter " . ($key + 1)),
                 fileName: "Chapter" . $key . ".html",
                 chapterData: $content_start . $chapter["html"] . $content_end,
                 externalReferences: EPub::EXTERNAL_REF_ADD

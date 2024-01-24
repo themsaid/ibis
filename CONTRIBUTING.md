@@ -55,7 +55,7 @@ This command encompasses:
 
 - PER Coding Standard checks employing Laravel Pint.
 - Executing some RectoryPHP checks, like the usage of PHP updated syntax (at least 8.1), the type declaration, early return,  and dead code. For more info check the `rector.php` file in the root of the project.
-- (WIP) PHPStan analysis.
+- PHPStan analysis.
 - (WIP) Execution of all tests from the `./tests/*` directory using PestPHP.
 
 We recommend running `composer all-check` before committing and creating a pull request.
