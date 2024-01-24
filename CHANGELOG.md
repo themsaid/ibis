@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.10 - 24th January 2024
+- Fixing and updating styles for Aside blok
+
 ## 1.0.9 - 23th January 2024
 - Adding Aside block rendering
 - Updating rector 0.19
