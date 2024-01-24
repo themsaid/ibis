@@ -3,7 +3,9 @@
 namespace Ibis\Commands;
 
 use Ibis\Config;
+use Ibis\Markdown\Extensions\Aside;
 use Ibis\Markdown\Extensions\AsideExtension;
+use Ibis\Markdown\Extensions\AsideRenderer;
 use SplFileInfo;
 
 use Illuminate\Filesystem\Filesystem;
@@ -80,6 +82,7 @@ class BaseBuildCommand extends Command
         $environment->addRenderer(IndentedCode::class, new IndentedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json'
         ]));
+        $environment->addRenderer(Aside::class, new AsideRenderer());
 
         if (is_callable($config['configure_commonmark'])) {
             call_user_func($config['configure_commonmark'], $environment);
@@ -92,9 +95,9 @@ class BaseBuildCommand extends Command
 
                 $chapter = collect([]);
                 if ($file->getExtension() != 'md') {
-                    $chapter["mdfile"] = $file->getFilename();
-                    $chapter["frontmatter"] = false;
-                    $chapter["html"] = "";
+                    $chapter->put("mdfile", $file->getFilename());
+                    $chapter->put("frontmatter", false);
+                    $chapter->put("html", "");
                     return $chapter;
                 }
 
@@ -102,20 +105,18 @@ class BaseBuildCommand extends Command
                     $file->getPathname()
                 );
 
-
-                //$chapter = collect([]);
                 $convertedMarkdown = $converter->convert($markdown);
-                $chapter["mdfile"] = $file->getFilename();
-                $chapter["frontmatter"] = false;
+                $chapter->put("mdfile", $file->getFilename());
+                $chapter->put("frontmatter", false);
                 if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
-                    $chapter["frontmatter"] = $convertedMarkdown->getFrontMatter();
+                    $chapter->put("frontmatter", $convertedMarkdown->getFrontMatter());
                 }
 
-                $chapter["html"] = $this->prepareHtmlForEbook(
+                $chapter->put("html", $this->prepareHtmlForEbook(
                     $convertedMarkdown->getContent(),
                     $i + 1,
                     Arr::get($config, "breakLevel", 2)
-                );
+                ));
 
 
                 return $chapter;
@@ -126,7 +127,7 @@ class BaseBuildCommand extends Command
 
     /**
      * @param $file
-     * @return string|string[]
+     * @param int $breakLevel
      */
     protected function prepareHtmlForEbook(string $html, $file, $breakLevel = 2): string
     {

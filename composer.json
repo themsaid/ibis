@@ -35,6 +35,7 @@
     },
     "require-dev": {
         "laravel/pint": "^1.2",
+        "phpstan/phpstan": "^1.10",
         "rector/rector": "^0.19.2",
         "symfony/var-dumper": "^6.0|^7.0"
     },
@@ -60,9 +61,13 @@
         "refactor-review": [
             "rector process src --dry-run"
         ],
+        "code-analysis": [
+            "vendor/bin/phpstan analyse"
+        ],
         "all-check": [
             "@refactor-review",
-            "@csfix"
+            "@csfix",
+            "@code-analysis"
         ]
     },
     "scripts-descriptions": {

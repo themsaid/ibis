@@ -1,7 +1,7 @@
 The MIT License (MIT)
 
-Ibis original project: Copyright (c) Mohamed Said <themsaid@gmail.com>
-Ibis Next project:  Copyright (c) Roberto Butti
+**Ibis Next** project:  Copyright (c) Roberto Butti
+Ibis original project: Copyright (c) Mohamed Said
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
