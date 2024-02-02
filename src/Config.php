@@ -11,10 +11,7 @@ class Config
      */
     public $config;
 
-    /**
-     * @var string
-     */
-    public $ibisConfigPath;
+    public string $ibisConfigPath;
 
     public $contentPath;
 
@@ -26,7 +23,7 @@ class Config
             $this->workingPath = "./";
         }
 
-        $this->ibisConfigPath = $this->workingPath . '/ibis.php';
+        $this->ibisConfigPath = self::buildPath($this->workingPath, 'ibis.php');
         $this->config = require $this->ibisConfigPath;
     }
 
@@ -35,11 +32,31 @@ class Config
         return new self($directory);
     }
 
+    public static function buildPath(...$pathElements): string
+    {
+        //$paths = func_get_args();
+        $last_key = count($pathElements) - 1;
+        array_walk($pathElements, static function (&$val, $key) use ($last_key): void {
+            $val = match ($key) {
+                0 => rtrim($val, '/ '),
+                $last_key => ltrim($val, '/ '),
+                default => trim($val, '/ '),
+            };
+        });
+        $first = array_shift($pathElements);
+        $last = array_pop($pathElements);
+        $paths = array_filter($pathElements); // clean empty elements to prevent double slashes
+        array_unshift($paths, $first);
+        $paths[] = $last;
+
+        return implode('/', $paths);
+    }
+
     public function setContentPath($directory = ""): bool
     {
         $this->contentPath = $directory;
         if ($this->contentPath === "") {
-            $this->contentPath = $this->workingPath . DIRECTORY_SEPARATOR . "content";
+            $this->contentPath = self::buildPath($this->workingPath, "content");
         }
 
         return is_dir($this->contentPath);
