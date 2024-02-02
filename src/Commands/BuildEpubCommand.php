@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Ibis\Config;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -129,7 +130,7 @@ class BuildEpubCommand extends BaseBuildCommand
             $coverImage = $config['cover']['image'];
         }
 
-        $pathCoverImage = $currentPath . '/assets/' . $coverImage;
+        $pathCoverImage = Config::buildPath($currentPath, 'assets', $coverImage);
         if ($this->disk->isFile($pathCoverImage)) {
             $this->output->writeln('<fg=yellow>==></> Adding Book Cover ' . $pathCoverImage . ' ...');
 
@@ -168,7 +169,12 @@ class BuildEpubCommand extends BaseBuildCommand
         $book->finalize();
 
 
-        $epubFilename = $currentPath . '/export/' . $this->config->outputFileName() . '.epub';
+        //$epubFilename = $currentPath . '/export/' . $this->config->outputFileName() . '.epub';
+        $epubFilename = Config::buildPath(
+            $currentPath,
+            "export",
+            $this->config->outputFileName() . '.epub'
+        );
         $book->saveBook($epubFilename);
 
 

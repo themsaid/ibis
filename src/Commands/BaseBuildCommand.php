@@ -156,9 +156,14 @@ class BaseBuildCommand extends Command
     {
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
-        if (!$this->disk->isDirectory($currentPath . '/export')) {
+        if (!$this->disk->isDirectory(
+            Config::buildPath($currentPath, "export")
+        )) {
             $this->disk->makeDirectory(
-                $currentPath . '/export',
+                Config::buildPath(
+                    $currentPath,
+                    "export"
+                ),
                 0755,
                 true
             );
