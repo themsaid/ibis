@@ -168,8 +168,6 @@ class BuildEpubCommand extends BaseBuildCommand
 
         $book->finalize();
 
-
-        //$epubFilename = $currentPath . '/export/' . $this->config->outputFileName() . '.epub';
         $epubFilename = Config::buildPath(
             $currentPath,
             "export",
