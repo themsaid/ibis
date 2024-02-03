@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Ibis\Config;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,9 +53,18 @@ class InitCommand extends Command
             $workingPath = "./";
         }
 
-        $ibisConfigPath = $workingPath . '/ibis.php';
-        $contentPath = $workingPath . '/content/';
-        $assetsPath = $workingPath . '/assets';
+        $ibisConfigPath = Config::buildPath(
+            $workingPath,
+            'ibis.php'
+        );
+        $contentPath = Config::buildPath(
+            $workingPath,
+            'content'
+        );
+        $assetsPath = Config::buildPath(
+            $workingPath,
+            'assets'
+        );
 
         $this->output->writeln('<info>Creating directory/files for:</info>');
         $this->output->writeln('<info>✨ config/assets directory as: ' . $assetsPath . '</info>');
@@ -71,7 +81,7 @@ class InitCommand extends Command
         );
 
         $this->disk->makeDirectory(
-            $assetsPath . '/fonts'
+            Config::buildPath($assetsPath, 'fonts')
         );
 
         $assetsToCopy = [
@@ -84,8 +94,16 @@ class InitCommand extends Command
 
         foreach ($assetsToCopy as $assetToCopy) {
             $this->disk->put(
-                $assetsPath . '/' . $assetToCopy,
-                $this->disk->get(__DIR__ . '/../../stubs/assets/' . $assetToCopy)
+                Config::buildPath($assetsPath, $assetToCopy),
+                $this->disk->get(
+                    Config::buildPath(
+                        __DIR__,
+                        '..',
+                        '..',
+                        'stubs/assets',
+                        $assetToCopy
+                    )
+                )
             );
         }
 
@@ -97,7 +115,10 @@ class InitCommand extends Command
         );
 
         $this->disk->copyDirectory(
-            __DIR__ . '/../../stubs/content',
+            Config::buildPath(
+                __DIR__,
+                '../../stubs/content'
+            ),
             $contentPath
         );
 
@@ -105,7 +126,10 @@ class InitCommand extends Command
 
         $this->disk->put(
             $ibisConfigPath,
-            $this->disk->get(__DIR__ . '/../../stubs/ibis.php')
+            $this->disk->get(Config::buildPath(
+                __DIR__,
+                '../../stubs/ibis.php'
+            ))
         );
 
 

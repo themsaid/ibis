@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Ibis\Config;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
@@ -36,7 +37,12 @@ class SortContentCommand extends Command
 
         $currentPath = getcwd();
 
-        collect($this->disk->files($currentPath . '/content'))->each(function ($file, $index) use ($currentPath): void {
+        collect($this->disk->files(
+            Config::buildPath(
+                $currentPath,
+                'content'
+            )
+        ))->each(function ($file, $index) use ($currentPath): void {
             $markdown = $this->disk->get(
                 $file->getPathname()
             );
@@ -49,7 +55,11 @@ class SortContentCommand extends Command
 
             $this->disk->move(
                 $file->getPathName(),
-                $currentPath . '/content/' . Str::slug($newName) . '.md'
+                Config::buildPath(
+                    $currentPath,
+                    'content',
+                    Str::slug($newName) . '.md'
+                )
             );
         });
 

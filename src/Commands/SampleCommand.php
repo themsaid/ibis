@@ -2,6 +2,7 @@
 
 namespace Ibis\Commands;
 
+use Ibis\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +54,8 @@ class SampleCommand extends BaseBuildCommand
 
         $themeName = $input->getArgument('theme');
 
-        $pdfFilename = $this->config->workingPath . '/export/' . $this->config->outputFileName() . '-' . $themeName . '.pdf';
+        $pdfFilename =
+            Config::buildPath($this->config->workingPath, 'export', $this->config->outputFileName() . '-' . $themeName . '.pdf');
 
 
         if (!$this->disk->isFile($pdfFilename)) {
@@ -78,7 +80,10 @@ class SampleCommand extends BaseBuildCommand
         }
 
         $mpdf->WriteHTML('<p style="text-align: center; font-size: 16px; line-height: 40px;">' . $this->config->config['sample_notice'] . '</p>');
-        $sampleFileName = $this->config->workingPath . '/export/sample-' . $this->config->outputFileName() . '-' . $themeName . '.pdf';
+        $sampleFileName = Config::buildPath(
+            $this->config->workingPath,
+            'export/sample-' . $this->config->outputFileName() . '-' . $themeName . '.pdf'
+        );
         $this->output->writeln('<fg=yellow>==></> Writing Sample PDF To Disk ...');
         $mpdf->Output(
             $sampleFileName
