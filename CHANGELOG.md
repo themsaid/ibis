@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.11 - WIP
+## 1.0.11 - 3rd February 2024
 - Adding PHPstan for static code analysis
 - Adding ext-* dependencies in composer.json
 - Adding function for building path
