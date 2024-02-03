@@ -42,6 +42,7 @@
     },
     "require-dev": {
         "laravel/pint": "^1.2",
+        "pestphp/pest": "^2.33",
         "phpstan/phpstan": "^1.10",
         "rector/rector": "^0.19.2",
         "symfony/var-dumper": "^6.0|^7.0"
@@ -53,7 +54,10 @@
     },
     "config": {
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "scripts": {
         "csfix": [
@@ -71,10 +75,14 @@
         "code-analysis": [
             "vendor/bin/phpstan analyse"
         ],
+        "test": [
+            "vendor/bin/pest"
+        ],
         "all-check": [
             "@refactor-review",
             "@csfix",
-            "@code-analysis"
+            "@code-analysis",
+            "@test"
         ]
     },
     "scripts-descriptions": {
@@ -82,7 +90,8 @@
         "csfix-review": "Runs Pint to show the code style review.",
         "all-check": "Runs all checks needed.",
         "refactor-review": "Runs Rector to show the code refactor review.",
-        "refactor": "Runs Rector and applies the refactor."
+        "refactor": "Runs Rector and applies the refactor.",
+        "test": "Runs Testing via PestPHP."
     },
     "minimum-stability": "stable",
     "prefer-stable": true
