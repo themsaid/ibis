@@ -1,0 +1,54 @@
+name: Quality Check
+
+on: [push, pull_request]
+
+jobs:
+  php-checks:
+    runs-on: ${{ matrix.operating-system}}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: [ '8.3' ]
+    name: P${{ matrix.php-versions }} - ${{ matrix.operating-system}}
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: gd
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Composer Install
+        run: "composer update"
+
+      - name: Execute PHP CS Fixer review
+        run: composer run csfix-review
+      - name: Execute Rector dry run
+        run: composer run refactor-review
+
+
+  tests:
+    runs-on: ${{ matrix.operating-system}}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest', 'windows-latest']
+        php-versions: [ '8.3', '8.2','8.1' ]
+    name: P${{ matrix.php-versions }} - ${{ matrix.operating-system}}
+    steps:
+      # This is required as this package does not support PHP 8 (yet)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: gd
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Composer Install
+        run: "composer update"
+
+
+      - name: Execute Tests
+        run: composer run test

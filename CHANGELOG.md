@@ -2,6 +2,11 @@
 
 ## 1.0.11 - WIP
 - Adding PHPstan for static code analysis
+- Adding ext-* dependencies in composer.json
+- Adding function for building path
+- Adding tests with PestPHP
+- Improving GitHub Actions Workflows
+
 
 ## 1.0.10 - 24th January 2024
 - Fixing and updating styles for Aside blok
