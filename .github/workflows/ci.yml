@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        operating-system: ['ubuntu-latest', 'windows-latest']
+        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-14']
         php-versions: [ '8.3', '8.2','8.1' ]
     name: P${{ matrix.php-versions }} - ${{ matrix.operating-system}}
     steps:
