@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.12 - WIP
+- Exporting HTML
+
 ## 1.0.11 - 3rd February 2024
 - Adding PHPstan for static code analysis
 - Adding ext-* dependencies in composer.json

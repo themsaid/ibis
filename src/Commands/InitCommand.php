@@ -89,7 +89,8 @@ class InitCommand extends Command
             'cover-ibis.webp',
             'theme-dark.html',
             'theme-light.html',
-            'style.css'
+            'style.css',
+            'theme-html.html',
         ];
 
         foreach ($assetsToCopy as $assetToCopy) {

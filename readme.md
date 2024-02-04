@@ -7,7 +7,7 @@
 ## Create eBooks with Markdown
 
 Ibis Next is an open-source tool developed for ebook creators who want to focus on content creation.
-Ibis Next supports writing in Markdown format and can generate ebooks in PDF or EPUB format. The tool aims to simplify the ebook creation process, allowing the writers to concentrate on their content while providing functionality for converting it into polished ebooks efficiently.
+Ibis Next supports writing in Markdown format and can generate ebooks in PDF, EPUB or HTML format. The tool aims to simplify the ebook creation process, allowing the writers to concentrate on their content while providing functionality for converting it into polished ebooks efficiently.
 
 ### What is Ibis Next?
 
@@ -16,15 +16,15 @@ Ibis Next is a PHP-based tool that simplifies the entire eBook creation process.
 ### Key features
 
 - **Markdown**: Write your content using the simplicity and versatility of Markdown.
-- **Automatic Generation**: Effortlessly create PDF or EPUB files with a single command using the `ibis-next pdf` command or `ibis-next epub`.
+- **Automatic Generation**: Effortlessly create PDF, EPUB or HTML files with a single command using the `ibis-next pdf` command or `ibis-next epub` or `ibis-next html`.
 - **Aesthetic Appeal**: create your eBooks with a custom cover photo, a clickable auto-generated table of contents, and code syntax highlighting.
 - **Theme Options**: Choose between two visually appealing themes - Light and Dark (theme support available for PDFs).
 
 ### Why Choose Ibis Next?
 
-Ibis Next is a powerful tool for effortlessly creating digital books (e-books) in EPUB and PDF formats. With Ibis Next, writers can concentrate on crafting content without worrying about formatting. The content is authored in Markdown format, allowing for simplicity and flexibility.
+Ibis Next is a powerful tool for effortlessly creating digital books (e-books) in EPUB, PDF, and HTML formats. With Ibis Next, writers can concentrate on crafting content without worrying about formatting. The content is authored in Markdown format, allowing for simplicity and flexibility.
 
-Ibis Next seamlessly handles the conversion process, ensuring a hassle-free transition from Markdown to the correct EPUB and PDF formats. Embracing markdown streamlines the writing process and enhances collaboration and ease of editing, making it an ideal choice for authors seeking efficiency and focusing on content creation.
+Ibis Next seamlessly handles the conversion process, ensuring a hassle-free transition from Markdown to the correct EPUB, PDF and HTML formats. Embracing markdown streamlines the writing process and enhances collaboration and ease of editing, making it an ideal choice for authors seeking efficiency and focusing on content creation.
 
 Get ready to revolutionize your eBook creation process with Ibis Next!
 
@@ -33,7 +33,7 @@ Thank you to Mohamed for creating this tool.
 Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook Mohamed published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action.zip) for the sample.
 
 We forked the repository to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 10**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
-With Ibis Next, we also added the **support for generating the EPUB format**. So, with Ibis Next, you can create Markdown files and export them into PDF and EPUB for better compatibility with your devices and software.
+With Ibis Next, we also added the **support for generating the EPUB format** and **HTML format**. So, with Ibis Next, you can create Markdown files and export them into PDF, EPUB, and HTML for better compatibility with your devices and software.
 
 ## Installation
 
@@ -110,6 +110,7 @@ This will generate the following files and directories:
 - `/assets/theme-light.html`
 - `/assets/theme-dark.html`
 - `/assets/style.css`
+- `/assets/theme-html.html`
 - `/content`
 - `/ibis.php`
 
@@ -314,6 +315,19 @@ ibis-next epub -c ../your-dir-with-markdown-files -d ../myibisbook
 You can combine the usage of the `-c` option for defining the content directory and the `-d` option for defining the working directory.
 
 > You can organize your Markdown files in your content directory in subfolders.
+
+### Generating HTML eBook
+
+To automatically generate an HTML file from your Markdown content, use the `html` command:
+
+~~~shell
+ibis-next html
+~~~
+
+Ibis Next will parse files alphabetically and store the HTML file in the `export` directory. You can easily read the HTML file with any Browsers.
+
+By default, the `assets/theme-html.html` file is used to generate the HTML file.
+
 
 ## Generating A Sample
 

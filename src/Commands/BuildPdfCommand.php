@@ -64,6 +64,8 @@ class BuildPdfCommand extends BaseBuildCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->output = $output;
+        $this->output->writeln('<info>✨ Building PDF file ✨</info>');
 
 
         if (!$this->preExecute($input, $output)) {

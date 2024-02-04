@@ -29,4 +29,6 @@ jobs:
         run: |
           mkdir export
           ./ibis-next init
-          ./ibis-next build
+          ./ibis-next pdf
+          ./ibis-next epub
+          ./ibis-next html
