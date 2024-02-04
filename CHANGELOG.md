@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.12 - WIP
+## 1.0.12 - 4th February 2024
 - Exporting HTML
 
 ## 1.0.11 - 3rd February 2024

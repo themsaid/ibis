@@ -9,25 +9,25 @@ use Ibis\Commands\SampleCommand;
 use Ibis\Commands\SortContentCommand;
 use Symfony\Component\Console\Application;
 
-if (file_exists(__DIR__.'/../../autoload.php')) {
-    require __DIR__.'/../../autoload.php';
+if (file_exists(__DIR__ . '/../../autoload.php')) {
+    require __DIR__ . '/../../autoload.php';
 } else {
-    require __DIR__.'/vendor/autoload.php';
+    require __DIR__ . '/vendor/autoload.php';
 }
 
 /**
  * Start the console application.
  */
-$app = new Application('Ibis Next', '1.0.x');
+$app = new Application('Ibis Next', '1.0.12');
 //$app->setDefaultCommand("build");
 
 
 // Authentication...
 $app->add(new InitCommand());
 $app->add(new BuildHtmlCommand());
-$app->add(new BuildPdfCommand);
+$app->add(new BuildPdfCommand());
 $app->add(new BuildEpubCommand());
-$app->add(new SampleCommand);
+$app->add(new SampleCommand());
 $app->add(new SortContentCommand());
 
 $app->run();
