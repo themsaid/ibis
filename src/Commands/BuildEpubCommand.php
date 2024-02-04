@@ -51,11 +51,7 @@ class BuildEpubCommand extends BaseBuildCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
-        $this->output->writeln('✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨');
-        $this->output->writeln('<info>✨ EPUB generation is a Working in Progress!! ✨</info>');
-        $this->output->writeln('<info>✨                Stay tuned!!                ✨</info>');
-        $this->output->writeln('✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨');
-        //return 0;
+        $this->output->writeln('<info>✨ Building EPUB file ✨</info>');
 
         if (!$this->preExecute($input, $output)) {
             return Command::INVALID;
