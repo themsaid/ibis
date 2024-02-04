@@ -5,11 +5,11 @@ on: [push, pull_request]
 jobs:
 
   check-ibis:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.operating-system}}
     strategy:
       matrix:
         operating-system: ['ubuntu-latest', 'windows-latest', 'macos-14']
-        php-versions: [ '8.3', '8.2','8.1' ]
+        php-versions: [ '8.3' ]
     name: P${{ matrix.php-versions }} - ${{ matrix.operating-system}}
     steps:
       # This is required as this package does not support PHP 8 (yet)
