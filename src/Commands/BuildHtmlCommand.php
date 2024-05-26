@@ -28,14 +28,14 @@ class BuildHtmlCommand extends BaseBuildCommand
                 'c',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the content directory',
-                ''
+                '',
             )
             ->addOption(
                 'workingdir',
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the working directory where `ibis.php` and `assets` directory are located',
-                ''
+                '',
             )
             ->setDescription('Generate the book in HTML format.');
     }
@@ -62,7 +62,7 @@ class BuildHtmlCommand extends BaseBuildCommand
         $result = $this->buildHtmlFile(
             $this->buildHtml($this->config->contentPath, $this->config->config),
             $this->config->config,
-            $this->config->workingPath
+            $this->config->workingPath,
         );
 
         $this->output->writeln('');
@@ -103,7 +103,7 @@ class BuildHtmlCommand extends BaseBuildCommand
         $htmlFilename = Config::buildPath(
             $currentPath,
             "export",
-            $this->config->outputFileName() . '.html'
+            $this->config->outputFileName() . '.html',
         );
         file_put_contents($htmlFilename, $outputHtml);
 

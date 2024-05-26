@@ -44,14 +44,14 @@ class BuildPdfCommand extends BaseBuildCommand
                 'c',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the content directory',
-                ''
+                '',
             )
             ->addOption(
                 'workingdir',
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the working directory where `ibis.php` and `assets` directory are located',
-                ''
+                '',
             )
             ->setDescription('Generate the book in PDF format.');
     }
@@ -82,7 +82,7 @@ class BuildPdfCommand extends BaseBuildCommand
             $this->buildHtml($this->config->contentPath, $this->config->config),
             $this->config->config,
             $this->config->workingPath,
-            $theme
+            $theme,
         );
 
         $this->output->writeln('');
@@ -149,7 +149,7 @@ class BuildPdfCommand extends BaseBuildCommand
 <div style="{$coverPosition}">
     <img src="{$currentPath}/assets/{$coverImage}" style="{$coverDimensions}"/>
 </div>
-HTML
+HTML,
             );
 
             $pdf->AddPage();
@@ -170,7 +170,7 @@ HTML
         $this->output->writeln('<fg=yellow>==></> Building PDF ...');
 
         $pdf->WriteHTML(
-            $theme
+            $theme,
         );
         //dd($chapters);
         foreach ($chapters as $chapter) {
@@ -181,12 +181,12 @@ HTML
                     '
                     <div style="' . $config['header'] . '">
                         ' . Arr::get($chapter, "frontmatter.title", $config["title"]) . '
-                    </div>'
+                    </div>',
                 );
             }
 
             $pdf->WriteHTML(
-                $chapter["html"]
+                $chapter["html"],
             );
         }
 
@@ -201,7 +201,7 @@ HTML
 
 
         $pdf->Output(
-            $pdfFilename
+            $pdfFilename,
         );
 
         $this->output->writeln('<fg=green>==></> PDF file ' . $pdfFilename . ' created');
@@ -227,8 +227,8 @@ HTML
     {
         return $fontData + collect($config['fonts'])->mapWithKeys(static fn($file, $name): array => [
             $name => [
-                'R' => $file
-            ]
+                'R' => $file,
+            ],
         ])->toArray();
     }
 }

@@ -40,17 +40,17 @@ class SortContentCommand extends Command
         collect($this->disk->files(
             Config::buildPath(
                 $currentPath,
-                'content'
-            )
+                'content',
+            ),
         ))->each(function ($file, $index) use ($currentPath): void {
             $markdown = $this->disk->get(
-                $file->getPathname()
+                $file->getPathname(),
             );
 
             $newName = sprintf(
                 '%03d%s',
                 (int) $index + 1,
-                str_replace(['#', '##', '###'], '', explode("\n", $markdown)[0])
+                str_replace(['#', '##', '###'], '', explode("\n", $markdown)[0]),
             );
 
             $this->disk->move(
@@ -58,8 +58,8 @@ class SortContentCommand extends Command
                 Config::buildPath(
                     $currentPath,
                     'content',
-                    Str::slug($newName) . '.md'
-                )
+                    Str::slug($newName) . '.md',
+                ),
             );
         });
 

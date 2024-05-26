@@ -25,7 +25,7 @@ class AsideRenderer implements NodeRendererInterface
         return new HtmlElement(
             'blockquote',
             ['class' => $node->getType()],
-            $blockQuoteTitle . $blockQuoteContent
+            $blockQuoteTitle . $blockQuoteContent,
         );
     }
 }

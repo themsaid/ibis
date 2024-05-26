@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 - 26th May 2024
+- Adding `md_file_list` for selecting a subset of Markdown file in the "content" directory, for ebook creation
+- Updating dependencies (Illuminate 11)
+- Updating Rector 1
+- Supporting an additional blockquote syntax like `[!NOTE]` and `[!WARNING]`
+
 ## 1.0.12 - 4th February 2024
 - Exporting HTML
 

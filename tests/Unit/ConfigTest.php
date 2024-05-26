@@ -3,7 +3,7 @@
 test('building path dataset', function ($path, $pathToTest) {
     expect(
         \Ibis\Config::buildPath(
-            ...$pathToTest
-        )
+            ...$pathToTest,
+        ),
     )->toBeEqualString($path);
 })->with("paths");

@@ -77,10 +77,10 @@ class BaseBuildCommand extends Command
         $environment->addExtension(new AsideExtension());
 
         $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
+            'html', 'php', 'js', 'bash', 'json',
         ]));
         $environment->addRenderer(IndentedCode::class, new IndentedCodeRenderer([
-            'html', 'php', 'js', 'bash', 'json'
+            'html', 'php', 'js', 'bash', 'json',
         ]));
         $environment->addRenderer(Aside::class, new AsideRenderer());
 
@@ -90,7 +90,17 @@ class BaseBuildCommand extends Command
 
         $converter = new MarkdownConverter($environment);
 
-        return collect($this->disk->allFiles($path))
+        $fileList = [];
+        if (array_key_exists("md_file_list", $config)) {
+            foreach ($config["md_file_list"] as $filename) {
+                $filefound = new SplFileInfo($path . '/' . $filename);
+                $fileList[] = $filefound;
+            }
+        } else {
+            $fileList = $this->disk->allFiles($path);
+        }
+
+        return collect($fileList)
             ->map(function (SplFileInfo $file, $i) use ($converter, $config) {
 
                 $chapter = collect([]);
@@ -102,7 +112,7 @@ class BaseBuildCommand extends Command
                 }
 
                 $markdown = $this->disk->get(
-                    $file->getPathname()
+                    $file->getPathname(),
                 );
 
                 $convertedMarkdown = $converter->convert($markdown);
@@ -115,7 +125,7 @@ class BaseBuildCommand extends Command
                 $chapter->put("html", $this->prepareHtmlForEbook(
                     $convertedMarkdown->getContent(),
                     $i + 1,
-                    Arr::get($config, "breakLevel", 2)
+                    Arr::get($config, "breakLevel", 2),
                 ));
 
 
@@ -132,7 +142,7 @@ class BaseBuildCommand extends Command
     protected function prepareHtmlForEbook(string $html, $file, $breakLevel = 2): string
     {
         $commands = [
-            '[break]' => '<div style="page-break-after: always;"></div>'
+            '[break]' => '<div style="page-break-after: always;"></div>',
         ];
 
         if ($file > 1 && $breakLevel >= 1) {
@@ -146,6 +156,8 @@ class BaseBuildCommand extends Command
         $html = str_replace("<blockquote>\n<p>{notice}", "<blockquote class='notice'><p><strong>Notice:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{warning}", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
         $html = str_replace("<blockquote>\n<p>{quote}", "<blockquote class='quote'><p>", $html);
+        $html = str_replace("<blockquote>\n<p>[!NOTE]", "<blockquote class='notice'><p><strong>Note:</strong>", $html);
+        $html = str_replace("<blockquote>\n<p>[!WARNING]", "<blockquote class='warning'><p><strong>Warning:</strong>", $html);
 
         return str_replace(array_keys($commands), array_values($commands), $html);
     }
@@ -157,15 +169,15 @@ class BaseBuildCommand extends Command
         $this->output->writeln('<fg=yellow>==></> Preparing Export Directory ...');
 
         if (!$this->disk->isDirectory(
-            Config::buildPath($currentPath, "export")
+            Config::buildPath($currentPath, "export"),
         )) {
             $this->disk->makeDirectory(
                 Config::buildPath(
                     $currentPath,
-                    "export"
+                    "export",
                 ),
                 0755,
-                true
+                true,
             );
         }
     }

@@ -53,7 +53,7 @@ return [
      */
     'sample' => [
         [1, 7],
-        [15, 15]
+        [15, 15],
     ],
 
     /**
@@ -72,4 +72,23 @@ return [
      * If you want to skip header, comment the line
      */
     'header' => 'font-style: italic; text-align: right; border-bottom: solid 1px #808080;',
+
+    /**
+     * List of the Markdown files.
+     * If the `md_file_list` is not set (default)
+     * all the markdown files in the content directory
+     * will be loaded.
+     * If you need to select a subset of markdown files
+     * for creating PDF or EPUB or HTML you can list here
+     * the files. You need to set the filename in the
+     * content directory. The fieldname should include the
+     * extension.
+     */
+    /*
+        'md_file_list' => [
+            'routing.md',
+            'artisan.md',
+            'console-tests.md',
+        ],
+    */
 ];

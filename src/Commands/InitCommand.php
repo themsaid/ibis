@@ -30,7 +30,7 @@ class InitCommand extends Command
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the working directory where `ibis.php` and `assets` directory will be created',
-                ''
+                '',
             )
             ->setDescription('Initialize a new project in the working directory (current dir by default).');
     }
@@ -55,15 +55,15 @@ class InitCommand extends Command
 
         $ibisConfigPath = Config::buildPath(
             $workingPath,
-            'ibis.php'
+            'ibis.php',
         );
         $contentPath = Config::buildPath(
             $workingPath,
-            'content'
+            'content',
         );
         $assetsPath = Config::buildPath(
             $workingPath,
-            'assets'
+            'assets',
         );
 
         $this->output->writeln('<info>Creating directory/files for:</info>');
@@ -77,11 +77,11 @@ class InitCommand extends Command
         }
 
         $this->disk->makeDirectory(
-            $assetsPath
+            $assetsPath,
         );
 
         $this->disk->makeDirectory(
-            Config::buildPath($assetsPath, 'fonts')
+            Config::buildPath($assetsPath, 'fonts'),
         );
 
         $assetsToCopy = [
@@ -102,9 +102,9 @@ class InitCommand extends Command
                         '..',
                         '..',
                         'stubs/assets',
-                        $assetToCopy
-                    )
-                )
+                        $assetToCopy,
+                    ),
+                ),
             );
         }
 
@@ -112,15 +112,15 @@ class InitCommand extends Command
         $this->output->writeln('<info>✨ content directory as: ' . $contentPath . '</info>');
 
         $this->disk->makeDirectory(
-            $contentPath
+            $contentPath,
         );
 
         $this->disk->copyDirectory(
             Config::buildPath(
                 __DIR__,
-                '../../stubs/content'
+                '../../stubs/content',
             ),
-            $contentPath
+            $contentPath,
         );
 
         $this->output->writeln('<info>✨ config file as: ' . $ibisConfigPath . '</info>');
@@ -129,8 +129,8 @@ class InitCommand extends Command
             $ibisConfigPath,
             $this->disk->get(Config::buildPath(
                 __DIR__,
-                '../../stubs/ibis.php'
-            ))
+                '../../stubs/ibis.php',
+            )),
         );
 
 

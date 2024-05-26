@@ -26,14 +26,14 @@ class SampleCommand extends BaseBuildCommand
                 'c',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the content directory',
-                ''
+                '',
             )
             ->addOption(
                 'workingdir',
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the working directory where `ibis.php` and `assets` directory are located',
-                ''
+                '',
             )
             ->setDescription('Generate a sample from the PDF.');
     }
@@ -73,7 +73,7 @@ class SampleCommand extends BaseBuildCommand
         foreach ($this->config->config['sample'] as $range) {
             foreach (range($range[0], $range[1]) as $page) {
                 $mpdf->useTemplate(
-                    $mpdf->importPage($page)
+                    $mpdf->importPage($page),
                 );
                 $mpdf->AddPage();
             }
@@ -82,11 +82,11 @@ class SampleCommand extends BaseBuildCommand
         $mpdf->WriteHTML('<p style="text-align: center; font-size: 16px; line-height: 40px;">' . $this->config->config['sample_notice'] . '</p>');
         $sampleFileName = Config::buildPath(
             $this->config->workingPath,
-            'export/sample-' . $this->config->outputFileName() . '-' . $themeName . '.pdf'
+            'export/sample-' . $this->config->outputFileName() . '-' . $themeName . '.pdf',
         );
         $this->output->writeln('<fg=yellow>==></> Writing Sample PDF To Disk ...');
         $mpdf->Output(
-            $sampleFileName
+            $sampleFileName,
         );
         $this->output->writeln('<fg=green> ✅ File ' . $sampleFileName . ' created</>');
 

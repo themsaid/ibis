@@ -33,8 +33,8 @@
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "hi-folks/phpepub": "^1.0.0",
-        "illuminate/filesystem": "^10.0",
-        "illuminate/support": "^10.0",
+        "illuminate/filesystem": "^11.0",
+        "illuminate/support": "^11.0",
         "mpdf/mpdf": "^8.0",
         "spatie/commonmark-highlighter": "^3.0",
         "symfony/console": "^6.0|^7.0",
@@ -44,7 +44,7 @@
         "laravel/pint": "^1.2",
         "pestphp/pest": "^2.33",
         "phpstan/phpstan": "^1.10",
-        "rector/rector": "^0.19.2",
+        "rector/rector": "^1",
         "symfony/var-dumper": "^6.0|^7.0"
     },
     "autoload": {

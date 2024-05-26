@@ -30,14 +30,14 @@ class BuildEpubCommand extends BaseBuildCommand
                 'c',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the content directory',
-                ''
+                '',
             )
             ->addOption(
                 'workingdir',
                 'd',
                 InputOption::VALUE_OPTIONAL,
                 'The path of the working directory where `ibis.php` and `assets` directory are located',
-                ''
+                '',
             )
             ->setDescription('Generate the book in EPUB format.');
     }
@@ -65,7 +65,7 @@ class BuildEpubCommand extends BaseBuildCommand
         $result = $this->buildEpub(
             $this->buildHtml($this->config->contentPath, $this->config->config),
             $this->config->config,
-            $this->config->workingPath
+            $this->config->workingPath,
         );
 
         $this->output->writeln('');
@@ -151,7 +151,7 @@ class BuildEpubCommand extends BaseBuildCommand
                 chapterName: Arr::get($chapter, "frontmatter.title", "Chapter " . ($key + 1)),
                 fileName: "Chapter" . $key . ".html",
                 chapterData: $content_start . $chapter["html"] . $content_end,
-                externalReferences: EPub::EXTERNAL_REF_ADD
+                externalReferences: EPub::EXTERNAL_REF_ADD,
             );
             //file_put_contents('export/' . "Chapter" . $key . " .html", $content_start . $chapter["html"] . $content_end);
         }
@@ -159,7 +159,7 @@ class BuildEpubCommand extends BaseBuildCommand
         $book->buildTOC(
             title: "Index",
             addReferences: false,
-            addToIndex: false
+            addToIndex: false,
         );
 
         $book->finalize();
@@ -167,9 +167,9 @@ class BuildEpubCommand extends BaseBuildCommand
         $epubFilename = Config::buildPath(
             $currentPath,
             "export",
-            $this->config->outputFileName() . '.epub'
+            $this->config->outputFileName() . '.epub',
         );
-        $book->saveBook($epubFilename);
+        @$book->saveBook($epubFilename);
 
 
         $this->output->writeln('<fg=green>==></> EPUB file ' . $epubFilename . ' created');
