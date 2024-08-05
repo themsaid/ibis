@@ -104,7 +104,7 @@ class BaseBuildCommand extends Command
             ->map(function (SplFileInfo $file, $i) use ($converter, $config) {
 
                 $chapter = collect([]);
-                if ($file->getExtension() != 'md') {
+                if ($file->getExtension() !== 'md') {
                     $chapter->put("mdfile", $file->getFilename());
                     $chapter->put("frontmatter", false);
                     $chapter->put("html", "");
