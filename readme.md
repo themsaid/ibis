@@ -30,7 +30,6 @@ Get ready to revolutionize your eBook creation process with Ibis Next!
 
 Mohamed Said created the Ibis project. The sources of the Ibis project are https://github.com/themsaid/ibis.
 Thank you to Mohamed for creating this tool.
-Ibis was used to create [Laravel Queues in Action](https://learn-laravel-queues.com), an eBook Mohamed published in August 2020. [Click here](https://learn-laravel-queues.com/laravel-queues-in-action.zip) for the sample.
 
 We forked the repository to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 10**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
 With Ibis Next, we also added the **support for generating the EPUB format** and **HTML format**. So, with Ibis Next, you can create Markdown files and export them into PDF, EPUB, and HTML for better compatibility with your devices and software.
@@ -328,8 +327,34 @@ Ibis Next will parse files alphabetically and store the HTML file in the `export
 
 By default, the `assets/theme-html.html` file is used to generate the HTML file.
 
+## Markdown Files List Configuration
+The `md_file_list` configuration (in the `ibis.php` configuration file) allows you to specify which Markdown files should be included when generating PDF, EPUB, or HTML outputs. By default, if `md_file_list` is not set, all Markdown files in the content directory will be used.
+
+### Usage
+If you want to limit the files to a specific subset, you can define the `md_file_list` array with the filenames (including extensions) as follows:
+
+```php
+'md_file_list' => [
+    'routing.md',
+    'artisan.md',
+    'console-tests.md',
+],
+```
+In this example, only `routing.md`, `artisan.md`, and `console-tests.md` from the content directory will be processed for PDF, EPUB, or HTML generation.
+
+### Notes
+- Default Behavior: If `md_file_list` is not specified, all Markdown files in the content directory will be included.
+- File Paths: Ensure that the filenames listed in `md_file_list` include the correct extensions and are located within the content directory.
+
+This configuration provides flexibility in selecting specific files for your output needs, enabling you to tailor the content as required.
+
+For example, you can use `md_file_list` if you need to build a sample of your book.
+
 
 ## Generating A Sample
+
+For generating a sample, I suggest to evaluate using the `md_file_list` configuration.
+For historical reasons also the sample command is available but it works only for PDF files.
 
 ```
 ibis-next sample
@@ -338,6 +363,12 @@ ibis-next sample dark
 ```
 
 This command will use the generated files from the `ibis-next build` command to generate samples from your PDF eBook. You can configure which pages to include in the sample by updating the `/ibis.php` file.
+
+## Feedback
+If you are using or if you are evaluating using Ibis Next for creating your next eBook, let me know.
+I can support you by demoing the tool, helping with the configuration or evaluating feature requests.
+
+
 
 ## Development
 
