@@ -31,7 +31,7 @@ Get ready to revolutionize your eBook creation process with Ibis Next!
 Mohamed Said created the Ibis project. The sources of the Ibis project are https://github.com/themsaid/ibis.
 Thank you to Mohamed for creating this tool.
 
-We forked the repository to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 10**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
+We forked the repository to speed up the process of supporting PHP 8.2, **PHP 8.3**, **Laravel 11**, **Symfony 7**, **Commonmark 2**, and other dependencies upgrades.
 With Ibis Next, we also added the **support for generating the EPUB format** and **HTML format**. So, with Ibis Next, you can create Markdown files and export them into PDF, EPUB, and HTML for better compatibility with your devices and software.
 
 ## Installation

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 - 24th Aug 2024
+- Updating dependecies
+- Updating some styles/fonts for Headings
+
+
 ## 1.1.0 - 26th May 2024
 - Adding `md_file_list` for selecting a subset of Markdown file in the "content" directory, for ebook creation
 - Updating dependencies (Illuminate 11)
