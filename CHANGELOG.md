@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.1.1 - 24th Aug 2024
-- Updating dependecies
+- Updating dependencies
 - Updating some styles/fonts for Headings
 
 
