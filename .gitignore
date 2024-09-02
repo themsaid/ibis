@@ -3,6 +3,7 @@ vendor/
 .php_cs.cache
 .DS_Store
 /.idea
+/.phpactor.json
 
 # Files/Dirs created by ibis init
 /assets/
