@@ -8,7 +8,6 @@ use Ibis\Markdown\Extensions\AsideExtension;
 use Ibis\Markdown\Extensions\AsideRenderer;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use SplFileInfo;
-
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -20,7 +19,6 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\Table\TableExtension;
-
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;

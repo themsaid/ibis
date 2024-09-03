@@ -3,11 +3,8 @@
 namespace Ibis\Commands;
 
 use Mpdf\Mpdf;
-
 use Mpdf\Config\FontVariables;
 use Mpdf\Config\ConfigVariables;
-
-
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
