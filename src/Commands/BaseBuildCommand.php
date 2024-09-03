@@ -6,6 +6,7 @@ use Ibis\Config;
 use Ibis\Markdown\Extensions\Aside;
 use Ibis\Markdown\Extensions\AsideExtension;
 use Ibis\Markdown\Extensions\AsideRenderer;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use SplFileInfo;
 
 use Illuminate\Filesystem\Filesystem;
@@ -75,6 +76,8 @@ class BaseBuildCommand extends Command
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new FrontMatterExtension());
         $environment->addExtension(new AsideExtension());
+        $environment->addExtension(new AttributesExtension());
+
 
         $environment->addRenderer(FencedCode::class, new FencedCodeRenderer([
             'html', 'php', 'js', 'bash', 'json',

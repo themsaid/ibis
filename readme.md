@@ -256,6 +256,36 @@ This is an example.
 
 Edit your `/ibis.php` configuration files to define the font files to be loaded from the `/assets/fonts` directory. Afterward, you may use the defined fonts in your themes (`/assets/theme-light.html` & `/assets/theme-dark.html`).
 
+### Setting the Attributes
+
+Considering that the process of converting Markdown to PDF involves generating HTML, you can apply CSS styles to set specific class styles.
+To add a CSS class (or any attribute) to an element in Markdown, you can use attribute syntax.
+
+For example, to add a CSS class to an image, consider that the conversion from Markdown results in an HTML `p` element containing an `img` element.
+You can define a CSS style like this:
+
+```css
+.image-container {
+    text-align: center; /* Center the content inside the paragraph */
+    padding: 20px; /* Optional: Add padding around the paragraph */
+    background-color: #f5f5f5; /* Optional: Set a background color */
+    border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+.image-container img {
+    max-width: 80vw; /* Set the image to 80% of the viewport width */
+    height: auto; /* Maintain the aspect ratio */
+    display: inline-block; /* Ensure the image behaves like an inline-block element */
+}
+```
+
+Then, when you need to embed an image in Markdown using the image-container CSS class, you can use the following syntax:
+
+```md
+{#id-cover-001 .image-container}
+![Ibis Next Cover Image](./content/images/ibis-next-cover.png)
+```
+
 
 ## Generating eBook
 
