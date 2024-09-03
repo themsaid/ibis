@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 - 3rd September 2024
+- Adding Markdown custom extension for managing attributes (like CSS class)
+- Updating dependencies
+
 ## 1.1.1 - 24th Aug 2024
 - Updating dependencies
 - Updating some styles/fonts for Headings
