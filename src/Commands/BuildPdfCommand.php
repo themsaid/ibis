@@ -121,6 +121,7 @@ class BuildPdfCommand extends BaseBuildCommand
         $pdf->SetCreator($this->config->author());
         // $pdf->debug = true;
         $pdf->SetBasePath(realpath($this->config->contentPath));
+
         $pdf->setAutoTopMargin = 'pad';
 
         $pdf->setAutoBottomMargin = 'pad';
