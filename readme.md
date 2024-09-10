@@ -202,11 +202,22 @@ Three quotes can be added: `quote`, `warning`, and `notice`.
 
 ### Using images
 
-Images can be stored in the content folder and then brought in like this:
+Images can be added into the markdown in two different way:
+
+1. using a remote image:
 
 ~~~markdown
-![Screenshot 1](content/screenshot-1.png)
+![Ibis Next Cover Image](https://raw.githubusercontent.com/hi-folks/ibis-next/main/art/ibis-next-cover.png)
 ~~~
+
+2. using a relative path, in this case the path is realtive to the content directory, where you have your Markdown files (the default is `./content/`):
+
+~~~markdown
+![Ibis Next Cover Image](../assets/images/ibis-next-cover.png)
+~~~
+
+It also works with absolute paths, but I don't recommend using this option as it's strongly tied to your specific machine.
+
 
 ### Adding a cover image
 To use a cover image, add a `cover.jpg` in the `assets/` directory (or a `cover.html` file if you'd prefer an HTML-based cover page). If you don't want a cover image, delete these files.

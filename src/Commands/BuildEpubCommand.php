@@ -62,7 +62,7 @@ class BuildEpubCommand extends BaseBuildCommand
 
         $this->config->config["breakLevel"] = 1;
         $result = $this->buildEpub(
-            $this->buildHtml($this->config->contentPath, $this->config->config),
+            $this->buildHtml($this->config->contentPath, $this->config->config, extractImages: true),
             $this->config->config,
             $this->config->workingPath,
         );
@@ -83,8 +83,11 @@ class BuildEpubCommand extends BaseBuildCommand
     /**
      * @throws FileNotFoundException
      */
-    protected function buildEpub(Collection $chapters, array $config, string $currentPath): bool
-    {
+    protected function buildEpub(
+        Collection $chapters,
+        array $config,
+        string $currentPath,
+    ): bool {
 
         $content_start =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -152,6 +155,27 @@ class BuildEpubCommand extends BaseBuildCommand
                 chapterData: $content_start . $chapter["html"] . $content_end,
                 externalReferences: EPub::EXTERNAL_REF_ADD,
             );
+            foreach (Arr::get($chapter, "images", []) as $idxImage => $image) {
+                if (filter_var($image, FILTER_VALIDATE_URL)) {
+                    continue;
+                }
+
+                if (! $this->isAbsolutePath($image)) {
+                    $image = $this->config->contentPath . "/" . $image;
+                }
+
+                if (!file_exists($image)) {
+                    continue;
+                }
+
+                $book->addLargeFile(
+                    $image,
+                    "image-" . $key . "-" . $idxImage,
+                    $image,
+                    mime_content_type($image),
+                );
+            }
+
             //file_put_contents('export/' . "Chapter" . $key . " .html", $content_start . $chapter["html"] . $content_end);
         }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 - 10th September 2024
+- Embed images for EPUB
+- Fix loading image via relative path
+- Updating dependencies
+
 ## 1.1.2 - 3rd September 2024
 - Adding Markdown custom extension for managing attributes (like CSS class)
 - Updating dependencies

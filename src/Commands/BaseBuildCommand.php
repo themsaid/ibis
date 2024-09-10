@@ -63,8 +63,11 @@ class BaseBuildCommand extends Command
     }
 
 
-    protected function buildHtml(string $path, array $config): Collection
-    {
+    protected function buildHtml(
+        string $path,
+        array $config,
+        bool $extractImages = false,
+    ): Collection {
         $this->output->writeln('<fg=yellow>==></> Parsing Markdown ...');
 
 
@@ -102,7 +105,7 @@ class BaseBuildCommand extends Command
         }
 
         return collect($fileList)
-            ->map(function (SplFileInfo $file, $i) use ($converter, $config) {
+            ->map(function (SplFileInfo $file, $i) use ($converter, $config, $extractImages) {
 
                 $chapter = collect([]);
                 if ($file->getExtension() !== 'md') {
@@ -115,6 +118,12 @@ class BaseBuildCommand extends Command
                 $markdown = $this->disk->get(
                     $file->getPathname(),
                 );
+
+                if ($extractImages) {
+                    $pattern = '/!\[.*?\]\((.*?)\)/';
+                    preg_match_all($pattern, $markdown, $matches);
+                    $chapter->put("images", $matches[1]);
+                }
 
                 $convertedMarkdown = $converter->convert($markdown);
                 $chapter->put("mdfile", $file->getFilename());
@@ -182,5 +191,39 @@ class BaseBuildCommand extends Command
             );
         }
     }
+
+
+
+    public function isAbsolutePath($path)
+    {
+        /*
+         * Check to see if the path is a stream and check to see if its an actual
+         * path or file as realpath() does not support stream wrappers.
+         */
+        if ((is_dir($path) || is_file($path))) {
+            return true;
+        }
+
+        /*
+         * This is definitive if true but fails if $path does not exist or contains
+         * a symbolic link.
+         */
+        if (realpath($path) === $path) {
+            return true;
+        }
+
+        if ((string) $path === '' || '.' === $path[0]) {
+            return false;
+        }
+
+        // Windows allows absolute paths like this.
+        if (preg_match('#^[a-zA-Z]:\\\\#', (string) $path)) {
+            return true;
+        }
+
+        // A path starting with / or \ is absolute; anything else is relative.
+        return ('/' === $path[0] || '\\' === $path[0]);
+    }
+
 
 }

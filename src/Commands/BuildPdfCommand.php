@@ -119,7 +119,8 @@ class BuildPdfCommand extends BaseBuildCommand
         $pdf->SetTitle($this->config->title());
         $pdf->SetAuthor($this->config->author());
         $pdf->SetCreator($this->config->author());
-
+        // $pdf->debug = true;
+        $pdf->SetBasePath(realpath($this->config->contentPath));
         $pdf->setAutoTopMargin = 'pad';
 
         $pdf->setAutoBottomMargin = 'pad';
@@ -140,11 +141,11 @@ class BuildPdfCommand extends BaseBuildCommand
 
             $coverPosition = $config['cover']['position'] ?? 'position: absolute; left:0; right: 0; top: -.2; bottom: 0;';
             $coverDimensions = $config['cover']['dimensions'] ?? 'width: 210mm; height: 297mm; margin: 0;';
-
+            $coverImageAbsPath = realpath(sprintf('%s/assets/%s', $currentPath, $coverImage));
             $pdf->WriteHTML(
                 <<<HTML
 <div style="{$coverPosition}">
-    <img src="{$currentPath}/assets/{$coverImage}" style="{$coverDimensions}"/>
+    <img src="{$coverImageAbsPath}" style="{$coverDimensions}"/>
 </div>
 HTML,
             );
@@ -169,7 +170,7 @@ HTML,
         $pdf->WriteHTML(
             $theme,
         );
-        //dd($chapters);
+
         foreach ($chapters as $chapter) {
             //if ( is_string($chapter) ) { dd($key, $chapter);}
             $this->output->writeln('<fg=yellow>==></> ❇️ ' . $chapter["mdfile"] . ' ...');
