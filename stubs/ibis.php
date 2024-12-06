@@ -24,10 +24,10 @@ return [
      */
     'document' => [
         'format' => [210, 297],
-        'margin_left' => 27,
-        'margin_right' => 27,
-        'margin_bottom' => 14,
-        'margin_top' => 14,
+        'margin_left' => 25,
+        'margin_right' => 25,
+        'margin_bottom' => 12,
+        'margin_top' => 12,
     ],
 
     /**

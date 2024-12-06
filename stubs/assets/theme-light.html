@@ -1,190 +1,188 @@
 <header>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/styles/github-gist.min.css">
   <style>
-    body {
-      font-family: calibri;
-      font-size: 14px;
-      line-height: 1.4;
-      color: #252525;
-    }
+      body {
+          font-family: calibri;
+          font-size: 16px;
+          line-height: 1.4;
+          color: #252525;
+          text-align: justify;
+      }
 
-    h1, h2 {
-      font-family: times;
-    }
+      h3 {
+          font-family: calibri;
+          font-weight: bold;
+      }
 
-    h3 {
-      font-family: calibri;
-      font-weight: bold;
-    }
+      div.chapter_title {
+          text-transform: uppercase;
+          font-size: 30px;
+          border-bottom: solid 1px #ccc;
+          display: block;
+          margin-bottom: 0px;
+          padding-bottom: 5px;
+          font-weight: bold;
+          text-align: right;
+      }
 
-    h1 {
-      font-size: 35px;
-      padding-top: 0;
-      padding-bottom: 70px;
-    }
+      h1 {
+          font-size: 40px;
+          margin-top: 0;
+          padding-top: 0;
+          padding-bottom: 100px;
+          text-align: right;
+      }
 
-    h2 {
-      text-align: left;
-      font-size: 20px;
-      padding-top: 0;
-      padding-bottom: 30px;
-    }
+      h2 {
+          text-align: left;
+          font-size: 30px;
+          padding-top: 10px;
+      }
 
-    h3 {
-      text-align: left;
-      font-size: 19px;
-      padding-top: 20px;
-      padding-bottom: 0;
-    }
+      h3 {
+          text-align: left;
+          font-size: 18px;
+          padding-top: 10px;
+          padding-bottom: 0;
+      }
 
-    p, ul, ol {
-      margin-bottom: 20px;
-    }
+      p, ul, ol, table {
+          margin-bottom: 20px;
+      }
 
-    pre {
-      line-height: 20px;
-      page-break-inside: avoid;
-      border-left: solid 5px #c8c8c8;
-      background-color: #f9f9fb;
-      padding-top: 15px;
-      padding-bottom: 15px;
-      padding-left: 20px;
-      margin-bottom: 30px;
-    }
+      pre {
+          line-height: 20px;
+          border-left: solid 5px #c8c8c8;
+          background-color: #f9f9fb;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 15px;
+          margin-bottom: 30px;
+      }
 
-    a {
-      color: #1a1c3e;
-    }
+      a {
+          color: #1a1c3e;
+      }
 
-    pre code {
-      background: none;
-      font-size: 13px;
-      color: #2d2d2d;
-    }
+      pre code {
+          background: none;
+          font-size: 11px;
+          color: #2d2d2d;
+      }
 
-    code {
-      font-size: 14px;
-      color: #A5215D;
-    }
+      code {
+          font-size: 14px;
+          color: #A5215D;
+      }
 
-    .mpdf_toc {
-      font-family: calibri;
-      color: #252525;
-    }
+      .mpdf_toc {
+          font-family: calibri;
+          color: #252525;
+      }
 
-    div.mpdf_toc_level_0 {
-      padding-top: 30px;
-      line-height: 30px;
-    }
+      div.mpdf_toc_level_0 {
+          padding-top: 30px;
+          line-height: 25px;
+      }
 
-    div.mpdf_toc_level_1 {
-      line-height: 30px;
-    }
+      div.mpdf_toc_level_1 {
+          line-height: 25px;
+      }
 
-    div.mpdf_toc_level_2 {
-      line-height: 30px;
-    }
+      div.mpdf_toc_level_2 {
+          line-height: 25px;
+      }
 
-    span.mpdf_toc_t_level_0, span.mpdf_toc_p_level_0 {
-      color: #252525;
-      font-family: calibri;
-      font-weight: bold;
-      font-style: normal;
-    }
+      span.mpdf_toc_t_level_0, span.mpdf_toc_p_level_0 {
+          color: #252525;
+          font-family: calibri;
+          font-weight: bold;
+          font-style: normal;
+      }
 
-    span.mpdf_toc_t_level_1, span.mpdf_toc_p_level_1 {
-      color: #252525;
-      font-family: calibri;
-      font-weight: normal;
-      font-style: normal;
-    }
+      span.mpdf_toc_t_level_1, span.mpdf_toc_p_level_1 {
+          color: #252525;
+          font-family: calibri;
+          font-weight: normal;
+          font-style: normal;
+      }
 
-    span.mpdf_toc_t_level_2, span.mpdf_toc_p_level_2 {
-      color: #252525;
-      font-family: calibri;
-      font-weight: normal;
-      font-style: normal;
-    }
+      span.mpdf_toc_t_level_2, span.mpdf_toc_p_level_2 {
+          color: #252525;
+          font-family: calibri;
+          font-weight: normal;
+          font-style: normal;
+      }
 
-    #toc-title {
-      font-weight: bold;
-      font-size: 45px;
-      padding-top: 0;
-      padding-bottom: 10px;
-      text-align: center;
-    }
+      #toc-title {
+          font-weight: bold;
+          font-size: 40px;
+          padding-top: 0;
+          padding-bottom: 10px;
+          text-align: center;
+      }
 
-    blockquote {
-      margin-top: 0;
-      margin-right: 0;
-      margin-bottom: 30px;
-      margin-left: 0;
-      page-break-inside: avoid;
-    }
+      blockquote {
+          background-color: #f9f9fb;
+          border-left: solid 5px #ccc;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
+          margin-top: 0;
+          margin-right: 0;
+          margin-bottom: 30px;
+          margin-left: 0;
+          page-break-inside: avoid;
+      }
 
-    blockquote p {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
+      blockquote p {
+          margin-top: 0;
+          margin-bottom: 0;
+      }
 
-    blockquote.quote {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      padding-left: 20px;
-      padding-right: 20px;
-      font-style: italic;
-    }
+      blockquote.quote {
+          padding-top: 20px;
+          padding-bottom: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
+          font-style: italic;
+      }
 
-    blockquote.notice {
-      background-color: #f0f5ff;
-      border-left: solid 5px #5b87dd;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
+      blockquote.notice {
+          background-color: #f0f5ff;
+          border-left: solid 5px #5b87dd;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
+      }
 
-    blockquote.notice strong {
-      color: #255ac0;
-    }
+      blockquote.notice strong {
+          color: #255ac0;
+      }
 
-    blockquote.warning {
-      background-color: #ffeced;
-      border-left: solid 5px #dd787d;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
+      blockquote.warning {
+          background-color: #ffeced;
+          border-left: solid 5px #dd787d;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
+      }
 
-    blockquote.warning strong {
-      color: #c0262b;
-    }
-    
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
+      blockquote.warning strong {
+          color: #c0262b;
+      }
 
-    td, th {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-
-    tr:nth-child(even){background-color: #f2f2f2;}
-
-    th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #525252;
-      color: white;
-    }
+      img {
+          border: solid 1px #bababa;
+      }
   </style>
 
 </header>
 
 <tocpagebreak links="on"
               toc-suppress="on"
-              toc-preHTML="&lt;h1 id=&quot;toc-title&quot;&gt;Table of Contents&lt;/h1&gt;"
+              toc-preHTML="&lt;h1 id=&quot;toc-title&quot;&gt;Contents&lt;/h1&gt;"
               toc-bookmarkText="Contents">
